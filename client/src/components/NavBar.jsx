@@ -30,7 +30,11 @@ export default function NavBar() {
                     </div>
                 </Link>
                 <Link to="top_TMDB">
-                    <li className="mt-4" onClick={() => setOpenMenu(false)}>Top TMDB</li>
+                    <div className='flex justify-center mt-4'>
+                        <li className="transition cursor-pointer pr-1">Top
+                        </li>
+                        <img src="../src/assets/tmdb.png" className="w-10" />
+                    </div>
                 </Link>
                 <Link to="favoris">
                     <li className="mt-4" onClick={() => setOpenMenu(false)}>Mes favoris</li>
@@ -52,8 +56,9 @@ export default function NavBar() {
                             {openMenu ? <FaTimes className="size-5" /> : <TiThMenuOutline className="size-6 items-center mt-1" />}
                         </button>
                     </Link>
-                    <div className="md:absolute left-8 top-8">
-                        <Link className="text-3xl" to="/"><span className="text-green-400">Cine</span>side</Link>
+                    <div className="md:absolute left-1 top-8 flex">
+                        <img src="../src/assets/cinelogo.png" className="w-8 h-8" />
+                        <Link className="text-3xl" to="/"><span className="text-green-400 pl-1">ine</span>side</Link>
                     </div>
                     <div>
                         <IoMdSearch className="size-6 md:hidden" />
@@ -71,7 +76,11 @@ export default function NavBar() {
                                 </div>
                             </Link>
                             <Link to="top_TMDB">
-                                <li className=" transition cursor-pointer">Top TMDB</li>
+                                <div className='flex'>
+                                    <li className="transition cursor-pointer pr-1">Top
+                                    </li>
+                                    <img src="../src/assets/tmdb.png" className="w-10" />
+                                </div>
                             </Link>
                             <Link to="favoris">
                                 <li className=" transition cursor-pointer">Mes favoris</li>
