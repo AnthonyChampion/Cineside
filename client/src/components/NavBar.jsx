@@ -19,8 +19,8 @@ export default function NavBar() {
 
 
     const content = <>
-        <div className="md:hidden z-10 block justify-end absolute w-screen left-0 right-0 transition">
-            <ul className="h-screen text-center text-white text-2xl my-8 border border-red-400  bg-opacity-95">
+        <div className="md:hidden z-10 block justify-end absolute w-screen transition">
+            <ul className="h-screen text-center text-white text-2xl my-8 bg-opacity-95">
                 <Link to="categories">
                     <div className="mt-2">
                         <button
@@ -45,8 +45,8 @@ export default function NavBar() {
 
 
     return (
-        <nav className="md:w-[75vw] w-[85vw]">
-            <div className="flex items-center justify-center h-[5vh] text-white">
+        <nav className="w-screen h-[6vh] relative z-10">
+            <div className="flex items-center justify-center p-4 text-white">
                 <div>
                     {openMenu && content}
                 </div>
@@ -56,17 +56,25 @@ export default function NavBar() {
                             {openMenu ? <FaTimes className="size-5" /> : <TiThMenuOutline className="size-6 items-center mt-1" />}
                         </button>
                     </Link>
-                    <div className="md:absolute left-1 top-8 flex">
+                    <div className="flex">
                         <img src="../src/assets/cinelogo.png" className="w-8 h-8" />
-                        <Link className="text-3xl" to="/"><span className="text-green-400 pl-1">ine</span>side</Link>
+                        <Link className="text-3xl" to="/"><span className="text-green-400 pl-[2px]">ine</span>side</Link>
                     </div>
                     <div>
                         <IoMdSearch className="size-6 md:hidden" />
                     </div>
                 </div>
-                <div className="hidden md:flex md:justify-between md:items-center md:w-full text-xl">
-                    <div className="flex">
-                        <ul className="flex space-x-20">
+                <div className="hidden md:flex md:justify-between md:items-end md:w-screen pr-8 text-lg">
+                    <div className="flex items-center">
+                        <ul className="flex space-x-12 mt-4 ml-8">
+                            <Link to="favoris">
+                                <button className=" transition cursor-pointer w-fit p-2 bg-zinc-500 text-white border border-zinc-900 rounded-xl -mt-4">Connexion
+                                </button>
+                            </Link>
+                            <Link to="favoris">
+                                <button className=" transition cursor-pointer w-fit p-2 rounded-xl border border-green-400 -mt-4">Inscription
+                                </button>
+                            </Link>
                             <Link to="categories">
                                 <div className="">
                                     <button
@@ -85,12 +93,7 @@ export default function NavBar() {
                             <Link to="favoris">
                                 <li className=" transition cursor-pointer">Mes favoris</li>
                             </Link>
-                            <Link to="favoris">
-                                <li className=" transition cursor-pointer">Connexion</li>
-                            </Link>
-                            <Link to="favoris">
-                                <li className=" transition cursor-pointer">Inscription</li>
-                            </Link>
+
                         </ul>
                     </div>
                     <div className="flex items-center border border-zinc-800">

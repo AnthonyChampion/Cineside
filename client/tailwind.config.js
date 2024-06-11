@@ -8,7 +8,11 @@ export default {
     fontFamily: {
       "Roboto": ["Roboto", "sans-serif"],
     },
-    extend: {},
+    extend: {
+      dropShadow: {
+        "xl": "0 5px 10px rgb(24, 24, 27)",
+      }
+    },
   },
   plugins: [],
 }
