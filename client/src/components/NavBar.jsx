@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
@@ -19,10 +20,10 @@ export default function NavBar() {
 
 
     const content = <>
-        <div className="md:hidden z-10 block justify-end absolute w-screen transition">
-            <ul className="h-screen text-center text-white text-2xl my-8 bg-opacity-95">
+        <div className="md:hidden z-10 block absolute justify-center w-[90%] right-5 top-14 transition">
+            <ul className="h-[500px] text-center text-white text-2xl bg-zinc-900 bg-opacity-90 border border-black rounded-xl pt-20">
                 <Link to="categories">
-                    <div className="mt-2">
+                    <div className="">
                         <button
                             onClick={openModal}>
                             Catégories
