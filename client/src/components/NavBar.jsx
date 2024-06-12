@@ -69,15 +69,15 @@ export default function NavBar() {
                     <div className="flex items-center">
                         <ul className="flex space-x-12 mt-4 ml-8">
                             <Link to="favoris">
-                                <button className=" transition cursor-pointer w-fit p-2 bg-zinc-500 text-white border border-zinc-900 rounded-xl -mt-4">Connexion
+                                <button className="transition cursor-pointer w-[6.5rem] p-2 bg-zinc-800 opacity-80 text-white rounded-xl -mt-4">Connexion
                                 </button>
                             </Link>
                             <Link to="favoris">
-                                <button className=" transition cursor-pointer w-fit p-2 rounded-xl border border-green-400 -mt-4">Inscription
+                                <button className=" transition cursor-pointer w-[6.5rem] p-2 rounded-xl text-black bg-green-400 opacity-80 -mt-4">Inscription
                                 </button>
                             </Link>
                             <Link to="categories">
-                                <div className="">
+                                <div className="transition cursor-pointer w-[6.5rem] p-2 bg-zinc-800 opacity-80 text-white rounded-xl -mt-2">
                                     <button
                                         onClick={openModal}>
                                         Catégories
@@ -85,25 +85,25 @@ export default function NavBar() {
                                 </div>
                             </Link>
                             <Link to="top_TMDB">
-                                <div className='flex'>
-                                    <li className="transition cursor-pointer pr-1">Top
+                                <div className='flex w-[6.5rem] justify-center p-2 bg-zinc-800 opacity-80 text-white rounded-xl -mt-2'>
+                                    <li className="transition cursor-pointer">Top
                                     </li>
-                                    <img src="../src/assets/tmdb.png" className="w-10" />
+                                    <img src="../src/assets/tmdb.png" className="w-8" />
                                 </div>
                             </Link>
                             <Link to="favoris">
-                                <li className=" transition cursor-pointer">Mes favoris</li>
+                                <li className=" transition cursor-pointer w-[6.5rem] p-2 bg-zinc-800 opacity-80 text-white rounded-xl -mt-2">Favoris</li>
                             </Link>
 
                         </ul>
                     </div>
-                    <div className="flex items-center border border-zinc-800">
-                        <IoMdSearch className="absolute size-8 pl-2" />
-                        <input className="rounded-md h-10 w-[25vw] bg-zinc-950 text-center " type="text" placeholder="Rechercher un film" />
-                    </div>
+
 
                 </div>
-
+                <div className="flex items-center top-2">
+                    <IoMdSearch className="absolute size-8 pl-2" />
+                    <input className="rounded-xl h-11 w-[25vw] bg-zinc-950 text-center " type="text" placeholder="Rechercher un film" />
+                </div>
             </div>
         </nav>
     );
