@@ -12,6 +12,9 @@ export default {
       showContent: {
         "0%": { opacity: 0 },
         "100%": { opacity: 1 },
+      },
+      boxShadow: {
+        '3xl': '0 12px 10px -10px rgba(255, 255, 255, 0.3)',
       }
     },
     animation: {

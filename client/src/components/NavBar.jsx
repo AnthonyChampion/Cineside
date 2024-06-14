@@ -86,7 +86,7 @@ export default function NavBar() {
                             </Link>
                             <Link to="top_TMDB">
                                 <div className='flex w-[6.5rem] justify-center p-2  text-white rounded-xl -mt-2'>
-                                    <li className="transition cursor-pointer">Top
+                                    <li className="transition cursor-pointer mr-1">Top
                                     </li>
                                     <img src="../src/assets/tmdb.png" className="w-8" />
                                 </div>
