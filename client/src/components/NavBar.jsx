@@ -47,7 +47,7 @@ export default function NavBar() {
 
     return (
         <nav className="w-screen h-[6vh] relative z-10">
-            <div className="flex items-center justify-center p-4 text-white">
+            <div className="flex items-center justify-center p-4 text-white bg-zinc-900 bg-opacity-50">
                 <div>
                     {openMenu && content}
                 </div>
@@ -69,7 +69,7 @@ export default function NavBar() {
                     <div className="flex items-center">
                         <ul className="flex space-x-12 mt-4 ml-8">
                             <Link to="favoris">
-                                <button className="transition cursor-pointer w-[6.5rem] p-2 bg-zinc-800 opacity-80 text-white rounded-xl -mt-4">Connexion
+                                <button className="transition cursor-pointer w-[6.5rem] p-2  text-white rounded-xl -mt-4">Connexion
                                 </button>
                             </Link>
                             <Link to="favoris">
@@ -77,7 +77,7 @@ export default function NavBar() {
                                 </button>
                             </Link>
                             <Link to="categories">
-                                <div className="transition cursor-pointer w-[6.5rem] p-2 bg-zinc-800 opacity-80 text-white rounded-xl -mt-2">
+                                <div className="transition cursor-pointer w-[6.5rem] p-2  text-white rounded-xl -mt-2">
                                     <button
                                         onClick={openModal}>
                                         Catégories
@@ -85,14 +85,14 @@ export default function NavBar() {
                                 </div>
                             </Link>
                             <Link to="top_TMDB">
-                                <div className='flex w-[6.5rem] justify-center p-2 bg-zinc-800 opacity-80 text-white rounded-xl -mt-2'>
+                                <div className='flex w-[6.5rem] justify-center p-2  text-white rounded-xl -mt-2'>
                                     <li className="transition cursor-pointer">Top
                                     </li>
                                     <img src="../src/assets/tmdb.png" className="w-8" />
                                 </div>
                             </Link>
                             <Link to="favoris">
-                                <li className=" transition cursor-pointer w-[6.5rem] p-2 bg-zinc-800 opacity-80 text-white rounded-xl -mt-2">Favoris</li>
+                                <li className=" transition cursor-pointer w-[6.5rem] p-2  text-white rounded-xl -mt-2">Favoris</li>
                             </Link>
 
                         </ul>
@@ -100,7 +100,7 @@ export default function NavBar() {
 
 
                 </div>
-                <div className="flex items-center top-2">
+                <div className="hidden md:flex items-center top-2">
                     <IoMdSearch className="absolute size-8 pl-2" />
                     <input className="rounded-xl h-11 w-[25vw] bg-zinc-950 text-center " type="text" placeholder="Rechercher un film" />
                 </div>

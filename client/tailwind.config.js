@@ -12,7 +12,7 @@ export default {
       showContent: {
         "0%": { opacity: 0 },
         "100%": { opacity: 1 },
-      },
+      }
     },
     animation: {
       showContent: "showContent 0.5s linear 1s forwards",
