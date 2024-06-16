@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
 import { TiThMenuOutline } from 'react-icons/ti';
 import { IoMdSearch } from 'react-icons/io';
+import { IoLogIn } from "react-icons/io5";
 
 export default function NavBar() {
 
@@ -57,7 +58,7 @@ export default function NavBar() {
                             {openMenu ? <FaTimes className="size-5" /> : <TiThMenuOutline className="size-6 items-center mt-1" />}
                         </button>
                     </Link>
-                    <div className="flex">
+                    <div className="flex -mt-1">
                         <img src="../src/assets/cinelogo.png" className="w-8 h-8" />
                         <Link className="text-3xl" to="/"><span className="text-green-400 pl-[2px]">ine</span>side</Link>
                     </div>
@@ -65,22 +66,19 @@ export default function NavBar() {
                         <IoMdSearch className="size-6 md:hidden" />
                     </div>
                 </div>
-                <div className="hidden md:flex md:justify-between md:items-end md:w-screen pr-8 text-lg">
-                    <div className="flex items-center">
-                        <ul className="flex space-x-12 mt-4 ml-8">
-                            <Link to="favoris">
-                                <button className="transition cursor-pointer w-[6.5rem] p-2  text-white rounded-xl -mt-4">Connexion
+                <div className="hidden md:flex md:justify-between md:items-center md:w-screen pr-8 p-2 text-lg ">
+                    <div className="flex">
+                        <ul className="flex space-x-12 ml-8">
+                            <Link to="favoris" className='flex items-center '>
+                                <button className="transition cursor-pointer w-[6.5rem] -mt-1 text-white rounded-xl">Connexion
                                 </button>
-                            </Link>
-                            <Link to="favoris">
-                                <button className=" transition cursor-pointer w-[6.5rem] p-2 rounded-xl text-black bg-green-400 opacity-80 -mt-4">Inscription
-                                </button>
+                                <IoLogIn size={35} />
                             </Link>
                             <Link to="films">
-                                <li className=" transition cursor-pointer w-[6.5rem] p-2  text-white rounded-xl -mt-2">Films</li>
+                                <li className=" transition cursor-pointer w-[6.5rem] text-white rounded-xl">Films</li>
                             </Link>
                             <Link to="top_TMDB">
-                                <div className='flex w-[6.5rem] justify-center p-2  text-white rounded-xl -mt-2'>
+                                <div className='flex w-[6.5rem] justify-center text-white rounded-xl'>
                                     <li className="transition cursor-pointer mr-1">Top
                                     </li>
                                     <img src="../src/assets/tmdb.png" className="w-8" />
@@ -100,13 +98,3 @@ export default function NavBar() {
         </nav>
     );
 }
-
-
-{/* <Link to="categories">
-<div className="transition cursor-pointer w-[6.5rem] p-2  text-white rounded-xl -mt-2">
-    <button
-        onClick={openModal}>
-        Catégories
-    </button>
-</div>
-</Link> */}
