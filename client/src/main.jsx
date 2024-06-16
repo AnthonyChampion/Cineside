@@ -18,18 +18,6 @@ const router = createBrowserRouter([
         element: <TopRated />,
         path: "/top_TMDB",
       },
-      {
-        element: <HomePage />,
-        path: "/",
-      },
-      {
-        element: <HomePage />,
-        path: "/",
-      },
-      {
-        element: <HomePage />,
-        path: "/",
-      }
     ]
   }
 ])

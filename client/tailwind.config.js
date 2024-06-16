@@ -14,7 +14,7 @@ export default {
         "100%": { opacity: 1 },
       },
       boxShadow: {
-        '3xl': '0 12px 10px -10px rgba(255, 255, 255, 0.3)',
+        '3xl': '0 3px 10px 8px rgba(255, 255, 255, 0.6)',
       }
     },
     animation: {

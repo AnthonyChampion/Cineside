@@ -76,13 +76,8 @@ export default function NavBar() {
                                 <button className=" transition cursor-pointer w-[6.5rem] p-2 rounded-xl text-black bg-green-400 opacity-80 -mt-4">Inscription
                                 </button>
                             </Link>
-                            <Link to="categories">
-                                <div className="transition cursor-pointer w-[6.5rem] p-2  text-white rounded-xl -mt-2">
-                                    <button
-                                        onClick={openModal}>
-                                        Catégories
-                                    </button>
-                                </div>
+                            <Link to="films">
+                                <li className=" transition cursor-pointer w-[6.5rem] p-2  text-white rounded-xl -mt-2">Films</li>
                             </Link>
                             <Link to="top_TMDB">
                                 <div className='flex w-[6.5rem] justify-center p-2  text-white rounded-xl -mt-2'>
@@ -90,9 +85,6 @@ export default function NavBar() {
                                     </li>
                                     <img src="../src/assets/tmdb.png" className="w-8" />
                                 </div>
-                            </Link>
-                            <Link to="favoris">
-                                <li className=" transition cursor-pointer w-[6.5rem] p-2  text-white rounded-xl -mt-2">Favoris</li>
                             </Link>
 
                         </ul>
@@ -108,3 +100,13 @@ export default function NavBar() {
         </nav>
     );
 }
+
+
+{/* <Link to="categories">
+<div className="transition cursor-pointer w-[6.5rem] p-2  text-white rounded-xl -mt-2">
+    <button
+        onClick={openModal}>
+        Catégories
+    </button>
+</div>
+</Link> */}
