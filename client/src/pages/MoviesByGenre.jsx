@@ -31,7 +31,7 @@ export default function MoviesByGenre() {
                         className="list-none"
                         onClick={() => handleClickFilter(filtre.id, filtre.name)}
                     >
-                        <button className="text-xl text-white p-2 hover:scale-110 hover:text-green-400 active:bg-green-400 focus:outline-none focus:ring focus:ring-green-400">
+                        <button className="text-xl text-white p-2 hover:scale-125 hover:text-green-400 active:bg-green-400 focus:outline-none focus:ring focus:ring-green-400">
                             {filtre.name}
                         </button>
                     </div>

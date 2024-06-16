@@ -24,11 +24,11 @@ export default function MoviesFiltered({ activeFilter = {} }) {
     }, [activeFilter]);
 
     return (
-        <section className="absolute w-[82%] bg-zinc-900 mt-12 ml-[15%]">
+        <section className="absolute w-[82%] h-[860px] bg-zinc-900 mt-12 ml-[15%] overflow-scroll">
             <div className="flex flex-wrap justify-center">
                 {moviesFiltered.map((data) => (
-                    <div key={data.id} className="w-[280px] pb-2">
-                        <img className="rounded-xl w-[260px] h-[350px]" src={"https://image.tmdb.org/t/p/w500" + data.poster_path} alt={data.title} />
+                    <div key={data.id} className="w-[270px] pb-2">
+                        <img className="rounded-xl w-[250px] h-[350px]" src={"https://image.tmdb.org/t/p/w500" + data.poster_path} alt={data.title} />
                         <h2 className="text-center text-white text-lg md:text-s py-1 m-1 rounded-md">{data.title}</h2>
                     </div>
                 ))}

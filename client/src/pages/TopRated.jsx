@@ -61,7 +61,7 @@ export default function TopratedMovies() {
                 </button>
 
             </div>
-            <div className="absolute z-20 h-[880px] overflow-y-scroll no-scrollbar w-[27%] right-[1%] py-4 top-[8%] bg-zinc-700 rounded-2xl">
+            <div className="absolute z-20 h-[880px] w-[27%] right-[1%] py-4 top-[8%] bg-zinc-700 rounded-2xl">
                 <div className="flex flex-wrap w-[100%] justify-center md:gap-6 ">
                     {
                         toprated.map((data, index) => (
