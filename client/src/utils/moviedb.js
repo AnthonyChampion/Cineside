@@ -2,16 +2,15 @@ import axios from "axios";
 
 const apiKey = `${import.meta.env.VITE_API_KEY}`;
 
-const apiBaseUrl = "https://api.themoviedb.org/3";
-const trendingMoviesEndpoint = `${apiBaseUrl}/movie/now_playing?api_key=${apiKey}`;
-const upcomingMoviesEndpoint = `${apiBaseUrl}/movie/upcoming?api_key=${apiKey}`;
-const topRatedMoviesEndpoint = `${apiBaseUrl}/movie/top_rated?api_key=${apiKey}`;
-const genresOfMovies = `${apiBaseUrl}/genre/movie/list?api_key=${apiKey}`;
-const popularMovies = `${apiBaseUrl}/movie/popular?api_key=${apiKey}`;
+const trendingMoviesEndpoint = `https://api.themoviedb.org/3/movie/now_playing?api_key=${apiKey}`;
+const upcomingMoviesEndpoint = `https://api.themoviedb.org/3/movie/upcoming?api_key=${apiKey}`;
+const topRatedMoviesEndpoint = `https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}`;
+const genresOfMovies = `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}`;
+const popularMovies = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`;
 
-const movieDetailsEndpoint = id => `${apiBaseUrl}/movie/${id}?api_key=${apiKey}`;
-const movieCreditsEndpoint = id => `${apiBaseUrl}/movie/${id}/credits?api_key=${apiKey}`;
-const similarMoviesEndpoint = id => `${apiBaseUrl}/movie/${id}/similar?api_key=${apiKey}`;
+const movieDetailsEndpoint = movieId => `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`;
+const movieCreditsEndpoint = movieId => `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}`;
+const similarMoviesEndpoint = movieId => `https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=${apiKey}`;
 
 
 const apiCall = async (endpoint, params) => {
