@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { fetchTopRatedMovies } from '../utils/moviedb';
 import { FaStar } from "react-icons/fa";
+import { IoMdArrowDropleftCircle } from "react-icons/io";
+import { IoMdArrowDroprightCircle } from "react-icons/io";
 
 export default function TopratedMovies() {
 
@@ -59,13 +61,13 @@ export default function TopratedMovies() {
                     </div>
                 </div>
             </div>
-            <div className="absolute flex justify-center gap-[2.2rem] right-[1%] bottom-[2%] z-20 ">
+            <div className="absolute flex justify-center gap-[2.2rem] right-[6.5%] bottom-[3%] z-20 ">
                 {page > 1 ? (
                     <button
                         onClick={previousPage}
-                        className="cursor-pointer p-4 w-[10rem] bg-zinc-800 rounded-xl font-semibold"
+                        className="cursor-pointe"
                     >
-                        Précédente
+                        <IoMdArrowDropleftCircle size={40} />
                     </button>
                 ) : null}
                 <div className="text-white flex items-center">
@@ -73,10 +75,10 @@ export default function TopratedMovies() {
                 </div>
                 <button
                     onClick={nextPage}
-                    className="cursor-pointer p-4 w-[10rem] bg-zinc-800 rounded-xl font-semibold"
+                    className="cursor-pointer "
                     disabled={page >= totalPages}
                 >
-                    Suivante
+                    <IoMdArrowDroprightCircle size={40} />
                 </button>
 
             </div>
