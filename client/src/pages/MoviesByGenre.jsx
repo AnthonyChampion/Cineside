@@ -8,9 +8,7 @@ export default function MoviesByGenre() {
     const [activeFilter, setActiveFilter] = useState(null);
 
     const handleClickFilter = (filtreId, filtreName) => {
-
         setActiveFilter({ id: filtreId, name: filtreName });
-
     };
 
     const getGenresOfMovies = async () => {

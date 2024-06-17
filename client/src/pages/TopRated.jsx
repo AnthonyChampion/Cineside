@@ -7,6 +7,7 @@ export default function TopratedMovies() {
 
     const [toprated, setToprated] = useState([]);
     const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0)
     const [index, setIndex] = useState(0);
     const navigate = useNavigate();
 
@@ -14,14 +15,20 @@ export default function TopratedMovies() {
     const getTopratedMovies = async () => {
         const data = await fetchTopRatedMovies(page);
         setToprated(data.results);
+        setTotalPages(data.total_pages);
         setIndex(0);
+        console.log(data)
     }
     function nextPage() {
-        setPage(page + 1);
+        if (page < totalPages) {
+            setPage(page + 1);
+        }
     }
 
     function previousPage() {
-        setPage(page - 1);
+        if (page > 1) {
+            setPage(page - 1);
+        }
     }
 
     useEffect(() => {
@@ -52,28 +59,42 @@ export default function TopratedMovies() {
                     </div>
                 </div>
             </div>
-            <div className="absolute flex justify-center gap-[4rem] right-[1%] bottom-[2%] z-20">
-                <button className="cursor-pointer p-4 w-[14rem] bg-zinc-800 rounded-xl font-semibold" onClick={previousPage}>
-                    Page précédente
+            <div className="absolute flex justify-center gap-[2.8rem] right-[1%] bottom-[2%] z-20 ">
+                <button
+                    onClick={previousPage}
+                    className="cursor-pointer p-4 w-[10rem] bg-zinc-800 rounded-xl font-semibold"
+                    disabled={page <= 1}
+                >
+                    Précédente
                 </button>
-                <button className=" cursor-pointer p-4 w-[14rem] bg-zinc-800 rounded-xl font-semibold" onClick={nextPage}>
-                    Page suivante
+                <div className="text-white flex items-center">
+                    Page {page} sur {totalPages}
+                </div>
+                <button
+                    onClick={nextPage}
+                    className="cursor-pointer p-4 w-[10rem] bg-zinc-800 rounded-xl font-semibold"
+                    disabled={page >= totalPages}
+                >
+                    Suivante
                 </button>
 
             </div>
             <div className="absolute z-20 h-[880px] w-[27%] right-[1%] py-4 top-[8%] bg-zinc-700 rounded-2xl">
-                <div className="flex flex-wrap w-[100%] justify-center md:gap-6 ">
-                    {
-                        toprated.map((data, index) => (
-                            <div
-                                key={data.id}
-                                className="w-fit flex flex-wrap">
-                                <img className="rounded-lg h-[150px] w-[100px]" src={"https://image.tmdb.org/t/p/w500" + data?.poster_path} alt={data?.title}
-                                    onClick={() => { setIndex(index) }}
-                                />
-                            </div>
-                        ))
-                    }
+                <div >
+                    <ul className="flex flex-wrap w-[100%] justify-center md:gap-2 ">
+                        {
+                            toprated.map((data, index) => (
+                                <li
+                                    key={data.id}
+                                    className="w-fit flex-col flex-wrap text-center list-none">
+                                    <img className="rounded-lg h-[140px] w-[100px]" src={"https://image.tmdb.org/t/p/w500" + data?.poster_path} alt={data?.title}
+                                        onClick={() => { setIndex(index) }}
+                                    />{index + 1}
+                                </li>
+                            ))
+                        }
+                    </ul>
+
                 </div>
 
             </div>
