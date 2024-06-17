@@ -1,24 +1,35 @@
-import React, { useEffect, useState } from 'react';
-import { fetchMoviesByGenre } from '../utils/moviedb';
+import { useEffect, useState } from "react";
+import { fetchMoviesByGenre } from "../utils/moviedb";
 
 export default function MoviesFiltered({ activeFilter = {} }) {
-
     const [moviesFiltered, setMoviesFiltered] = useState([]);
+    const MOVIES_COUNT = 20;
 
     useEffect(() => {
         const getMoviesFiltered = async () => {
             try {
-                let data = await fetchMoviesByGenre();
-                if (data && data.results) {
-                    data = data.results.filter((movie) => movie.genre_ids.includes(activeFilter.id));
-                    setMoviesFiltered(data);
+                let allMovies = [];
+                let currentPage = 1;
+                while (allMovies.length < MOVIES_COUNT) {
+                    let data = await fetchMoviesByGenre(currentPage);
+                    if (data && data.results) {
+                        let filteredMovies = data.results.filter((movie) => movie.genre_ids.includes(activeFilter.id));
+                        allMovies = [...allMovies, ...filteredMovies];
+
+                        if (filteredMovies.length === 0 || allMovies.length >= MOVIES_COUNT) {
+                            break;
+                        }
+                    }
+                    currentPage++;
                 }
+                setMoviesFiltered(allMovies.slice(0, MOVIES_COUNT));
             } catch (error) {
-                console.error("Erreur lors de la récupération des films :", error);
+                console.error("Erreur dans l'affichage des films:", error);
             }
         };
 
         if (activeFilter && activeFilter.id) {
+            setMoviesFiltered([]);
             getMoviesFiltered();
         }
     }, [activeFilter]);

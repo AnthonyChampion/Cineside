@@ -38,7 +38,7 @@ export default function TopratedMovies() {
 
     return (
         <section className="w-screen h-fit text-white text-justify flex space-x-4">
-            <img src={"https://image.tmdb.org/t/p/original" + toprated[index]?.backdrop_path} alt={toprated[index]?.title} className="hidden md:z-10 md:block h-[750px] mt-6 rounded-r-2xl" />
+            <img src={"https://image.tmdb.org/t/p/original" + toprated[index]?.backdrop_path} alt={toprated[index]?.title} className="hidden md:z-10 md:block h-[770px] mt-6 rounded-r-2xl" />
             <div className="absolute z-20 md:bottom-[10%]  md:left-[6%] w-[90%] text-white translate-y-[50px] blur-[20px] opacity-0 animate-showContent">
                 <div className="bg-zinc-800 rounded-xl bg-opacity-70 shadow-3xl flex items-center md:w-[60%] md:h-[250px]">
                     <div className="w-[35%] space-y-4 text-center flex-col ml-3 ">
@@ -59,14 +59,15 @@ export default function TopratedMovies() {
                     </div>
                 </div>
             </div>
-            <div className="absolute flex justify-center gap-[2.8rem] right-[1%] bottom-[2%] z-20 ">
-                <button
-                    onClick={previousPage}
-                    className="cursor-pointer p-4 w-[10rem] bg-zinc-800 rounded-xl font-semibold"
-                    disabled={page <= 1}
-                >
-                    Précédente
-                </button>
+            <div className="absolute flex justify-center gap-[2.2rem] right-[1%] bottom-[2%] z-20 ">
+                {page > 1 ? (
+                    <button
+                        onClick={previousPage}
+                        className="cursor-pointer p-4 w-[10rem] bg-zinc-800 rounded-xl font-semibold"
+                    >
+                        Précédente
+                    </button>
+                ) : null}
                 <div className="text-white flex items-center">
                     Page {page} sur {totalPages}
                 </div>
@@ -79,7 +80,7 @@ export default function TopratedMovies() {
                 </button>
 
             </div>
-            <div className="absolute z-20 h-[880px] w-[27%] right-[1%] py-4 top-[8%] bg-zinc-700 rounded-2xl">
+            <div className="absolute z-20 h-[880px] w-[26%] right-[1%] py-4 top-[8%] bg-zinc-700 rounded-2xl">
                 <div >
                     <ul className="flex flex-wrap w-[100%] justify-center md:gap-2 ">
                         {
