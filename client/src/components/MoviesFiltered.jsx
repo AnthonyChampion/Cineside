@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { fetchMoviesByGenre, fetchMovieDetails } from "../utils/moviedb";
+import PropTypes from "prop-types";
 import ReactPaginate from "react-paginate";
 import MovieDetails from "./MovieDetails";
 
@@ -47,8 +48,8 @@ export default function MoviesFiltered({ activeFilter = {} }) {
 
                 setMoviesFiltered(allMovies.slice(0, MOVIES_COUNT));
             } catch (error) {
-                console.error("Error fetching movies:", error);
-                setError("An error occurred while fetching movies. Please try again.");
+                console.error("Erreur dans la récupération des films:", error);
+                setError("Une erreur s'est produite dans la récupération des films. Essayez de nouveau.");
             } finally {
                 setLoading(false);
             }
@@ -71,13 +72,13 @@ export default function MoviesFiltered({ activeFilter = {} }) {
             setSelectedMovie(data);
             setShowDetails(true);
         } catch (error) {
-            console.error('Error fetching movie details:', error);
+            console.error('Erreur dans la récupération des détails:', error);
         }
     };
 
     return (
         <section className="absolute w-[82%] h-[860px] bg-zinc-900 mt-12 ml-[15%] overflow-scroll">
-            {loading && <div className="text-white text-center">Loading...</div>}
+            {loading && <div className="text-white text-center">Chargement...</div>}
             {error && <div className="text-red-500 text-center">{error}</div>}
             {!loading && !error && (
                 <>
@@ -127,3 +128,7 @@ export default function MoviesFiltered({ activeFilter = {} }) {
         </section>
     );
 }
+
+MoviesFiltered.propTypes = {
+    activeFilter: PropTypes.object,
+};

@@ -14,10 +14,14 @@ export default function TopratedMovies() {
     const [showDetails, setShowDetails] = useState(false);
 
     const getTopratedMovies = async (page) => {
-        const data = await fetchTopRatedMovies(page);
-        setToprated(data.results);
-        setTotalPages(data.total_pages);
-        setIndex(0);
+        try {
+            const data = await fetchTopRatedMovies(page);
+            setToprated(data.results);
+            setTotalPages(data.total_pages);
+            setIndex(0);
+        } catch (error) {
+            console.error('Erreur dans la récupération des films:', error);
+        }
     };
 
     useEffect(() => {
@@ -34,7 +38,7 @@ export default function TopratedMovies() {
             setSelectedMovie(data);
             setShowDetails(true);
         } catch (error) {
-            console.error('Error fetching movie details:', error);
+            console.error('Erreur dans la récupération des détails:', error);
         }
     };
 
@@ -44,7 +48,7 @@ export default function TopratedMovies() {
             <div className="absolute z-20 md:bottom-[10%] md:left-[6%] w-[90%] text-white translate-y-[50px] blur-[20px] opacity-0 animate-showContent">
                 <div className="bg-zinc-800 rounded-xl bg-opacity-70 shadow-3xl flex items-center md:w-[60%] md:h-[250px]">
                     <div className="w-[35%] space-y-4 text-center flex-col ml-3">
-                        <h1 className="font-bold text-green-500 md:text-4xl text-lg line-clamp-3">{toprated[index]?.title}</h1>
+                        <h1 className="font-bold text-green-500 md:text-4xl text-lg line-clamp-3 pb-1">{toprated[index]?.title}</h1>
                         <p className="text-lg">{toprated[index]?.release_date}</p>
                         <div className="flex items-center space-x-1 justify-center">
                             <FaStar size={20} color="yellow" />

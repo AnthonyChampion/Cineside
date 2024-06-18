@@ -27,7 +27,7 @@ export default function HomePage() {
             }
             setLoading(false);
         } catch (error) {
-            console.error('Impossible de récupérer les films:', error);
+            console.error('Erreur dans la récupération des films:', error);
             setLoading(false);
         }
     };
@@ -39,7 +39,7 @@ export default function HomePage() {
                 setMovieDetails(data);
             }
         } catch (error) {
-            console.error('Impossible de récupérer les détails du film:', error);
+            console.error('Erreur dans la récupération des détails:', error);
         }
     };
 
@@ -95,7 +95,7 @@ export default function HomePage() {
                                             <p className="md:text-lg md:line-clamp-4">{trending[index].overview}</p>
                                             <div>
                                                 <button
-                                                    className="md:block bg-white text-black md:text-lg text-s w-[fit] md:w-[8rem] md:p-3 p-2 rounded-lg mt-4 md:mb-4 mb-2"
+                                                    className="md:block bg-white text-black md:text-lg text-sm md:w-[8rem] md:p-3 p-2 rounded-lg mt-4 md:mb-4 mb-2"
                                                     onClick={() => setShowDetails(true)}
                                                 >
                                                     Voir plus

@@ -7,6 +7,7 @@ const upcomingMoviesEndpoint = `https://api.themoviedb.org/3/movie/upcoming?api_
 const topRatedMoviesEndpoint = `https://api.themoviedb.org/3/movie/top_rated?api_key=${apiKey}`;
 const genresOfMovies = `https://api.themoviedb.org/3/genre/movie/list?api_key=${apiKey}`;
 const popularMovies = `https://api.themoviedb.org/3/movie/popular?api_key=${apiKey}`;
+const searchMoviesEndPoint = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}`
 
 const movieDetailsEndpoint = movieId => `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`;
 const movieCreditsEndpoint = movieId => `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}`;
@@ -54,6 +55,12 @@ export const fetchMovieCredits = id => {
 export const fetchSimilarMovies = id => {
     return apiCall(similarMoviesEndpoint(id));
 }
+
+export const searchMovies = params => {
+    // Adding the language parameter
+    const updatedParams = { ...params, language: 'fr' };
+    return apiCall(searchMoviesEndPoint, updatedParams);
+};
 
 export const fetchMovieTrailer = async (movieId) => {
     const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apiKey}`);

@@ -15,7 +15,7 @@ export default function MoviesByGenre() {
             const data = await fetchGenresOfMovies();
             setFilters(data.genres);
         } catch (error) {
-            console.error('Error fetching genres:', error);
+            console.error('Erreur dans la récupération des genres:', error);
         }
     };
 
