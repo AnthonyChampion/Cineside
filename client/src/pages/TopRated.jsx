@@ -32,7 +32,7 @@ export default function TopratedMovies() {
         setPage(data.selected + 1);
     };
 
-    const handleVoirPlusClick = async (movie) => {
+    const handleMovieClick = async (movie) => {
         try {
             const data = await fetchMovieDetails(movie.id);
             setSelectedMovie(data);
@@ -44,7 +44,7 @@ export default function TopratedMovies() {
 
     return (
         <section className="w-screen h-fit text-white text-justify flex space-x-4">
-            <img src={"https://image.tmdb.org/t/p/original" + toprated[index]?.backdrop_path} alt={toprated[index]?.title} className="hidden md:z-10 md:block h-[770px] mt-6 rounded-r-2xl" />
+            <img src={"https://image.tmdb.org/t/p/original" + toprated[index]?.backdrop_path} alt={toprated[index]?.title} className="hidden md:z-10 md:block h-[690px] mt-6 rounded-r-2xl" />
             <div className="absolute z-20 md:bottom-[10%] md:left-[6%] w-[90%] text-white translate-y-[50px] blur-[20px] opacity-0 animate-showContent">
                 <div className="bg-zinc-800 rounded-xl bg-opacity-70 shadow-3xl flex items-center md:w-[60%] md:h-[250px]">
                     <div className="w-[35%] space-y-4 text-center flex-col ml-3">
@@ -60,20 +60,20 @@ export default function TopratedMovies() {
                         <p className="md:text-lg md:line-clamp-4 pt-2">{toprated[index]?.overview}</p>
                         <button
                             className="bg-white text-black md:text-lg text-s md:w-[8rem] rounded-lg mt-6 p-2"
-                            onClick={() => handleVoirPlusClick(toprated[index])}
+                            onClick={() => handleMovieClick(toprated[index])}
                         >
                             Voir plus
                         </button>
                     </div>
                 </div>
             </div>
-            <div className="absolute z-20 h-[880px] w-[26%] right-[1%] py-4 top-[8%] bg-zinc-700 rounded-2xl">
+            <div className="absolute z-20 h-[780px] w-[26%] right-[1%] py-4 top-[8%] bg-zinc-700 rounded-2xl">
                 <div>
                     <ul className="flex flex-wrap w-[100%] justify-center md:gap-2">
                         {toprated.map((data, index) => (
                             <li key={data.id} className="w-fit flex-col flex-wrap text-center list-none">
                                 <img
-                                    className="rounded-lg h-[140px] w-[100px]"
+                                    className="rounded-lg h-[120px] w-[95px]"
                                     src={"https://image.tmdb.org/t/p/w500" + data?.poster_path}
                                     alt={data?.title}
                                     onClick={() => { setIndex(index) }}

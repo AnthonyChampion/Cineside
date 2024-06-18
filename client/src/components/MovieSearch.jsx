@@ -7,7 +7,7 @@ export default function MovieSearch() {
     const [searchTerm, setSearchTerm] = useState('');
     const [movies, setMovies] = useState([]);
     const [error, setError] = useState('');
-    const [selectedMovie, setSelectedMovie] = useState(null);
+    const [movieDetails, setMovieDetails] = useState({});
     const [showDetails, setShowDetails] = useState(false);
 
     const handleSearch = async (event) => {
@@ -41,7 +41,7 @@ export default function MovieSearch() {
     const handleMovieClick = async (movie) => {
         try {
             const data = await fetchMovieDetails(movie.id);
-            setSelectedMovie(data);
+            setMovieDetails(data);
             setShowDetails(true);
         } catch (error) {
             console.error('Erreur dans la récupération des détails:', error);
@@ -49,16 +49,16 @@ export default function MovieSearch() {
     };
 
     return (
-        <div>
+        <section>
             <form onSubmit={handleSearch} className="flex items-center">
                 <input
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="rounded-xl h-11 w-[20rem] bg-zinc-900 text-center text-white "
-                    placeholder="Rechercher un film"
+                    className="rounded-xl h-11 w-[20rem] bg-zinc-800 text-center text-white text-[16px] border border-neutral-400 "
+                    placeholder="Tapez votre film"
                 />
-                <button type="submit" className="ml-2"><IoMdSearch className="size-6 md:hidden" /></button>
+                <button type="submit" className="ml-2 bg-green-400 p-2 rounded-xl text-black text-[16px]">Rechercher</button>
             </form>
             {error && <p className="text-red-500 mt-2">{error}</p>}
             {movies.length > 0 && (
@@ -91,10 +91,10 @@ export default function MovieSearch() {
             )}
             {showDetails && (
                 <MovieDetails
-                    movie={selectedMovie}
+                    movie={movieDetails}
                     onClose={() => setShowDetails(false)}
                 />
             )}
-        </div>
+        </section>
     );
 }

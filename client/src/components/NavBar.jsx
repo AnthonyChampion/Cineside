@@ -48,7 +48,7 @@ export default function NavBar() {
 
     return (
         <nav className="w-screen h-[6vh] relative z-10">
-            <div className="flex items-center justify-center p-4 text-white bg-zinc-900 bg-opacity-50">
+            <div className="flex items-center justify-center p-2 text-white bg-zinc-900 bg-opacity-50">
                 <div>
                     {openMenu && mobileContent}
                 </div>
@@ -58,9 +58,9 @@ export default function NavBar() {
                             {openMenu ? <FaTimes className="size-5" /> : <TiThMenuOutline className="size-6 items-center mt-1" />}
                         </button>
                     </Link>
-                    <div className="flex -mt-1">
-                        <img src="../src/assets/cinelogo.png" className="w-8 h-8" alt="cinelogo" />
-                        <Link className="text-3xl" to="/"><span className="text-green-400 pl-[2px]">ine</span>side</Link>
+                    <div className="flex">
+                        <img src="../src/assets/cinelogo.png" className="w-6 h-6 mt-1" alt="cinelogo" />
+                        <Link className="text-2xl" to="/"><span className="text-green-400 pl-[2px]">ine</span>side</Link>
                     </div>
                     <div>
                         <IoMdSearch className="size-6 md:hidden cursor-pointer" onClick={toggleSearch} />
@@ -70,15 +70,15 @@ export default function NavBar() {
                     <div className="flex">
                         <ul className="flex space-x-12 ml-8">
                             <Link to="favoris" className='flex items-center '>
-                                <button className="transition cursor-pointer w-[6.5rem]">Connexion</button>
+                                <button className="transition cursor-pointer w-[6.5rem] text-[16px]">Connexion</button>
                                 <IoLogIn size={36} />
                             </Link>
                             <Link to="films">
-                                <li className="transition cursor-pointer w-[6.5rem] mt-1">Films</li>
+                                <li className="transition cursor-pointer w-[6.5rem] text-[16px] mt-2">Films</li>
                             </Link>
                             <Link to="top_TMDB">
-                                <div className='flex w-[6.5rem] justify-center items-center'>
-                                    <li className="transition cursor-pointer mt-1 mr-1">Top</li>
+                                <div className='flex w-[6.5rem] justify-center items-center mt-2'>
+                                    <li className="transition cursor-pointer mr-1 text-[16px]">Top</li>
                                     <img src="../src/assets/tmdb.png" className="w-8 h-7" alt="tmdb-logo" />
                                 </div>
                             </Link>
