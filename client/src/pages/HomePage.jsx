@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchMovieDetails, fetchTrendingMovies } from '../utils/moviedb';
 import { register } from 'swiper/element/bundle';
 import { FaStar } from 'react-icons/fa';
+import MovieDetails from '../components/MovieDetails';
 
 register();
 
@@ -11,6 +12,7 @@ export default function HomePage() {
     const [index, setIndex] = useState(0);
     const [movieDetails, setMovieDetails] = useState({});
     const [loading, setLoading] = useState(true);
+    const [showDetails, setShowDetails] = useState(false);
 
     const setSlidesPerview = () => {
         setSlides(window.innerWidth < 640 ? 1 : 3);
@@ -25,7 +27,7 @@ export default function HomePage() {
             }
             setLoading(false);
         } catch (error) {
-            console.error('Failed to fetch trending movies:', error);
+            console.error('Impossible de récupérer les films:', error);
             setLoading(false);
         }
     };
@@ -37,7 +39,7 @@ export default function HomePage() {
                 setMovieDetails(data);
             }
         } catch (error) {
-            console.error('Failed to fetch movie details:', error);
+            console.error('Impossible de récupérer les détails du film:', error);
         }
     };
 
@@ -62,7 +64,7 @@ export default function HomePage() {
             {loading ? (
                 <div className="flex justify-center items-center h-screen">
                     <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-green-500" role="status">
-                        <span className="visually-hidden">Loading...</span>
+                        <span className="visually-hidden">Chargement...</span>
                     </div>
                 </div>
             ) : (
@@ -89,10 +91,13 @@ export default function HomePage() {
                                                 <FaStar size={20} color="yellow" />
                                                 <p className="text-lg">{Math.round(trending[index].vote_average * 100) / 100} / 10</p>
                                             </div>
-                                            <p>{movieDetails.genres?.map(genre => genre.name).join(', ')}</p>
+
                                             <p className="md:text-lg md:line-clamp-4">{trending[index].overview}</p>
                                             <div>
-                                                <button className="md:block bg-white text-black md:text-lg text-s w-[fit] md:w-[8rem] md:p-3 p-2 rounded-lg mt-4 md:mb-4 mb-2">
+                                                <button
+                                                    className="md:block bg-white text-black md:text-lg text-s w-[fit] md:w-[8rem] md:p-3 p-2 rounded-lg mt-4 md:mb-4 mb-2"
+                                                    onClick={() => setShowDetails(true)}
+                                                >
                                                     Voir plus
                                                 </button>
                                             </div>
@@ -121,6 +126,12 @@ export default function HomePage() {
                         </div>
                     </div>
                 </>
+            )}
+            {showDetails && (
+                <MovieDetails
+                    movie={movieDetails}
+                    onClose={() => setShowDetails(false)}
+                />
             )}
         </section>
     );

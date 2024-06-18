@@ -55,3 +55,9 @@ export const fetchSimilarMovies = id => {
     return apiCall(similarMoviesEndpoint(id));
 }
 
+export const fetchMovieTrailer = async (movieId) => {
+    const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apiKey}`);
+    const data = await response.json();
+    const trailer = data.results.find(video => video.type === 'Trailer' && video.site === 'YouTube');
+    return trailer ? `https://www.youtube.com/embed/${trailer.key}` : null;
+};
