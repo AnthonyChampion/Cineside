@@ -5,10 +5,14 @@ import ReactPaginate from "react-paginate";
 export default function MoviesFiltered({ activeFilter = {} }) {
     const [page, setPage] = useState(0);
     const [moviesFiltered, setMoviesFiltered] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
     const MOVIES_COUNT = 20;
 
     useEffect(() => {
         const getMoviesFiltered = async (page) => {
+            setLoading(true);
+            setError(null);
             try {
                 let allMovies = [];
                 let currentPage = page + 1;
@@ -36,7 +40,10 @@ export default function MoviesFiltered({ activeFilter = {} }) {
 
                 setMoviesFiltered(allMovies.slice(0, MOVIES_COUNT));
             } catch (error) {
-                console.error("Erreur lors de l'importation de films:", error);
+                console.error("Error fetching movies:", error);
+                setError("An error occurred while fetching movies. Please try again.");
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -44,6 +51,7 @@ export default function MoviesFiltered({ activeFilter = {} }) {
             setMoviesFiltered([]);
             getMoviesFiltered(page);
         }
+
     }, [activeFilter, page]);
 
     const handlePageClick = (data) => {
@@ -52,36 +60,42 @@ export default function MoviesFiltered({ activeFilter = {} }) {
 
     return (
         <section className="absolute w-[82%] h-[860px] bg-zinc-900 mt-12 ml-[15%] overflow-scroll">
-            <div className="flex flex-wrap justify-center">
-                {moviesFiltered.map((data) => (
-                    <div key={data.id} className="w-[270px] pb-2">
-                        <img className="rounded-xl w-[250px] h-[350px]" src={"https://image.tmdb.org/t/p/w500" + data.poster_path} alt={data.title} />
-                        <h2 className="text-center text-white text-lg md:text-s py-1 m-1 rounded-md">{data.title}</h2>
+            {loading && <div className="text-white text-center">Loading...</div>}
+            {error && <div className="text-red-500 text-center">{error}</div>}
+            {!loading && !error && (
+                <>
+                    <div className="flex flex-wrap justify-center">
+                        {moviesFiltered.map((data) => (
+                            <div key={data.id} className="w-[270px] pb-2">
+                                <img className="rounded-xl w-[250px] h-[350px]" src={"https://image.tmdb.org/t/p/w500" + data.poster_path} alt={data.title} />
+                                <h2 className="text-center text-white text-lg md:text-s py-1 m-1 rounded-md">{data.title}</h2>
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </div>
-            <div className="text-white w-[100%] flex justify-center">
-                <ReactPaginate
-                    previousLabel={"Prev"}
-                    nextLabel={"Next"}
-                    breakLabel={"..."}
-                    pageCount={20} // Adjust according to your total pages
-                    marginPagesDisplayed={2}
-                    pageRangeDisplayed={5}
-                    onPageChange={handlePageClick}
-                    containerClassName={"flex justify-center mt-4"}
-                    pageClassName={"mx-1"}
-                    pageLinkClassName={"px-3 py-1 bg-zinc-800 text-white hover:bg-green-400"}
-                    previousClassName={"mx-1"}
-                    previousLinkClassName={"px-3 py-1 bg-zinc-800 text-white hover:bg-green-400"}
-                    nextClassName={"mx-1"}
-                    nextLinkClassName={"px-3 py-1 bg-zinc-800 text-white hover:bg-green-400"}
-                    breakClassName={"mx-1"}
-                    breakLinkClassName={"px-3 py-1 bg-zinc-800 text-white"}
-                    activeClassName={"bg-green-400"}
-                    activeLinkClassName={"text-green-400"}
-                />
-            </div>
+                    <div className="text-white w-[100%] flex justify-center mb-4">
+                        <ReactPaginate
+                            previousLabel={"<"}
+                            nextLabel={">"}
+                            breakLabel={"..."}
+                            pageCount={20}
+                            marginPagesDisplayed={2}
+                            pageRangeDisplayed={5}
+                            onPageChange={handlePageClick}
+                            containerClassName={"flex justify-center mt-4"}
+                            pageClassName={"mx-1"}
+                            pageLinkClassName={"px-3 py-1 bg-zinc-800 text-white hover:bg-green-400"}
+                            previousClassName={"mx-1"}
+                            previousLinkClassName={"px-3 py-1 bg-zinc-800 text-white hover:bg-green-400"}
+                            nextClassName={"mx-1"}
+                            nextLinkClassName={"px-3 py-1 bg-zinc-800 text-white hover:bg-green-400"}
+                            breakClassName={"mx-1"}
+                            breakLinkClassName={"px-3 py-1 bg-zinc-800 text-white"}
+                            activeClassName={"bg-green-400"}
+                            activeLinkClassName={"text-green-400 active:bg-green-400 focus:outline-none focus:ring focus:ring-green-400"}
+                        />
+                    </div>
+                </>
+            )}
         </section>
     );
 }

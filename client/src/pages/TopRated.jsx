@@ -67,26 +67,26 @@ export default function TopratedMovies() {
                     </ul>
                 </div>
             </div>
-            <div className=" absolute text-white w-[20%] flex justify-center z-30 bottom-[4%] right-[4%]">
+            <div className=" absolute text-white w-[20%] flex justify-center z-30 bottom-[1.5%] right-[4%]">
                 <ReactPaginate
-                    previousLabel={"<"}
-                    nextLabel={">"}
+                    previousLabel={<IoMdArrowDropleftCircle size={30} />}
+                    nextLabel={<IoMdArrowDroprightCircle size={30} />}
                     breakLabel={"..."}
                     pageCount={20} // Adjust according to your total pages
                     marginPagesDisplayed={2}
                     pageRangeDisplayed={3}
                     onPageChange={handlePageClick}
-                    containerClassName={"flex justify-center mt-4"}
+                    containerClassName={"flex justify-center items-center mt-4"}
                     pageClassName={"mx-1"}
                     pageLinkClassName={"px-3 py-1 bg-zinc-800 text-white hover:bg-green-400"}
-                    previousClassName={"mx-1"}
-                    previousLinkClassName={"px-3 py-1 bg-zinc-800 text-white hover:bg-green-400"}
+                    previousClassName={"mx-1 "}
+                    previousLinkClassName={"px-3 py-1 text-white "}
                     nextClassName={"mx-1"}
-                    nextLinkClassName={"px-3 py-1 bg-zinc-800 text-white hover:bg-green-400"}
+                    nextLinkClassName={"px-3 text-white "}
                     breakClassName={"mx-1"}
                     breakLinkClassName={"px-3 py-1 bg-zinc-800 text-white"}
                     activeClassName={"bg-green-400"}
-                    activeLinkClassName={"text-white"}
+                    activeLinkClassName={"text-white text-green-400 active:bg-green-400 focus:outline-none focus:ring focus:ring-green-400"}
                 />
             </div>
         </section>

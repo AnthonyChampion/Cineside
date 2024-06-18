@@ -70,15 +70,15 @@ export default function NavBar() {
                     <div className="flex">
                         <ul className="flex space-x-12 ml-8">
                             <Link to="favoris" className='flex items-center '>
-                                <button className="transition cursor-pointer w-[6.5rem]  text-white rounded-xl">Connexion
+                                <button className="transition cursor-pointer w-[6.5rem]">Connexion
                                 </button>
-                                <IoLogIn size={35} />
+                                <IoLogIn size={36} />
                             </Link>
                             <Link to="films">
-                                <li className=" transition cursor-pointer w-[6.5rem] mt-1 text-white rounded-xl">Films</li>
+                                <li className=" transition cursor-pointer w-[6.5rem] mt-1">Films</li>
                             </Link>
                             <Link to="top_TMDB">
-                                <div className='flex w-[6.5rem] justify-center items-center text-white rounded-xl'>
+                                <div className='flex w-[6.5rem] justify-center items-center'>
                                     <li className="transition cursor-pointer mt-1 mr-1">Top
                                     </li>
                                     <img src="../src/assets/tmdb.png" className="w-8 h-7" />
