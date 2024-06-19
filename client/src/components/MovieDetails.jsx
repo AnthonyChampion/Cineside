@@ -8,6 +8,25 @@ const useMovieData = (movieId) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+
+    const updateCredits = useCallback(async (movieId) => {
+        try {
+            const creditsData = await fetchMovieCredits(movieId);
+            setCredits(creditsData.cast);
+        } catch (error) {
+            setError('Erreur dans la récupération des crédits');
+        }
+    }, []);
+
+    const updateSimilarMovies = useCallback(async (movieId) => {
+        try {
+            const similarMoviesData = await fetchSimilarMovies(movieId);
+            setSimilarMovies(similarMoviesData.results);
+        } catch (error) {
+            setError('Erreur dans la récupération des films similaires');
+        }
+    }, []);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -26,21 +45,25 @@ const useMovieData = (movieId) => {
         fetchData();
     }, [movieId]);
 
-    return { credits, similarMovies, loading, error };
+    return { credits, similarMovies, loading, error, updateCredits, updateSimilarMovies };
 };
 
 const MovieDetails = ({ movie, onClose }) => {
     const [movieDetails, setMovieDetails] = useState(movie);
-    const { credits, similarMovies, loading, error } = useMovieData(movie.id);
+    const { credits, similarMovies, loading, error, updateCredits, updateSimilarMovies } = useMovieData(movie.id);
 
     const handleMovieClick = useCallback(async (similarMovie) => {
         try {
             const data = await fetchMovieDetails(similarMovie.id);
             setMovieDetails(data);
+
+            // Update credits based on the clicked similar movie
+            await updateCredits(similarMovie.id);
+            await updateSimilarMovies(similarMovie.id);
         } catch (error) {
             console.error('Erreur dans la récupération des détails:', error);
         }
-    }, []);
+    }, [setMovieDetails, updateCredits, updateSimilarMovies]);
 
     return (
         <div className="fixed inset-0 z-50 h-screen flex justify-center items-center bg-black bg-opacity-70">
@@ -49,7 +72,7 @@ const MovieDetails = ({ movie, onClose }) => {
                     <img
                         src={`https://image.tmdb.org/t/p/original${movieDetails.backdrop_path}`}
                         alt={movieDetails.title}
-                        className="w-full h-[250px] object-cover"
+                        className="w-full h-[400px] object-cover"
                     />
                     <button
                         className="absolute top-4 right-4 bg-green-400 text-white rounded-full w-10 h-10 flex items-center justify-center"
@@ -59,12 +82,12 @@ const MovieDetails = ({ movie, onClose }) => {
                         &times;
                     </button>
                 </div>
-                <div className="pt-6 pl-6 space-y-2 h-[28%] flex flex-col items-start text-[17px]">
+                <div className="pt-6 pl-6 space-y-2 h-[fit] flex flex-col items-start text-[17px]">
                     <h2 className="text-2xl font-bold">{movieDetails.title}</h2>
                     <p><strong>Date de sortie:</strong> {movieDetails.release_date}</p>
                     <p><strong>Note:</strong> {Math.round((movieDetails.vote_average) * 100) / 100} / 10</p>
                     <p className=""><strong>Genres:</strong> {movieDetails.genres?.map(genre => genre.name).join(', ')}</p>
-                    <p className="text-start "><strong>Synopsis: </strong> {movieDetails.overview}</p>
+                    <p className="text-start"><strong>Synopsis: </strong> {movieDetails.overview}</p>
                 </div>
                 {loading ? (
                     <div className="p-2">Loading...</div>
@@ -96,9 +119,9 @@ const MovieDetails = ({ movie, onClose }) => {
                         {similarMovies.length > 0 && (
                             <div className="mt-16">
                                 <h3 className="text-xl font-bold pb-6 -mt-8 text-start pl-6">Films similaires</h3>
-                                <ul className="flex flex-wrap justify-center w-[100%] pb-4 pl-6">
-                                    {similarMovies.slice(0, 18).map(similarMovie => (
-                                        <li key={similarMovie.id} className="flex flex-wrap items-center w-28 h-38">
+                                <ul className="flex flex-wrap justify-center w-[100%] pb-4">
+                                    {similarMovies.slice(0, 16).map(similarMovie => (
+                                        <li key={similarMovie.id} className="flex flex-wrap justify-center items-center w-32 h-38 pb-2">
                                             <img
                                                 src={`https://image.tmdb.org/t/p/w200${similarMovie.poster_path}`}
                                                 alt={similarMovie.title}
@@ -106,7 +129,7 @@ const MovieDetails = ({ movie, onClose }) => {
                                                 onClick={() => handleMovieClick(similarMovie)}
                                                 aria-label={similarMovie.title}
                                             />
-                                            <p className="w-28 text truncate">{similarMovie.title}</p>
+                                            <p className="w-28  text-center text truncate">{similarMovie.title}</p>
                                         </li>
                                     ))}
                                 </ul>

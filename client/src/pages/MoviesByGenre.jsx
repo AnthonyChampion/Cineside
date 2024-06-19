@@ -24,14 +24,14 @@ export default function MoviesByGenre() {
     }, []);
 
     return (
-        <section className="w-[90vw]">
-            <div className="absolute flex flex-col mt-11 ml-12 p-4 w-[11%] rounded-xl bg-zinc-800 bg-opacity-60 z-10">
+        <section className="w-[80vw]">
+            <div className="absolute flex flex-col mt-11 ml-12 p-2 w-[11%] rounded-xl bg-zinc-800 bg-opacity-60 z-10">
                 {filters.map((filter) => (
                     <div key={filter.id}
                         className="list-none"
                         onClick={() => handleClickFilter(filter.id, filter.name)}
                     >
-                        <button className="text-xl text-white p-2 hover:scale-125 hover:text-green-400 active:bg-green-400 focus:outline-none focus:ring focus:ring-green-400">
+                        <button className="text-[17px] text-white p-2 hover:scale-125 hover:text-green-400 active:bg-green-400 focus:outline-none focus:ring focus:ring-green-400">
                             {filter.name}
                         </button>
                     </div>

@@ -44,8 +44,8 @@ export default function TopratedMovies() {
 
     return (
         <section className="w-screen h-fit text-white text-justify flex space-x-4">
-            <img src={"https://image.tmdb.org/t/p/original" + toprated[index]?.backdrop_path} alt={toprated[index]?.title} className="hidden md:z-10 md:block h-[690px] mt-6 rounded-r-2xl" />
-            <div className="absolute z-20 md:bottom-[10%] md:left-[6%] w-[90%] text-white translate-y-[50px] blur-[20px] opacity-0 animate-showContent">
+            <img src={"https://image.tmdb.org/t/p/original" + toprated[index]?.backdrop_path} alt={toprated[index]?.title} className="hidden md:z-0 md:block h-[690px] mt-5 rounded-r-2xl" />
+            <div className="absolute z-0 md:bottom-[10%] md:left-[6%] w-[90%] text-white translate-y-[50px] blur-[20px] opacity-0 animate-showContent">
                 <div className="bg-zinc-800 rounded-xl bg-opacity-70 shadow-3xl flex items-center md:w-[60%] md:h-[250px]">
                     <div className="w-[35%] space-y-4 text-center flex-col ml-3">
                         <h1 className="font-bold text-green-500 md:text-4xl text-lg line-clamp-3 pb-1">{toprated[index]?.title}</h1>
@@ -67,13 +67,13 @@ export default function TopratedMovies() {
                     </div>
                 </div>
             </div>
-            <div className="absolute z-20 h-[780px] w-[26%] right-[1%] py-4 top-[8%] bg-zinc-700 rounded-2xl">
+            <div className="absolute z-0 h-[785px] w-[26%] right-[1%] py-4 top-[8%] bg-zinc-700 rounded-2xl">
                 <div>
                     <ul className="flex flex-wrap w-[100%] justify-center md:gap-2">
                         {toprated.map((data, index) => (
                             <li key={data.id} className="w-fit flex-col flex-wrap text-center list-none">
                                 <img
-                                    className="rounded-lg h-[120px] w-[95px]"
+                                    className="rounded-lg h-[122px] w-[90px]"
                                     src={"https://image.tmdb.org/t/p/w500" + data?.poster_path}
                                     alt={data?.title}
                                     onClick={() => { setIndex(index) }}
@@ -84,12 +84,12 @@ export default function TopratedMovies() {
                     </ul>
                 </div>
             </div>
-            <div className="absolute text-white w-[20%] flex justify-center z-30 bottom-[1.5%] right-[4%]">
+            <div className="absolute text-white w-[20%] flex justify-center z-0 bottom-[1.5%] right-[4%]">
                 <ReactPaginate
                     previousLabel={<IoMdArrowDropleftCircle size={30} />}
                     nextLabel={<IoMdArrowDroprightCircle size={30} />}
                     breakLabel={"..."}
-                    pageCount={totalPages}
+                    pageCount={50}
                     marginPagesDisplayed={2}
                     pageRangeDisplayed={3}
                     onPageChange={handlePageClick}

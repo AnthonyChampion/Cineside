@@ -66,7 +66,7 @@ export default function NavBar() {
                         <IoMdSearch className="size-6 md:hidden cursor-pointer" onClick={toggleSearch} />
                     </div>
                 </div>
-                <div className="hidden md:flex md:justify-center md:items-center md:w-screen pr-8 p-2 text-lg ">
+                <div className="hidden md:flex md:justify-between md:items-center md:w-screen pr-8 p-2 text-lg ">
                     <div className="flex">
                         <ul className="flex space-x-12 ml-8">
                             <Link to="favoris" className='flex items-center '>
@@ -82,7 +82,10 @@ export default function NavBar() {
                                     <img src="../src/assets/tmdb.png" className="w-8 h-7" alt="tmdb-logo" />
                                 </div>
                             </Link>
-                            <MovieSearch />
+                            <div className="w-[50rem] flex justify-end">
+                                <MovieSearch />
+                            </div>
+
                         </ul>
                     </div>
                 </div>
