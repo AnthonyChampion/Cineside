@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { fetchMovieCredits, fetchMovieDetails, fetchSimilarMovies } from '../utils/moviedb';
+import { fetchMovieCredits, fetchMovieDetails, fetchMovieTrailer, fetchSimilarMovies } from '../utils/moviedb';
 
 const useMovieData = (movieId) => {
     const [credits, setCredits] = useState(null);
     const [similarMovies, setSimilarMovies] = useState([]);
+    const [trailer, setTrailer] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
 
     const updateCredits = useCallback(async (movieId) => {
         try {
@@ -27,6 +27,15 @@ const useMovieData = (movieId) => {
         }
     }, []);
 
+    const getTrailers = useCallback(async (movieId) => {
+        try {
+            const trailerData = await fetchMovieTrailer(movieId);
+            setTrailer(trailerData.results);
+        } catch (error) {
+            setError('Erreur dans la récupération des trailers');
+        }
+    }, []);
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -35,6 +44,9 @@ const useMovieData = (movieId) => {
 
                 const similarMoviesData = await fetchSimilarMovies(movieId);
                 setSimilarMovies(similarMoviesData.results);
+
+                const trailerData = await fetchMovieTrailer(movieId);
+                setTrailer(trailerData.results);
             } catch (error) {
                 setError('Erreur dans la récupération des données');
             } finally {
@@ -45,25 +57,26 @@ const useMovieData = (movieId) => {
         fetchData();
     }, [movieId]);
 
-    return { credits, similarMovies, loading, error, updateCredits, updateSimilarMovies };
+    return { credits, similarMovies, trailer, loading, error, updateCredits, updateSimilarMovies, getTrailers };
 };
 
 const MovieDetails = ({ movie, onClose }) => {
     const [movieDetails, setMovieDetails] = useState(movie);
-    const { credits, similarMovies, loading, error, updateCredits, updateSimilarMovies } = useMovieData(movie.id);
+    const { credits, similarMovies, trailer, loading, error, updateCredits, updateSimilarMovies, getTrailers } = useMovieData(movie.id);
 
     const handleMovieClick = useCallback(async (similarMovie) => {
         try {
             const data = await fetchMovieDetails(similarMovie.id);
             setMovieDetails(data);
 
-            // Update credits based on the clicked similar movie
+            // Update credits, similar movies, and trailers based on the clicked similar movie
             await updateCredits(similarMovie.id);
             await updateSimilarMovies(similarMovie.id);
+            await getTrailers(similarMovie.id);
         } catch (error) {
             console.error('Erreur dans la récupération des détails:', error);
         }
-    }, [setMovieDetails, updateCredits, updateSimilarMovies]);
+    }, [setMovieDetails, updateCredits, updateSimilarMovies, getTrailers]);
 
     return (
         <div className="fixed inset-0 z-50 h-screen flex justify-center items-center bg-black bg-opacity-70">
@@ -90,13 +103,34 @@ const MovieDetails = ({ movie, onClose }) => {
                     <p className="text-start"><strong>Synopsis: </strong> {movieDetails.overview}</p>
                 </div>
                 {loading ? (
-                    <div className="p-2">Loading...</div>
+                    <div className="p-2">Chargement...</div>
                 ) : error ? (
                     <div className="p-2 text-red-500">{error}</div>
                 ) : (
                     <>
+                        {trailer.length > 0 && (
+                            <div className="mt-16 w-[100%]">
+                                <h3 className="text-xl font-bold pb-6 -mt-8 text-start pl-6">Trailers</h3>
+                                <ul className="flex flex-wrap justify-center w-[100%] pb-4">
+                                    {trailer.slice(0, 1).map(video => (
+                                        <li key={video.id} className="flex flex-col justify-center items-center w-fit h-fit pb-2">
+                                            <iframe
+                                                width="800"
+                                                height="480"
+                                                src={`https://www.youtube.com/embed/${video.key}`}
+                                                title={video.name}
+                                                frameBorder="0"
+                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                allowFullScreen
+                                            ></iframe>
+                                            <p className="w-[50%] text-center text truncate mt-2">{video.name}</p>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </div>
+                        )}
                         {credits && (
-                            <div className="space-y-4 pl-6 pr-6 mt-14">
+                            <div className="space-y-4 pl-6 pr-6">
                                 <h3 className="text-xl font-bold text-start">Credits</h3>
                                 <ul className="flex flex-row justify-center w-[100%] space-x-5">
                                     {credits.slice(0, 10).map(actor => (
@@ -109,7 +143,7 @@ const MovieDetails = ({ movie, onClose }) => {
                                             />
                                             <div className="flex-col justify-center text-center w-[fit]">
                                                 <p className="font-semibold">{actor.name}</p>
-                                                <p className="text-sm text-gray-600">{actor.character}</p>
+                                                <p className="text-sm text-gray-600 line-clamp-3">{actor.character}</p>
                                             </div>
                                         </li>
                                     ))}

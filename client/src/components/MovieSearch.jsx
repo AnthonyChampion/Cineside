@@ -55,7 +55,7 @@ export default function MovieSearch() {
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="rounded-xl h-11 w-[20rem] bg-zinc-800 text-center text-white text-[16px] border border-neutral-400 "
+                    className="rounded-xl h-11 w-[21.5rem] bg-zinc-800 text-center text-white text-[16px] border border-neutral-400 "
                     placeholder="Tapez votre film"
                 />
                 <button type="submit" className="ml-2 bg-green-400 p-2 rounded-xl text-black text-[16px]">Rechercher</button>

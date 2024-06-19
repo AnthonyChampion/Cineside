@@ -12,7 +12,7 @@ const searchMoviesEndPoint = `https://api.themoviedb.org/3/search/movie?api_key=
 const movieDetailsEndpoint = movieId => `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`;
 const movieCreditsEndpoint = movieId => `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}`;
 const similarMoviesEndpoint = movieId => `https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=${apiKey}`;
-
+const movieTrailer = movieId => `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apiKey}`;
 
 const apiCall = async (endpoint, params) => {
     const options = {
@@ -57,14 +57,10 @@ export const fetchSimilarMovies = id => {
 }
 
 export const searchMovies = params => {
-    // Adding the language parameter
     const updatedParams = { ...params, language: 'fr' };
     return apiCall(searchMoviesEndPoint, updatedParams);
 };
 
 export const fetchMovieTrailer = async (movieId) => {
-    const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apiKey}`);
-    const data = await response.json();
-    const trailer = data.results.find(video => video.type === 'Trailer' && video.site === 'YouTube');
-    return trailer ? `https://www.youtube.com/embed/${trailer.key}` : null;
+    return apiCall(movieTrailer(movieId));
 };

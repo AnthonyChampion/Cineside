@@ -66,9 +66,9 @@ export default function NavBar() {
                         <IoMdSearch className="size-6 md:hidden cursor-pointer" onClick={toggleSearch} />
                     </div>
                 </div>
-                <div className="hidden md:flex md:justify-between md:items-center md:w-screen pr-8 p-2 text-lg ">
+                <div className="hidden md:flex md:justify-between md:items-center md:w-fit p-2 text-lg">
                     <div className="flex">
-                        <ul className="flex space-x-12 ml-8">
+                        <ul className="flex space-x-12">
                             <Link to="favoris" className='flex items-center '>
                                 <button className="transition cursor-pointer w-[6.5rem] text-[16px]">Connexion</button>
                                 <IoLogIn size={36} />
@@ -82,7 +82,7 @@ export default function NavBar() {
                                     <img src="../src/assets/tmdb.png" className="w-8 h-7" alt="tmdb-logo" />
                                 </div>
                             </Link>
-                            <div className="w-[50rem] flex justify-end">
+                            <div className="w-[58rem] flex justify-end">
                                 <MovieSearch />
                             </div>
 
