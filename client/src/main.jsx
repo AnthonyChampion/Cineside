@@ -6,6 +6,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import HomePage from './pages/HomePage.jsx';
 import TopRated from './pages/TopRated.jsx';
 import MoviesByGenre from './pages/MoviesByGenre.jsx';
+import FavoritePage from "./pages/FavoritePage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         element: <TopRated />,
         path: "/top_TMDB",
+      },
+      {
+        element: <FavoritePage />,
+        path: "/favoris",
       },
     ],
   },

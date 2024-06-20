@@ -67,7 +67,7 @@ export default function NavBar({ showSearch }) {
                 </div>
                 <div className="hidden md:flex md:justify-between md:items-center md:w-fit p-2 text-lg md:pl-14">
                     <div className="flex">
-                        <ul className="flex space-x-12">
+                        <ul className="flex">
                             <Link to="favoris" className='flex items-center'>
                                 <button className="transition cursor-pointer w-[6.5rem] text-[16px]">Connexion</button>
                                 <IoLogIn size={36} />
@@ -80,6 +80,10 @@ export default function NavBar({ showSearch }) {
                                     <li className="transition cursor-pointer mr-1 text-[16px]">Top</li>
                                     <img src="../src/assets/tmdb.png" className="w-8 h-7" alt="tmdb-logo" />
                                 </div>
+                            </Link>
+                            <Link to="favoris">
+                                <li className="transition cursor-pointer w-[6.5rem] text-[16px] mt-2">Favoris</li>
+
                             </Link>
                             <div className="w-[58rem] flex justify-end">
                                 <MovieSearch show={showSearch} />
