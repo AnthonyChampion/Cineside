@@ -45,8 +45,8 @@ export default function TopratedMovies() {
     return (
         <section className="w-screen h-fit text-white flex flex-col items-center">
             <div className="relative w-full">
-                <img src={"https://image.tmdb.org/t/p/original" + toprated[index]?.backdrop_path} alt={toprated[index]?.title} className="w-full h-[400px] md:h-[680px] object-cover rounded-b-2xl -mt-14" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent rounded-b-2xl"></div>
+                <img src={"https://image.tmdb.org/t/p/original" + toprated[index]?.backdrop_path} alt={toprated[index]?.title} className="w-full h-[400px] md:h-[680px] object-cover -mt-14" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>
                 <div className="absolute bottom-8 md:left-8 left-5 text-white w-[90%] md:w-[50%] bg-black bg-opacity-50 p-6 rounded-lg shadow-lg">
                     <h1 className="font-bold text-green-500 text-2xl md:text-4xl">{toprated[index]?.title}</h1>
                     <p className="text-lg">{toprated[index]?.release_date}</p>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
 import { TiThMenuOutline } from 'react-icons/ti';
@@ -90,3 +91,7 @@ export default function NavBar({ showSearch }) {
         </nav>
     );
 }
+
+NavBar.propTypes = {
+    showSearch: PropTypes.bool.isRequired,
+};

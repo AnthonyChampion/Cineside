@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { IoMdSearch } from 'react-icons/io';
 import { fetchMovieDetails, searchMovies } from '../utils/moviedb';
 import MovieDetails from './MovieDetails';
 

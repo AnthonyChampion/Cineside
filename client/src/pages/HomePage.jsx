@@ -78,7 +78,7 @@ export default function HomePage() {
                                     className="w-full h-full object-cover brightness-50"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black"></div>
-                                <div className="absolute top-1/4 left-4 right-4 md:left-28 md:w-3/4 md:md:w-1/3 text-white space-y-4 p-4 md:p-6 bg-black bg-opacity-50 rounded-lg shadow-xl">
+                                <div className="absolute top-1/4 left-4 right-4 md:left-28 md:w-1/3 text-white space-y-4 p-4 md:p-6 bg-black bg-opacity-50 rounded-lg shadow-xl">
                                     <h1 className="text-2xl md:text-5xl font-extrabold text-green-400">{trending[index].title}</h1>
                                     <p className="text-sm md:text-lg">{trending[index].release_date}</p>
                                     <div className="flex items-center space-x-2">

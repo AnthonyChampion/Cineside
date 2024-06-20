@@ -62,6 +62,7 @@ const useMovieData = (movieId) => {
 
 const MovieDetails = ({ movie, onClose }) => {
     const [movieDetails, setMovieDetails] = useState(movie);
+    const [favorites, setFavorites] = useState(() => JSON.parse(localStorage.getItem('favorites')) || []);
     const { credits, similarMovies, trailer, loading, error, updateCredits, updateSimilarMovies, getTrailers } = useMovieData(movie.id);
 
     const handleMovieClick = useCallback(async (similarMovie) => {
@@ -78,6 +79,19 @@ const MovieDetails = ({ movie, onClose }) => {
         }
     }, [setMovieDetails, updateCredits, updateSimilarMovies, getTrailers]);
 
+    const toggleFavorite = () => {
+        let updatedFavorites;
+        if (favorites.some(fav => fav.id === movieDetails.id)) {
+            updatedFavorites = favorites.filter(fav => fav.id !== movieDetails.id);
+        } else {
+            updatedFavorites = [...favorites, movieDetails];
+        }
+        setFavorites(updatedFavorites);
+        localStorage.setItem('favorites', JSON.stringify(updatedFavorites));
+    };
+
+    const isFavorite = favorites.some(fav => fav.id === movieDetails.id);
+
     return (
         <div className="fixed inset-0 z-50 h-screen flex justify-center items-center bg-black bg-opacity-70">
             <div className="bg-white text-black rounded-lg overflow-scroll noscrollbar h-[98%] w-11/12 md:w-3/4 lg:w-2/3">
@@ -93,6 +107,13 @@ const MovieDetails = ({ movie, onClose }) => {
                         aria-label="Close"
                     >
                         &times;
+                    </button>
+                    <button
+                        className={`absolute top-4 right-20 bg-${isFavorite ? 'red' : 'green'}-400 text-white rounded-full w-10 h-10 flex items-center justify-center`}
+                        onClick={toggleFavorite}
+                        aria-label="Favorite"
+                    >
+                        {isFavorite ? '★' : '☆'}
                     </button>
                 </div>
                 <div className="pt-6 pl-6 space-y-2 h-[fit] flex flex-col items-start text-[17px]">
