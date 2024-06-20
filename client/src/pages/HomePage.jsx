@@ -15,7 +15,7 @@ export default function HomePage() {
     const [showDetails, setShowDetails] = useState(false);
 
     const setSlidesPerview = () => {
-        setSlides(window.innerWidth < 640 ? 1 : 3);
+        setSlides(window.innerWidth < 640 ? 2 : 3);
     };
 
     const getTrendingMovies = async () => {
@@ -60,7 +60,7 @@ export default function HomePage() {
     }, [index, trending]);
 
     return (
-        <section className="w-screen text-white text-justify">
+        <section className="w-screen h-screen text-white bg-zinc-900">
             {loading ? (
                 <div className="flex justify-center items-center h-screen">
                     <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-green-500" role="status">
@@ -69,52 +69,41 @@ export default function HomePage() {
                 </div>
             ) : (
                 <>
-                    <div className="hidden md:block md:w-[100vw] md:h-[100vh] -mt-[6vh]">
-                        <div className="relative inset-0">
-                            {trending[index] && (
-                                <>
-                                    <img
-                                        src={`https://image.tmdb.org/t/p/original${trending[index].backdrop_path}`}
-                                        alt={trending[index].title}
-                                        className="hidden md:z-10 md:block md:w-screen md:h-screen md:cover"
-                                    />
-                                    <img
-                                        src={`https://image.tmdb.org/t/p/w500${trending[index].poster_path}`}
-                                        alt={trending[index].title}
-                                        className="md:hidden w-screen h-screen"
-                                    />
-                                    <div className="absolute md:top-[25%] md:w-[30%] flex-col md:left-[7%] text-white translate-y-[50px] blur-[20px] opacity-0 animate-showContent">
-                                        <div className="bg-zinc-800 rounded-xl bg-opacity-70 space-y-4 p-4 shadow-3xl">
-                                            <h1 className="font-bold text-green-500 md:text-5xl text-lg">{trending[index].title}</h1>
-                                            <p className="text-lg">{trending[index].release_date}</p>
-                                            <div className="flex items-center space-x-1">
-                                                <FaStar size={20} color="yellow" />
-                                                <p className="text-lg">{Math.round(trending[index].vote_average * 100) / 100} / 10</p>
-                                            </div>
-
-                                            <p className="md:text-lg md:line-clamp-4">{trending[index].overview}</p>
-                                            <div>
-                                                <button
-                                                    className="md:block bg-white text-black md:text-lg text-sm md:w-[8rem] md:p-3 p-2 rounded-lg mt-4 md:mb-4 mb-2"
-                                                    onClick={() => setShowDetails(true)}
-                                                >
-                                                    Voir plus
-                                                </button>
-                                            </div>
-                                        </div>
+                    <div className="relative w-full h-full overflow-hidden -mt-14">
+                        {trending[index] && (
+                            <>
+                                <img
+                                    src={`https://image.tmdb.org/t/p/original${trending[index].backdrop_path}`}
+                                    alt={trending[index].title}
+                                    className="w-full h-full object-cover brightness-50"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black"></div>
+                                <div className="absolute top-1/4 left-4 right-4 md:left-28 md:w-3/4 md:md:w-1/3 text-white space-y-4 p-4 md:p-6 bg-black bg-opacity-50 rounded-lg shadow-xl">
+                                    <h1 className="text-2xl md:text-5xl font-extrabold text-green-400">{trending[index].title}</h1>
+                                    <p className="text-sm md:text-lg">{trending[index].release_date}</p>
+                                    <div className="flex items-center space-x-2">
+                                        <FaStar size={20} color="yellow" className="md:text-lg" />
+                                        <p className="text-sm md:text-lg">{Math.round(trending[index].vote_average * 100) / 100} / 10</p>
                                     </div>
-                                </>
-                            )}
-                        </div>
+                                    <p className="text-sm md:text-lg md:line-clamp-4 line-clamp-3 text-justify">{trending[index].overview}</p>
+                                    <button
+                                        className="bg-green-500 text-black text-sm md:text-lg p-2 md:p-3 rounded-lg mt-2 md:mt-4 hover:bg-green-600 transition duration-300"
+                                        onClick={() => setShowDetails(true)}
+                                    >
+                                        Voir plus
+                                    </button>
+                                </div>
+                            </>
+                        )}
                     </div>
-                    <div className="absolute md:w-[51%] w-screen md:top-[55%] top-0 md:left-[49%] md:h-fit flex justify-center md:pt-2 blur-[20px] opacity-0 animate-showContent">
-                        <div className="w-full">
-                            <swiper-container centered-slides="true" slides-per-view={slides} loop="true">
+                    <div className="absolute bottom-2 w-full md:w-2/4 md:h-[45%] md:right-8 items-center flex justify-center">
+                        <div className="w-4/5 md:w-full">
+                            <swiper-container centered-slides="false" slides-per-view={slides} loop="true" space-between={10}>
                                 {trending.map((data, idx) => (
                                     <swiper-slide key={data.id}>
-                                        <div className="relative inset-0">
+                                        <div className="relative inset-0 transition-transform transform hover:scale-105">
                                             <img
-                                                className="md:h-[360px] md:w-[250px] w-screen h-screen border border-zinc-400 md:rounded-xl"
+                                                className="w-[140px] h-[200px] md:w-[250px] md:h-[370px] object-cover rounded-lg shadow-lg cursor-pointer"
                                                 src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
                                                 alt={data.title}
                                                 onClick={() => setIndex(idx)}

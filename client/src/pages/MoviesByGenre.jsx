@@ -25,7 +25,7 @@ export default function MoviesByGenre() {
 
     return (
         <section className="w-[80vw]">
-            <div className="absolute flex flex-col mt-11 ml-12 p-2 w-[11%] rounded-xl bg-zinc-800 bg-opacity-60 z-10">
+            <div className="absolute flex md:flex-col flex-wrap justify-center mt-11 md:ml-12 p-2 md:w-[11%] w-screen rounded-xl bg-zinc-800 md:bg-opacity-60 z-10">
                 {filters.map((filter) => (
                     <div key={filter.id}
                         className="list-none"

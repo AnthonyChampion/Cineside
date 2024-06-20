@@ -3,6 +3,7 @@ import { fetchMoviesByGenre, fetchMovieDetails } from "../utils/moviedb";
 import PropTypes from "prop-types";
 import ReactPaginate from "react-paginate";
 import MovieDetails from "./MovieDetails";
+import { IoMdArrowDropleftCircle, IoMdArrowDroprightCircle } from "react-icons/io";
 
 export default function MoviesFiltered({ activeFilter = {} }) {
     const [page, setPage] = useState(0);
@@ -77,44 +78,49 @@ export default function MoviesFiltered({ activeFilter = {} }) {
     };
 
     return (
-        <section className="absolute w-[82%] h-[820px] bg-zinc-900 mt-12 ml-[15%] overflow-scroll">
+        <section className="absolute md:w-[82%] w-full md:h-[820px] bg-zinc-900 md:mt-12 mt-72 md:ml-[15%] overflow-scroll">
             {loading && <div className="text-white text-center">Chargement...</div>}
             {error && <div className="text-red-500 text-center">{error}</div>}
             {!loading && !error && (
                 <>
                     <div className="flex flex-wrap justify-center">
                         {moviesFiltered.map((data) => (
-                            <div key={data.id} className="w-[270px] pb-2">
-                                <img
-                                    className="rounded-xl w-[250px] h-[350px] cursor-pointer"
-                                    src={"https://image.tmdb.org/t/p/w500" + data.poster_path}
-                                    alt={data.title}
-                                    onClick={() => handleMovieClick(data)}
-                                />
-                                <h2 className="text-center text-white text-lg md:text-s py-1 m-1 rounded-md">{data.title}</h2>
+                            <div key={data.id} className="md:w-[400px] w-[180px] pb-2 pl-1">
+                                <div className="relative ">
+                                    <img
+                                        className="rounded-xl md:w-[380px] md:h-[560px] w-[170px] h-[250px] cursor-pointer transform transition duration-300 hover:scale-105"
+                                        src={"https://image.tmdb.org/t/p/w500" + data.poster_path}
+                                        alt={data.title}
+
+                                    />
+                                    <div className="absolute top-0 left-0 md:w-[380px] w-[170px] h-full flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 rounded-xl">
+                                        <h2 className="text-white text-lg md:text-xl text-center w-[80%] cursor-pointer"
+                                            onClick={() => handleMovieClick(data)}>{data.title}</h2>
+                                    </div>
+                                </div>
                             </div>
                         ))}
                     </div>
-                    <div className="text-white w-[100%] flex justify-center mb-4">
+                    <div className="text-white w-[100%] flex justify-center mb-4 ">
                         <ReactPaginate
-                            previousLabel={"<"}
-                            nextLabel={">"}
+                            previousLabel={<IoMdArrowDropleftCircle size={30} />}
+                            nextLabel={<IoMdArrowDroprightCircle size={30} />}
                             breakLabel={"..."}
                             pageCount={20}
                             marginPagesDisplayed={2}
-                            pageRangeDisplayed={5}
+                            pageRangeDisplayed={3}
                             onPageChange={handlePageClick}
-                            containerClassName={"flex justify-center mt-4"}
+                            containerClassName={"flex justify-center items-center mt-4"}
                             pageClassName={"mx-1"}
-                            pageLinkClassName={"px-3 py-1 bg-zinc-800 text-white hover:bg-green-400"}
+                            pageLinkClassName={"bg-zinc-800  px-3 py-1 rounded-lg hover:bg-green-500"}
                             previousClassName={"mx-1"}
-                            previousLinkClassName={"px-3 py-1 bg-zinc-800 text-white hover:bg-green-400"}
+                            previousLinkClassName={"px-3 py-1 rounded-lg hover:bg-green-500"}
                             nextClassName={"mx-1"}
-                            nextLinkClassName={"px-3 py-1 bg-zinc-800 text-white hover:bg-green-400"}
+                            nextLinkClassName={"px-3 py-1 rounded-lg hover:bg-green-500"}
                             breakClassName={"mx-1"}
-                            breakLinkClassName={"px-3 py-1 bg-zinc-800 text-white"}
-                            activeClassName={"bg-green-400"}
-                            activeLinkClassName={"text-green-400 active:bg-green-400 focus:outline-none focus:ring focus:ring-green-400"}
+                            breakLinkClassName={"px-3 py-1 bg-zinc-800  px-3 py-1 rounded-lg"}
+                            activeClassName={"active"}
+                            activeLinkClassName={"bg-green-500 px-3 py-1 rounded-lg"}
                         />
                     </div>
                 </>

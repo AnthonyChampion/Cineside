@@ -99,8 +99,8 @@ const MovieDetails = ({ movie, onClose }) => {
                     <h2 className="text-2xl font-bold">{movieDetails.title}</h2>
                     <p><strong>Date de sortie:</strong> {movieDetails.release_date}</p>
                     <p><strong>Note:</strong> {Math.round((movieDetails.vote_average) * 100) / 100} / 10</p>
-                    <p className=""><strong>Genres:</strong> {movieDetails.genres?.map(genre => genre.name).join(', ')}</p>
-                    <p className="text-start"><strong>Synopsis: </strong> {movieDetails.overview}</p>
+                    <p className="text-start"><strong>Genres:</strong> {movieDetails.genres?.map(genre => genre.name).join(', ')}</p>
+                    <p className="text-justify pr-4"><strong>Synopsis: </strong> {movieDetails.overview}</p>
                 </div>
                 {loading ? (
                     <div className="p-2">Chargement...</div>
@@ -109,30 +109,30 @@ const MovieDetails = ({ movie, onClose }) => {
                 ) : (
                     <>
                         {trailer.length > 0 && (
-                            <div className="mt-16 w-[100%]">
-                                <h3 className="text-xl font-bold pb-6 -mt-8 text-start pl-6">Trailers</h3>
-                                <ul className="flex flex-wrap justify-center w-[100%] pb-4">
+                            <div className="mt-8 md:mt-8 w-full">
+                                <h3 className="text-xl font-bold pb-4 text-start pl-6">Bande annonce</h3>
+                                <div className="flex flex-col items-center">
                                     {trailer.slice(0, 1).map(video => (
-                                        <li key={video.id} className="flex flex-col justify-center items-center w-fit h-fit pb-2">
+                                        <div key={video.id} className="w-full md:w-[75%] lg:w-[50%] mx-auto mb-4">
                                             <iframe
-                                                width="800"
-                                                height="480"
+                                                width="100%"
+                                                height="315" // Adjusted height for better mobile view
                                                 src={`https://www.youtube.com/embed/${video.key}`}
                                                 title={video.name}
                                                 frameBorder="0"
-                                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                                 allowFullScreen
                                             ></iframe>
-                                            <p className="w-[50%] text-center text truncate mt-2">{video.name}</p>
-                                        </li>
+                                            <p className="text-center text-truncate mt-2 p-2">{video.name}</p>
+                                        </div>
                                     ))}
-                                </ul>
+                                </div>
                             </div>
                         )}
+
                         {credits && (
-                            <div className="space-y-4 pl-6 pr-6">
+                            <div className="space-y-4 pl-6 pr-6 mt-8">
                                 <h3 className="text-xl font-bold text-start">Credits</h3>
-                                <ul className="flex flex-row justify-center w-[100%] space-x-5">
+                                <ul className="flex md:flex-row flex-wrap justify-center w-[100%] space-x-5 md:space-x-3">
                                     {credits.slice(0, 10).map(actor => (
                                         <li key={actor.id} className="flex flex-col items-center w-24 h-30">
                                             <img
@@ -143,7 +143,7 @@ const MovieDetails = ({ movie, onClose }) => {
                                             />
                                             <div className="flex-col justify-center text-center w-[fit]">
                                                 <p className="font-semibold">{actor.name}</p>
-                                                <p className="text-sm text-gray-600 line-clamp-3">{actor.character}</p>
+                                                <p className="text-sm text-gray-600 line-clamp-3 pb-2">{actor.character}</p>
                                             </div>
                                         </li>
                                     ))}

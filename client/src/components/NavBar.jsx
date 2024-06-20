@@ -25,23 +25,24 @@ export default function NavBar() {
 
     const mobileContent = (
         <div className="md:hidden z-10 block absolute justify-center w-[90%] right-5 top-14 transition">
-            <ul className="h-[500px] text-center text-white text-2xl bg-zinc-900 bg-opacity-90 border border-black rounded-xl pt-20">
-                <Link to="films">
-                    <div>
-                        <button onClick={openModal}>
-                            Films
-                        </button>
-                    </div>
-                </Link>
-                <Link to="top_TMDB">
-                    <div className='flex justify-center mt-4'>
-                        <li className="transition cursor-pointer pr-1">Top</li>
-                        <img src="../src/assets/tmdb.png" className="w-10" alt="tmdb-logo" />
-                    </div>
-                </Link>
-                <Link to="favoris">
-                    <li className="mt-4" onClick={() => setOpenMenu(false)}>Mes favoris</li>
-                </Link>
+            <ul className="h-[500px] text-center text-white text-2xl bg-zinc-900 bg-opacity-90 border border-black rounded-xl pt-8">
+                {/* Menu items */}
+                <li className="py-4">
+                    <Link to="films" onClick={() => { openModal(); setOpenMenu(false); }} className="block transition duration-300 ease-in-out transform hover:scale-105">
+                        <span>Films</span>
+                    </Link>
+                </li>
+                <li className="py-4 flex items-center justify-center">
+                    <Link to="top_TMDB" onClick={() => setOpenMenu(false)} className="flex items-center transition duration-300 ease-in-out transform hover:scale-105">
+                        <span className="pr-2">Top</span>
+                        <img src="../src/assets/tmdb.png" className="w-8" alt="tmdb-logo" />
+                    </Link>
+                </li>
+                <li className="py-4">
+                    <Link to="favoris" onClick={() => { setOpenMenu(false); }} className="block transition duration-300 ease-in-out transform hover:scale-105">
+                        <span>Mes favoris</span>
+                    </Link>
+                </li>
             </ul>
         </div>
     );
