@@ -50,15 +50,15 @@ export default function MovieSearch() {
 
     return (
         <section>
-            <form onSubmit={handleSearch} className="flex items-center">
+            <form onSubmit={handleSearch} className="md:flex md:flex-row flex-col items-center">
                 <input
                     type="text"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
-                    className="rounded-xl h-11 w-[21.5rem] bg-zinc-800 text-center text-white text-[16px] border border-neutral-400 "
+                    className="rounded-xl h-11 md:w-[21.5rem] w-[18rem] bg-zinc-800 text-center text-white text-[16px] border border-neutral-400 "
                     placeholder="Tapez votre film"
                 />
-                <button type="submit" className="ml-2 bg-green-400 p-2 rounded-xl text-black text-[16px]">Rechercher</button>
+                <button type="submit" className="ml-2 mt-2 md:mt-0 bg-green-400 p-2 rounded-xl text-black text-[16px]">Rechercher</button>
             </form>
             {error && <p className="text-red-500 mt-2">{error}</p>}
             {movies.length > 0 && (
@@ -67,14 +67,21 @@ export default function MovieSearch() {
                         <div className="relative">
                             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 overflow-y-auto ">
                                 {movies.map((movie) => (
-                                    <div key={movie.id} className="relative flex flex-col h-[400px] justify-center items-center">
-                                        <img
-                                            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                                            alt={movie.title}
-                                            className="w-[260px] h-[350px] object-cover rounded-xl"
-                                            onClick={() => handleMovieClick(movie)}
-                                        />
-                                        <h2 className="w-[260px] text truncate ">{movie.title}</h2>
+                                    <div key={movie.id} className="relative flex flex-col md:h-[370px] h-[240px] justify-center items-center">
+                                        <div className="relative">
+                                            <img
+                                                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                                                alt={movie.title}
+                                                className="md:w-[260px] md:h-[350px] w-[160px] h-[220px] object-cover rounded-xl"
+
+                                            />
+
+                                            <div className="absolute top-0 left-0 md:w-[260px] w-[160px] h-full flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 rounded-xl">
+                                                <h2 className="text-white text-lg md:text-xl text-center w-[80%] cursor-pointer"
+                                                    onClick={() => handleMovieClick(movie)}>{movie.title}</h2>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 ))}
                             </div>

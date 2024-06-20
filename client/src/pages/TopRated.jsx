@@ -66,7 +66,7 @@ export default function TopratedMovies() {
             <div className="w-full px-4 mt-6 md:mt-10">
                 <ul className="flex flex-wrap justify-center gap-4">
                     {toprated.map((movie, idx) => (
-                        <li key={movie.id} className="w-24 md:w-32" onClick={() => setIndex(idx)}>
+                        <li key={movie.id} className="w-24 md:w-36" onClick={() => setIndex(idx)}>
                             <img
                                 className={`cursor-pointer rounded-lg transition-transform transform hover:scale-105 ${index === idx && "border-4 border-green-500"}`}
                                 src={"https://image.tmdb.org/t/p/w500" + movie.poster_path}
@@ -77,7 +77,7 @@ export default function TopratedMovies() {
                     ))}
                 </ul>
             </div>
-            <div className="w-full flex justify-center mt-4">
+            <div className="w-full flex justify-center md:mt-4">
                 <ReactPaginate
                     previousLabel={<IoMdArrowDropleftCircle size={30} />}
                     nextLabel={<IoMdArrowDroprightCircle size={30} />}

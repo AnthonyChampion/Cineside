@@ -2,14 +2,12 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
 import { TiThMenuOutline } from 'react-icons/ti';
-import { IoMdSearch } from 'react-icons/io';
 import { IoLogIn } from 'react-icons/io5';
 import MovieSearch from './MovieSearch'; // Assuming MovieSearch component is in the same directory
 
-export default function NavBar() {
+export default function NavBar({ showSearch }) {
     const [filterModalIsOpen, setFilterModalIsOpen] = useState(false);
     const [openMenu, setOpenMenu] = useState(false);
-    const [showSearch, setShowSearch] = useState(false); // State to control visibility of MovieSearch component
 
     function openModal() {
         setFilterModalIsOpen(!filterModalIsOpen);
@@ -19,9 +17,6 @@ export default function NavBar() {
         setOpenMenu(!openMenu);
     }
 
-    const toggleSearch = () => {
-        setShowSearch(!showSearch);
-    };
 
     const mobileContent = (
         <div className="md:hidden z-10 block absolute justify-center w-[90%] right-5 top-14 transition">
@@ -43,34 +38,36 @@ export default function NavBar() {
                         <span>Mes favoris</span>
                     </Link>
                 </li>
+                <li className="py-4">
+                    <div className="w-full flex justify-center">
+                        <MovieSearch show={showSearch} />
+                    </div>
+                </li>
             </ul>
         </div>
     );
 
     return (
         <nav className="w-screen h-[6vh] relative z-10">
-            <div className="flex items-center justify-center p-2 text-white bg-zinc-900 bg-opacity-70">
+            <div className="flex md:items-center md:justify-center pt-2 pb-2  text-white bg-zinc-900 bg-opacity-70">
                 <div>
                     {openMenu && mobileContent}
                 </div>
-                <div className="flex items-center space-x-20">
+                <div className="flex items-center md:space-x-20 w-[95%] md:w-fit ">
                     <Link to="/">
-                        <button className="block md:hidden transition" onClick={handleClick}>
+                        <button className="block md:hidden transition pl-4" onClick={handleClick}>
                             {openMenu ? <FaTimes className="size-5" /> : <TiThMenuOutline className="size-6 items-center mt-1" />}
                         </button>
                     </Link>
-                    <div className="flex">
+                    <div className="w-full flex justify-center">
                         <img src="../src/assets/cinelogo.png" className="w-6 h-6 mt-1" alt="cinelogo" />
                         <Link className="text-2xl" to="/"><span className="text-green-400 pl-[2px]">ine</span>side</Link>
                     </div>
-                    <div>
-                        <IoMdSearch className="size-6 md:hidden cursor-pointer" onClick={toggleSearch} />
-                    </div>
                 </div>
-                <div className="hidden md:flex md:justify-between md:items-center md:w-fit p-2 text-lg">
+                <div className="hidden md:flex md:justify-between md:items-center md:w-fit p-2 text-lg md:pl-14">
                     <div className="flex">
                         <ul className="flex space-x-12">
-                            <Link to="favoris" className='flex items-center '>
+                            <Link to="favoris" className='flex items-center'>
                                 <button className="transition cursor-pointer w-[6.5rem] text-[16px]">Connexion</button>
                                 <IoLogIn size={36} />
                             </Link>
@@ -84,9 +81,8 @@ export default function NavBar() {
                                 </div>
                             </Link>
                             <div className="w-[58rem] flex justify-end">
-                                <MovieSearch />
+                                <MovieSearch show={showSearch} />
                             </div>
-
                         </ul>
                     </div>
                 </div>
