@@ -1,8 +1,28 @@
-# React + Vite
+# Cineside
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Ce projet est une application de films construite avec les technologies suivantes :
 
-Currently, two official plugins are available:
+React -
+Vite - 
+Express -
+Tailwind CSS -
+TMDB API
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+
+## Table des Matières
+
+Fonctionnalités - 
+Utilisation - 
+Structure du Projet
+
+
+## Fonctionnalités
+
+#### Parcourir les films populaires
+#### Rechercher des films par titre
+#### Voir des informations détaillées sur un film spécifique
+#### Design réactif avec Tailwind CSS
+
+## Contribution
+
+Amusez-vous à développer et à regarder des films avec l'application de films ! Si vous avez des questions ou avez besoin d'aide supplémentaire, n'hésitez pas à ouvrir une issue.
