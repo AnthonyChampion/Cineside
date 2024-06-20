@@ -48,7 +48,7 @@ export default function NavBar() {
 
     return (
         <nav className="w-screen h-[6vh] relative z-10">
-            <div className="flex items-center justify-center p-2 text-white bg-zinc-900 bg-opacity-50">
+            <div className="flex items-center justify-center p-2 text-white bg-zinc-900 bg-opacity-70">
                 <div>
                     {openMenu && mobileContent}
                 </div>

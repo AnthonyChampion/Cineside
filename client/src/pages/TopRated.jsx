@@ -43,67 +43,60 @@ export default function TopratedMovies() {
     };
 
     return (
-        <section className="w-screen h-fit text-white text-justify flex space-x-4">
-            <img src={"https://image.tmdb.org/t/p/original" + toprated[index]?.backdrop_path} alt={toprated[index]?.title} className="hidden md:z-0 md:block h-[690px] mt-5 rounded-r-2xl" />
-            <div className="absolute z-0 md:bottom-[10%] md:left-[6%] w-[90%] text-white translate-y-[50px] blur-[20px] opacity-0 animate-showContent">
-                <div className="bg-zinc-800 rounded-xl bg-opacity-70 shadow-3xl flex items-center md:w-[60%] md:h-[250px]">
-                    <div className="w-[35%] space-y-4 text-center flex-col ml-3">
-                        <h1 className="font-bold text-green-500 md:text-4xl text-lg line-clamp-3 pb-1">{toprated[index]?.title}</h1>
-                        <p className="text-lg">{toprated[index]?.release_date}</p>
-                        <div className="flex items-center space-x-1 justify-center">
-                            <FaStar size={20} color="yellow" />
-                            <p className="text-lg">{Math.round((toprated[index]?.vote_average) * 100) / 100} / 10</p>
-                        </div>
+        <section className="w-screen h-fit text-white flex flex-col items-center">
+            <div className="relative w-full">
+                <img src={"https://image.tmdb.org/t/p/original" + toprated[index]?.backdrop_path} alt={toprated[index]?.title} className="w-full h-[400px] md:h-[680px] object-cover rounded-b-2xl -mt-14" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent rounded-b-2xl"></div>
+                <div className="absolute bottom-8 left-8 text-white w-[90%] md:w-[50%] bg-black bg-opacity-50 p-6 rounded-lg shadow-lg">
+                    <h1 className="font-bold text-green-500 text-2xl md:text-4xl">{toprated[index]?.title}</h1>
+                    <p className="text-lg">{toprated[index]?.release_date}</p>
+                    <div className="flex items-center space-x-1 my-2">
+                        <FaStar size={20} color="yellow" />
+                        <p className="text-lg">{Math.round((toprated[index]?.vote_average) * 100) / 100} / 10</p>
                     </div>
-                    <div className="w-[55%] h-[90%] ml-12">
-                        <p>Synopsis:</p>
-                        <p className="md:text-lg md:line-clamp-4 pt-2">{toprated[index]?.overview}</p>
-                        <button
-                            className="bg-white text-black md:text-lg text-s md:w-[8rem] rounded-lg mt-6 p-2"
-                            onClick={() => handleMovieClick(toprated[index])}
-                        >
-                            Voir plus
-                        </button>
-                    </div>
+                    <p className="text-sm md:text-lg mb-4 line-clamp-3 md:line-clamp-4 text-justify">{toprated[index]?.overview}</p>
+                    <button
+                        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                        onClick={() => handleMovieClick(toprated[index])}
+                    >
+                        Voir plus
+                    </button>
                 </div>
             </div>
-            <div className="absolute z-0 h-[785px] w-[26%] right-[1%] py-4 top-[8%] bg-zinc-700 rounded-2xl">
-                <div>
-                    <ul className="flex flex-wrap w-[100%] justify-center md:gap-2">
-                        {toprated.map((data, index) => (
-                            <li key={data.id} className="w-fit flex-col flex-wrap text-center list-none">
-                                <img
-                                    className="rounded-lg h-[122px] w-[90px]"
-                                    src={"https://image.tmdb.org/t/p/w500" + data?.poster_path}
-                                    alt={data?.title}
-                                    onClick={() => { setIndex(index) }}
-                                />
-                                {index + 1}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
+            <div className="w-full px-4 mt-6 md:mt-10">
+                <ul className="flex flex-wrap justify-center gap-4">
+                    {toprated.map((movie, idx) => (
+                        <li key={movie.id} className="w-24 md:w-32" onClick={() => setIndex(idx)}>
+                            <img
+                                className={`cursor-pointer rounded-lg transition-transform transform hover:scale-105 ${index === idx && "border-4 border-green-500"}`}
+                                src={"https://image.tmdb.org/t/p/w500" + movie.poster_path}
+                                alt={movie.title}
+                            />
+                            <p className="text-center mt-2">{idx + 1}</p>
+                        </li>
+                    ))}
+                </ul>
             </div>
-            <div className="absolute text-white w-[20%] flex justify-center z-0 bottom-[1.5%] right-[4%]">
+            <div className="w-full flex justify-center mt-8">
                 <ReactPaginate
                     previousLabel={<IoMdArrowDropleftCircle size={30} />}
                     nextLabel={<IoMdArrowDroprightCircle size={30} />}
                     breakLabel={"..."}
-                    pageCount={50}
+                    pageCount={totalPages}
                     marginPagesDisplayed={2}
                     pageRangeDisplayed={3}
                     onPageChange={handlePageClick}
                     containerClassName={"flex justify-center items-center mt-4"}
                     pageClassName={"mx-1"}
-                    pageLinkClassName={"px-3 py-1 bg-zinc-800 text-white hover:bg-green-400"}
+                    pageLinkClassName={"bg-zinc-800  px-3 py-1 rounded-lg hover:bg-green-500"}
                     previousClassName={"mx-1"}
-                    previousLinkClassName={"px-3 py-1 text-white"}
+                    previousLinkClassName={"px-3 py-1 rounded-lg hover:bg-green-500"}
                     nextClassName={"mx-1"}
-                    nextLinkClassName={"px-3 text-white"}
+                    nextLinkClassName={"px-3 py-1 rounded-lg hover:bg-green-500"}
                     breakClassName={"mx-1"}
-                    breakLinkClassName={"px-3 py-1 bg-zinc-800 text-white"}
-                    activeClassName={"bg-green-400"}
-                    activeLinkClassName={"text-white text-green-400 active:bg-green-400 focus:outline-none focus:ring focus:ring-green-400"}
+                    breakLinkClassName={"px-3 py-1 bg-zinc-800  px-3 py-1 rounded-lg"}
+                    activeClassName={"active"}
+                    activeLinkClassName={"bg-green-500 px-3 py-1 rounded-lg"}
                 />
             </div>
             {showDetails && (
