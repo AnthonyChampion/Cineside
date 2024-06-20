@@ -78,14 +78,18 @@ export default function HomePage() {
                                     className="w-full h-full object-cover brightness-50"
                                 />
                                 <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black"></div>
-                                <div className="absolute top-1/4 left-4 right-4 md:left-28 md:w-1/3 text-white space-y-4 p-4 md:p-6 bg-black bg-opacity-50 rounded-lg shadow-xl">
+                                <div className="absolute md:top-1/4 top-64 left-4 right-4 md:left-28 md:w-1/3 text-white space-y-4 p-4 md:p-6 bg-black bg-opacity-50 rounded-lg shadow-xl">
                                     <h1 className="text-2xl md:text-5xl font-extrabold text-green-400">{trending[index].title}</h1>
-                                    <p className="text-sm md:text-lg">{trending[index].release_date}</p>
-                                    <div className="flex items-center space-x-2">
-                                        <FaStar size={20} color="yellow" className="md:text-lg" />
-                                        <p className="text-sm md:text-lg">{Math.round(trending[index].vote_average * 100) / 100} / 10</p>
+                                    <div className="flex flex-row md:flex-col justify-center space-x-4">
+                                        <p className="text-sm md:text-lg">{trending[index].release_date}</p>
+                                        <div className="flex items-center space-x-2">
+                                            <FaStar size={20} color="yellow" className="md:text-lg" />
+                                            <p className="text-sm md:text-lg">{Math.round(trending[index].vote_average * 100) / 100} / 10</p>
+                                        </div>
                                     </div>
-                                    <p className="text-sm md:text-lg md:line-clamp-4 line-clamp-3 text-justify">{trending[index].overview}</p>
+
+
+                                    <p className="hidden md:visible text-sm md:text-lg md:line-clamp-4 line-clamp-3 text-justify">{trending[index].overview}</p>
                                     <button
                                         className="bg-green-500 text-black text-sm md:text-lg p-2 md:p-3 rounded-lg mt-2 md:mt-4 hover:bg-green-600 transition duration-300"
                                         onClick={() => setShowDetails(true)}

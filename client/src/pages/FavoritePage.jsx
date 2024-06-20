@@ -38,7 +38,7 @@ export default function Favorite() {
             ) : (
                 <div className="flex flex-wrap justify-center mt-10">
                     {favorites.map(movie => (
-                        <div key={movie.id} className="relative flex flex-col md:h-[370px] h-[240px] w-[280px] justify-center items-center">
+                        <div key={movie.id} className="relative flex flex-col md:h-[420px] md:w-[280px] h-[280px] w-[170px] justify-center items-center">
                             <div className="relative">
                                 <img
                                     src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -46,8 +46,7 @@ export default function Favorite() {
                                     className="md:w-[260px] md:h-[350px] w-[160px] h-[220px] object-cover rounded-xl"
 
                                 />
-
-                                <div className="absolute top-0 left-0 md:w-[260px] w-[160px] md:h-[350px] flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 rounded-xl">
+                                <div className="absolute top-0 left-0 md:w-[260px] w-[160px] md:h-[350px] h-[220px] flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 rounded-xl">
                                     <h2 className="text-white text-lg md:text-xl text-center w-[80%] cursor-pointer"
                                         onClick={() => handleMovieClick(movie)}>{movie.title}</h2>
                                 </div>
