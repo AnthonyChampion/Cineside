@@ -1,5 +1,25 @@
 {
+  "name": "cineside",
+  "version": "1.0.0",
+  "private": true,
+  "description": "",
+  "homepage": "",
+  "repository": {
+    "url": "https://github.com/AnthonyChampion/Cineside"
+  },
+  "worspaces": [
+    "client",
+    "server"
+  ],
+  "scrips": {
+    "dev": "concurrently -c green,yellow -t \"HH:mm:ss\" -p \"{name} {time}\" \"npm:dev:*\"",
+    "dev:client": "npm run dev --workspace=client",
+    "dev:server": "npm run dev --workspace=server"
+  },
+  "keywords": [],
+  "author": "Anthony Champion Rodrigues",
   "devDependencies": {
-    "concurrently": "^8.2.2"
+    "concurrently": "^8.2.2",
+    "nodemon": "^3.1.4"
   }
 }
