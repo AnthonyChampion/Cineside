@@ -85,7 +85,7 @@ export default function MoviesFiltered({ activeFilter = {} }) {
                 <>
                     <div className="flex flex-wrap justify-center">
                         {moviesFiltered.map((data) => (
-                            <div key={data.id} className="md:w-[400px] w-[180px] pb-2 pl-1">
+                            <div key={data.id} className="md:w-[400px] w-[180px] pb-2 pl-1" onClick={() => handleMovieClick(data)}>
                                 <div className="relative ">
                                     <img
                                         className="rounded-xl md:w-[380px] md:h-[560px] w-[170px] h-[250px] cursor-pointer transform transition duration-300 hover:scale-105"
@@ -95,7 +95,7 @@ export default function MoviesFiltered({ activeFilter = {} }) {
                                     />
                                     <div className="absolute top-0 left-0 md:w-[380px] w-[170px] h-full flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 rounded-xl">
                                         <h2 className="text-white text-lg md:text-xl text-center w-[80%] cursor-pointer"
-                                            onClick={() => handleMovieClick(data)}>{data.title}</h2>
+                                        >{data.title}</h2>
                                     </div>
                                 </div>
                             </div>
@@ -103,14 +103,14 @@ export default function MoviesFiltered({ activeFilter = {} }) {
                     </div>
                     <div className="text-white w-[100%] flex justify-center mb-4 ">
                         <ReactPaginate
-                            previousLabel={<IoMdArrowDropleftCircle size={30} />}
-                            nextLabel={<IoMdArrowDroprightCircle size={30} />}
+                            previousLabel={"<"}
+                            nextLabel={">"}
                             breakLabel={"..."}
                             pageCount={20}
                             marginPagesDisplayed={2}
                             pageRangeDisplayed={3}
                             onPageChange={handlePageClick}
-                            containerClassName={"flex justify-center items-center mt-4"}
+                            containerClassName={"flex justify-center items-center mt-4 md:mt-8 mb-4"}
                             pageClassName={"mx-1"}
                             pageLinkClassName={"bg-zinc-800  px-3 py-1 rounded-lg hover:bg-green-500"}
                             previousClassName={"mx-1"}

@@ -1,30 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { fetchMovieDetails, fetchTrendingMovies } from '../utils/moviedb';
-import { register } from 'swiper/element/bundle';
 import { FaStar } from 'react-icons/fa';
 import MovieDetails from '../components/MovieDetails';
 
-register();
-
 export default function HomePage() {
-    const [slides, setSlides] = useState(0);
     const [trending, setTrending] = useState([]);
     const [index, setIndex] = useState(0);
     const [movieDetails, setMovieDetails] = useState({});
     const [loading, setLoading] = useState(true);
     const [showDetails, setShowDetails] = useState(false);
+    const [page, setPage] = useState(1);
 
-    const setSlidesPerview = () => {
-        setSlides(window.innerWidth < 640 ? 2 : 3);
-    };
-
-    const getTrendingMovies = async () => {
+    const getTrendingMovies = async (page) => {
         try {
-            const data = await fetchTrendingMovies();
+            const data = await fetchTrendingMovies(page);
             setTrending(data.results);
-            if (data.results.length > 0) {
-                await getMovieDetails(data.results[0].id);
-            }
+            setIndex(0);
             setLoading(false);
         } catch (error) {
             console.error('Erreur dans la récupération des films:', error);
@@ -44,14 +35,8 @@ export default function HomePage() {
     };
 
     useEffect(() => {
-        getTrendingMovies();
-        setSlidesPerview();
-        window.addEventListener('resize', setSlidesPerview);
-
-        return () => {
-            window.removeEventListener('resize', setSlidesPerview);
-        };
-    }, []);
+        getTrendingMovies(page);
+    }, [page]);
 
     useEffect(() => {
         if (trending.length > 0) {
@@ -69,53 +54,60 @@ export default function HomePage() {
                 </div>
             ) : (
                 <>
-                    <div className="relative w-full h-full overflow-hidden -mt-14">
-                        {trending[index] && (
-                            <>
-                                <img
-                                    src={`https://image.tmdb.org/t/p/original${trending[index].backdrop_path}`}
-                                    alt={trending[index].title}
-                                    className="w-full h-full object-cover brightness-50"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black"></div>
-                                <div className="absolute md:top-1/4 top-64 left-4 right-4 md:left-28 md:w-1/3 text-white space-y-4 p-4 md:p-6 bg-black bg-opacity-50 rounded-lg shadow-xl">
-                                    <h1 className="text-2xl md:text-5xl font-extrabold text-green-400">{trending[index].title}</h1>
-                                    <div className="flex flex-row md:flex-col justify-center space-x-4">
-                                        <p className="text-sm md:text-lg">{trending[index].release_date}</p>
-                                        <div className="flex items-center space-x-2">
-                                            <FaStar size={20} color="yellow" className="md:text-lg" />
-                                            <p className="text-sm md:text-lg">{Math.round(trending[index].vote_average * 100) / 100} / 10</p>
+                    {trending[index] && (
+                        <div className="relative w-full h-full overflow-hidden -mt-14">
+                            <img
+                                src={`https://image.tmdb.org/t/p/original${trending[index].backdrop_path}`}
+                                alt={trending[index].title}
+                                className="w-full h-full object-cover brightness-70"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent "></div>
+                            <div className="absolute md:top-[40vh] top-[65vh] left-4 right-4 md:left-28 md:w-1/3 text-white space-y-4 p-4 md:p-6 bg-zinc-900 bg-opacity-50 rounded-lg shadow-xl">
+                                <h1 className="text-xl md:text-5xl font-extrabold text-green-400">{trending[index].title}</h1>
+                                <div className="flex flex-row md:flex-col justify-center space-x-4">
+                                    <p className="text-sm md:text-lg">{trending[index].release_date}</p>
+                                    <div className="flex items-center space-x-2">
+                                        <FaStar size={20} color="yellow" className="md:text-lg" />
+                                        <p className="text-sm md:text-lg">{Math.round(trending[index].vote_average * 100) / 100} / 10</p>
+                                    </div>
+                                </div>
+                                <p className="text-sm md:text-lg md:line-clamp-4 line-clamp-2 text-justify">{trending[index].overview}</p>
+                                <button
+                                    className="bg-green-500 text-white font-bold md:text-lg p-2 md:p-3 rounded-lg mt-2 md:mt-4 hover:bg-green-600 transition duration-300"
+                                    onClick={() => setShowDetails(true)}
+                                >
+                                    Voir détails
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                    <h1 className="absolute md:left-28 md:-bottom-24 -bottom-10 z-20 md:text-4xl text-2xl left-4">Films en tendances</h1>
+                    <div className="container mx-auto md:py-28 py-16 px-4">
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                            {trending.map((data, idx) => (
+                                <div key={data.id} className="md:w-[400px] w-[180px] pb-2" onClick={() => setIndex(idx)}>
+                                    <div className="relative">
+                                        <img
+                                            className="rounded-xl md:w-[370px] md:h-[560px] w-[170px] h-[250px] cursor-pointer transform transition duration-300 hover:scale-105"
+                                            src={"https://image.tmdb.org/t/p/w500" + data.poster_path}
+                                            alt={data.title}
+
+                                        />
+                                        <div className="absolute top-0 left-0 md:w-[370px] w-[170px] h-full flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 rounded-xl">
+                                            <h2 className="text-white text-lg md:text-xl text-center w-[80%] cursor-pointer"
+                                            >{data.title}</h2>
                                         </div>
                                     </div>
-
-
-                                    <p className="hidden md:visible text-sm md:text-lg md:line-clamp-4 line-clamp-3 text-justify">{trending[index].overview}</p>
-                                    <button
-                                        className="bg-green-500 text-black text-sm md:text-lg p-2 md:p-3 rounded-lg mt-2 md:mt-4 hover:bg-green-600 transition duration-300"
-                                        onClick={() => setShowDetails(true)}
-                                    >
-                                        Voir plus
-                                    </button>
                                 </div>
-                            </>
-                        )}
-                    </div>
-                    <div className="absolute bottom-2 w-full md:w-2/4 md:h-[45%] md:right-8 items-center flex justify-center">
-                        <div className="w-4/5 md:w-full">
-                            <swiper-container centered-slides="false" slides-per-view={slides} loop="true" space-between={10}>
-                                {trending.map((data, idx) => (
-                                    <swiper-slide key={data.id}>
-                                        <div className="relative inset-0 transition-transform transform hover:scale-105">
-                                            <img
-                                                className="w-[140px] h-[200px] md:w-[250px] md:h-[370px] object-cover rounded-lg shadow-lg cursor-pointer"
-                                                src={`https://image.tmdb.org/t/p/w500${data.poster_path}`}
-                                                alt={data.title}
-                                                onClick={() => setIndex(idx)}
-                                            />
-                                        </div>
-                                    </swiper-slide>
-                                ))}
-                            </swiper-container>
+                            ))}
+                        </div>
+                        <div className="flex justify-center mt-8 md:mt-14">
+                            <button
+                                className="bg-green-500 text-white font-bold md:text-lg p-2 md:p-3 w-24 md:w-40 rounded-lg hover:bg-green-600 transition duration-300"
+                                onClick={() => setPage(page + 1)}
+                            >
+                                Voir plus
+                            </button>
                         </div>
                     </div>
                 </>

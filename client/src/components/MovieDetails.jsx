@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { fetchMovieCredits, fetchMovieDetails, fetchMovieTrailer, fetchSimilarMovies } from '../utils/moviedb';
+import { fetchMovieCredits, fetchMovieDetails, fetchMovieTrailer, fetchSimilarMovies, fetchWatchProviders } from '../utils/moviedb';
 
 const useMovieData = (movieId) => {
     const [credits, setCredits] = useState(null);
     const [similarMovies, setSimilarMovies] = useState([]);
     const [trailer, setTrailer] = useState([]);
+    const [providers, setProviders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -32,7 +33,16 @@ const useMovieData = (movieId) => {
             const trailerData = await fetchMovieTrailer(movieId);
             setTrailer(trailerData.results);
         } catch (error) {
-            setError('Erreur dans la récupération des trailers');
+            setError('Erreur dans la récupération du trailer');
+        }
+    }, []);
+
+    const getProviders = useCallback(async (movieId) => {
+        try {
+            const providersData = await fetchWatchProviders(movieId);
+            setProviders(providersData.results);
+        } catch (error) {
+            setError("Erreur dans la récupération des plateformes");
         }
     }, []);
 
@@ -47,6 +57,9 @@ const useMovieData = (movieId) => {
 
                 const trailerData = await fetchMovieTrailer(movieId);
                 setTrailer(trailerData.results);
+
+                const providersData = await fetchWatchProviders(movieId);
+                setProviders(providersData.results);
             } catch (error) {
                 setError('Erreur dans la récupération des données');
             } finally {
@@ -57,13 +70,13 @@ const useMovieData = (movieId) => {
         fetchData();
     }, [movieId]);
 
-    return { credits, similarMovies, trailer, loading, error, updateCredits, updateSimilarMovies, getTrailers };
+    return { credits, similarMovies, trailer, providers, loading, error, updateCredits, updateSimilarMovies, getTrailers, getProviders };
 };
 
 const MovieDetails = ({ movie, onClose }) => {
     const [movieDetails, setMovieDetails] = useState(movie);
     const [favorites, setFavorites] = useState(() => JSON.parse(localStorage.getItem('favorites')) || []);
-    const { credits, similarMovies, trailer, loading, error, updateCredits, updateSimilarMovies, getTrailers } = useMovieData(movie.id);
+    const { credits, similarMovies, trailer, providers, loading, error, updateCredits, updateSimilarMovies, getTrailers, getProviders } = useMovieData(movie.id);
 
     const handleMovieClick = useCallback(async (similarMovie) => {
         try {
@@ -74,10 +87,11 @@ const MovieDetails = ({ movie, onClose }) => {
             await updateCredits(similarMovie.id);
             await updateSimilarMovies(similarMovie.id);
             await getTrailers(similarMovie.id);
+            await getProviders(similarMovie.id)
         } catch (error) {
             console.error('Erreur dans la récupération des détails:', error);
         }
-    }, [setMovieDetails, updateCredits, updateSimilarMovies, getTrailers]);
+    }, [setMovieDetails, updateCredits, updateSimilarMovies, getTrailers, getProviders]);
 
     const toggleFavorite = () => {
         let updatedFavorites;
@@ -129,6 +143,20 @@ const MovieDetails = ({ movie, onClose }) => {
                     <div className="p-2 text-red-500">{error}</div>
                 ) : (
                     <>
+                        {providers.length > 0 && (
+                            <div className="mt-8 md:mt-8 w-full">
+                                <h3 className="text-xl font-bold pb-4 text-start pl-6">Plateformes de diffusion</h3>
+                                <div className="flex flex-col items-center">
+                                    {providers.map(provider => (
+                                        <div key={provider.provider_id} className="w-full md:w-[75%] lg:w-[50%] mx-auto mb-4">
+                                            <p className="text-center text-truncate mt-2 p-2">{provider.provider_name}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+
                         {trailer.length > 0 && (
                             <div className="mt-8 md:mt-8 w-full">
                                 <h3 className="text-xl font-bold pb-4 text-start pl-6">Bande annonce</h3>

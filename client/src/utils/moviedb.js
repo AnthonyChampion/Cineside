@@ -13,6 +13,7 @@ const movieDetailsEndpoint = movieId => `https://api.themoviedb.org/3/movie/${mo
 const movieCreditsEndpoint = movieId => `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}`;
 const similarMoviesEndpoint = movieId => `https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=${apiKey}`;
 const movieTrailer = movieId => `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apiKey}`;
+const watchProviders = movieId => `https://api.themoviedb.org/3/movie/${movieId}/watch/providers?api_key=${apiKey}`
 
 const apiCall = async (endpoint, params) => {
     const options = {
@@ -30,8 +31,8 @@ const apiCall = async (endpoint, params) => {
     }
 }
 
-export const fetchTrendingMovies = () => {
-    return apiCall(trendingMoviesEndpoint, { language: "fr-FR" });
+export const fetchTrendingMovies = (page = 1) => {
+    return apiCall(trendingMoviesEndpoint, { language: "fr-FR", page: `${page}` });
 }
 export const fetchUpcommingMovies = () => {
     return apiCall(upcomingMoviesEndpoint, { language: "fr-FR" });
@@ -55,12 +56,13 @@ export const fetchMovieCredits = id => {
 export const fetchSimilarMovies = id => {
     return apiCall(similarMoviesEndpoint(id));
 }
-
 export const searchMovies = params => {
     const updatedParams = { ...params, language: 'fr' };
     return apiCall(searchMoviesEndPoint, updatedParams);
 };
-
 export const fetchMovieTrailer = async (movieId) => {
     return apiCall(movieTrailer(movieId));
 };
+export const fetchWatchProviders = async (movieId) => {
+    return apiCall(watchProviders(movieId));
+}
