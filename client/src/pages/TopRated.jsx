@@ -45,22 +45,42 @@ export default function TopratedMovies() {
     return (
         <section className="w-screen h-fit text-white flex flex-col items-center md:mt-5 mt-10">
             <div className="relative w-full">
-                <img src={"https://image.tmdb.org/t/p/original" + toprated[index]?.backdrop_path} alt={toprated[index]?.title} className="w-full h-[400px] md:h-[680px] object-cover -mt-14" />
+                <img
+                    src={"https://image.tmdb.org/t/p/original" + (toprated[index]?.backdrop_path || "")}
+                    alt={toprated[index]?.title || "Image de film"}
+                    className="w-full h-[400px] md:h-[680px] object-cover -mt-14"
+                    onError={(e) => {
+                        e.target.onerror = null; // évite une boucle infinie en cas d'erreur
+                        e.target.src = "https://via.placeholder.com/800x450"; // ou un chemin vers une image de remplacement
+                    }}
+                />
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent"></div>
                 <div className="absolute -bottom-6 md:bottom-8 md:left-14 left-5 text-white w-[90%] md:w-[35%] bg-zinc-900 bg-opacity-50 p-6 rounded-lg shadow-lg">
-                    <h1 className="font-bold text-green-500 text-xl md:text-4xl text-start">{toprated[index]?.title}</h1>
-                    <p className="md:text-lg text-start">{toprated[index]?.release_date}</p>
-                    <div className="flex items-center space-x-1 my-2">
-                        <FaStar size={20} color="yellow" />
-                        <p className="md:text-lg">{Math.round((toprated[index]?.vote_average) * 100) / 100} / 10</p>
+                    <h1 className="font-bold text-green-500 text-xl md:text-4xl text-start">
+                        {toprated[index]?.title || "Titre non disponible"}
+                    </h1>
+                    <p className="md:text-lg text-start">
+                        {toprated[index]?.release_date || "Date de sortie inconnue"}
+                    </p>
+                    <div className="flex items-center space-x-1 my-2 justify-between">
+                        <div className="flex items-center space-x-1">
+                            <FaStar size={20} color="yellow" />
+                            <p className="md:text-lg">
+                                {toprated[index]?.vote_average ? Math.round(toprated[index]?.vote_average * 100) / 100 : "-"} / 10
+                            </p>
+                        </div>
+
+                        <button
+                            className=" bg-green-500 hover:bg-green-700 text-white text-sm md:text-lg font-bold py-2 px-4 rounded"
+                            onClick={() => handleMovieClick(toprated[index])}
+                        >
+                            Voir détails
+                        </button>
                     </div>
-                    <p className="text-sm md:text-lg mb-4 line-clamp-2 md:line-clamp-4 text-justify">{toprated[index]?.overview}</p>
-                    <button
-                        className="absolute md:top-20 top-16 md:right-4 right-6  bg-green-500 hover:bg-green-700 text-white text-sm md:text-lg font-bold py-2 px-4 rounded"
-                        onClick={() => handleMovieClick(toprated[index])}
-                    >
-                        Voir détails
-                    </button>
+                    <p className="text-sm md:text-lg mb-4 line-clamp-2 md:line-clamp-4 text-justify">
+                        {toprated[index]?.overview || "Aucune description disponible"}
+                    </p>
+
                 </div>
             </div>
             <div className="w-full mt-6 md:mt-10">

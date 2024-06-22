@@ -63,22 +63,26 @@ export default function HomePage() {
                             />
                             <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent "></div>
                             <div className="absolute md:top-[40vh] top-[65vh] left-4 right-4 md:left-28 md:w-1/3 text-white space-y-4 p-4 md:p-6 bg-zinc-900 bg-opacity-50 rounded-lg shadow-xl">
-                                <h1 className="text-xl md:text-5xl font-extrabold text-green-400">{trending[index].title}</h1>
-                                <div className="flex flex-row md:flex-col justify-center space-x-4">
-                                    <p className="text-sm md:text-lg">{trending[index].release_date}</p>
-                                    <div className="flex items-center space-x-2">
-                                        <FaStar size={20} color="yellow" className="md:text-lg" />
-                                        <p className="text-sm md:text-lg">{Math.round(trending[index].vote_average * 100) / 100} / 10</p>
+                                <h1 className="text-start text-xl md:text-5xl font-extrabold text-green-400">{trending[index].title}</h1>
+                                <div className="flex flex-col ">
+                                    <p className="text-start text-sm md:text-lg">{trending[index].release_date}</p>
+                                    <div className="flex justify-between">
+                                        <div className="flex items-center space-x-2">
+                                            <FaStar size={20} color="yellow" className="md:text-lg" />
+                                            <p className="text-sm md:text-lg">{Math.round(trending[index].vote_average * 100) / 100} / 10</p>
+                                        </div>
+                                        <button
+                                            className="bg-green-500 text-white font-bold md:text-lg p-2 md:p-3 rounded-lg mt-2 md:mt-4 hover:bg-green-600 transition duration-300"
+                                            onClick={() => setShowDetails(true)}
+
+                                        >
+                                            Voir détails
+                                        </button>
                                     </div>
+
                                 </div>
                                 <p className="text-sm md:text-lg md:line-clamp-4 line-clamp-2 text-justify">{trending[index].overview}</p>
-                                <button
-                                    className="bg-green-500 text-white font-bold md:text-lg p-2 md:p-3 rounded-lg mt-2 md:mt-4 hover:bg-green-600 transition duration-300"
-                                    onClick={() => setShowDetails(true)}
 
-                                >
-                                    Voir détails
-                                </button>
                             </div>
                         </div>
                     )}

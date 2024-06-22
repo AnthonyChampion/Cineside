@@ -78,7 +78,7 @@ export default function MoviesFiltered({ activeFilter = {} }) {
     };
 
     return (
-        <section className="absolute md:w-[82%] w-full md:h-[820px] bg-zinc-900 md:mt-12 mt-72 md:ml-[15%] overflow-scroll">
+        <section className="absolute md:w-[82%] w-full md:h-[820px] bg-zinc-900 md:mt-12 mt-60 md:ml-[15%] overflow-scroll">
             {loading && <div className="text-white text-center">Chargement...</div>}
             {error && <div className="text-red-500 text-center">{error}</div>}
             {!loading && !error && (
