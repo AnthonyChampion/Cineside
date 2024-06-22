@@ -7,6 +7,8 @@ import HomePage from './pages/HomePage.jsx';
 import TopRated from './pages/TopRated.jsx';
 import MoviesByGenre from './pages/MoviesByGenre.jsx';
 import FavoritePage from "./pages/FavoritePage.jsx";
+import LoginPage from './pages/LoginPage.jsx';
+import RegisterPage from './pages/RegisterPage.jsx';
 
 const router = createBrowserRouter([
   {
@@ -15,6 +17,14 @@ const router = createBrowserRouter([
       {
         element: <HomePage />,
         path: "/",
+      },
+      {
+        element: <LoginPage />,
+        path: "/connexion",
+      },
+      {
+        element: <RegisterPage />,
+        path: "/inscription",
       },
       {
         element: <MoviesByGenre />,

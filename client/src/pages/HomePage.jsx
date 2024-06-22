@@ -55,7 +55,7 @@ export default function HomePage() {
             ) : (
                 <>
                     {trending[index] && (
-                        <div className="relative w-full h-full overflow-hidden -mt-14">
+                        <div className="relative w-full h-full overflow-hidden -mt-24">
                             <img
                                 src={`https://image.tmdb.org/t/p/original${trending[index].backdrop_path}`}
                                 alt={trending[index].title}
@@ -75,6 +75,7 @@ export default function HomePage() {
                                 <button
                                     className="bg-green-500 text-white font-bold md:text-lg p-2 md:p-3 rounded-lg mt-2 md:mt-4 hover:bg-green-600 transition duration-300"
                                     onClick={() => setShowDetails(true)}
+
                                 >
                                     Voir détails
                                 </button>

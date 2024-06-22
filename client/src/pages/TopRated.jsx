@@ -43,7 +43,7 @@ export default function TopratedMovies() {
     };
 
     return (
-        <section className="w-screen h-fit text-white flex flex-col items-center">
+        <section className="w-screen h-fit text-white flex flex-col items-center md:mt-5 mt-10">
             <div className="relative w-full">
                 <img src={"https://image.tmdb.org/t/p/original" + toprated[index]?.backdrop_path} alt={toprated[index]?.title} className="w-full h-[400px] md:h-[680px] object-cover -mt-14" />
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent"></div>

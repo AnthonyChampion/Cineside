@@ -84,43 +84,43 @@ export default function MoviesFiltered({ activeFilter = {} }) {
             {!loading && !error && (
                 <>
                     <div className="flex flex-wrap justify-center">
-                        {moviesFiltered.map((data) => (
-                            <div key={data.id} className="md:w-[400px] w-[180px] pb-2 pl-1" onClick={() => handleMovieClick(data)}>
-                                <div className="relative ">
+                        {moviesFiltered.map(movie => (
+                            <div key={movie.id} className="md:w-[400px] w-[180px] pb-2 pl-1" onClick={() => handleMovieClick(movie)}>
+                                <div className="relative">
                                     <img
                                         className="rounded-xl md:w-[380px] md:h-[560px] w-[170px] h-[250px] cursor-pointer transform transition duration-300 hover:scale-105"
-                                        src={"https://image.tmdb.org/t/p/w500" + data.poster_path}
-                                        alt={data.title}
-
+                                        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                                        alt={movie.title}
                                     />
                                     <div className="absolute top-0 left-0 md:w-[380px] w-[170px] h-full flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 rounded-xl">
-                                        <h2 className="text-white text-lg md:text-xl text-center w-[80%] cursor-pointer"
-                                        >{data.title}</h2>
+                                        <h2 className="text-white text-lg md:text-xl text-center w-[80%] cursor-pointer">
+                                            {movie.title}
+                                        </h2>
                                     </div>
                                 </div>
                             </div>
                         ))}
                     </div>
-                    <div className="text-white w-[100%] flex justify-center mb-4 ">
+                    <div className="text-white w-[100%] flex justify-center mb-4">
                         <ReactPaginate
-                            previousLabel={"<"}
-                            nextLabel={">"}
+                            previousLabel={<IoMdArrowDropleftCircle />}
+                            nextLabel={<IoMdArrowDroprightCircle />}
                             breakLabel={"..."}
-                            pageCount={20}
+                            pageCount={20} // Replace with actual pageCount
                             marginPagesDisplayed={2}
                             pageRangeDisplayed={3}
                             onPageChange={handlePageClick}
-                            containerClassName={"flex justify-center items-center mt-4 md:mt-8 mb-4"}
-                            pageClassName={"mx-1"}
-                            pageLinkClassName={"bg-zinc-800  px-3 py-1 rounded-lg hover:bg-green-500"}
-                            previousClassName={"mx-1"}
-                            previousLinkClassName={"px-3 py-1 rounded-lg hover:bg-green-500"}
-                            nextClassName={"mx-1"}
-                            nextLinkClassName={"px-3 py-1 rounded-lg hover:bg-green-500"}
-                            breakClassName={"mx-1"}
-                            breakLinkClassName={"px-3 py-1 bg-zinc-800  px-3 py-1 rounded-lg"}
-                            activeClassName={"active"}
-                            activeLinkClassName={"bg-green-500 px-3 py-1 rounded-lg"}
+                            containerClassName="flex justify-center items-center mt-4 md:mt-8 mb-4"
+                            pageClassName="mx-1"
+                            pageLinkClassName="bg-zinc-800 px-3 py-1 rounded-lg hover:bg-green-500"
+                            previousClassName="mx-1"
+                            previousLinkClassName="px-3 py-1 rounded-lg hover:bg-green-500"
+                            nextClassName="mx-1"
+                            nextLinkClassName="px-3 py-1 rounded-lg hover:bg-green-500"
+                            breakClassName="mx-1"
+                            breakLinkClassName="px-3 py-1 bg-zinc-800 px-3 py-1 rounded-lg"
+                            activeClassName="active"
+                            activeLinkClassName="bg-green-500 px-3 py-1 rounded-lg"
                         />
                     </div>
                 </>
