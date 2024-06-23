@@ -46,7 +46,7 @@ export default function TopratedMovies() {
             {toprated[index] && (
                 <div className="relative w-full overflow-hidden md:-mt-24 -mt-12">
                     <img
-                        src={"https://image.tmdb.org/t/p/original" + (toprated[index]?.backdrop_path)}
+                        src={`https://image.tmdb.org/t/p/original${toprated[index]?.backdrop_path}`}
                         alt={toprated[index]?.title || "Image de film"}
                         className="w-full h-[300px] md:h-[680px] object-cover brightness-70"
                         onError={(e) => {
@@ -56,33 +56,29 @@ export default function TopratedMovies() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent"></div>
                     <div className="absolute -bottom-6 md:bottom-8 md:left-14 left-5 text-white w-[90%] md:w-[35%] bg-zinc-900 bg-opacity-50 p-6 rounded-lg shadow-lg">
-                        <h1 className="font-bold text-green-500 text-xl md:text-4xl text-start">
+                        <h1 className="font-bold text-green-500 text-xl md:text-4xl text-left mb-2 truncate">
                             {toprated[index]?.title || "Titre non disponible"}
                         </h1>
-                        <p className="md:text-lg text-start">
-                            {toprated[index]?.release_date || "Date de sortie inconnue"}
-                        </p>
-                        <div className="flex items-center space-x-1 my-2 justify-between">
-                            <div className="flex items-center space-x-1">
-                                <div className="flex items-center space-x-2 mt-2">
-                                    <div className="rounded-full bg-green-500 text-white text-xs md:text-sm flex items-center justify-center w-10 h-10">
-                                        {Math.round(toprated[index]?.vote_average * 10) / 10 || "Note à venir"}
-                                    </div>
-                                </div>
+
+                        <div className="flex items-center justify-between text-sm md:text-lg mb-4">
+                            <p className="text-sm md:text-base mb-2">{toprated[index]?.release_date || "Date de sortie inconnue"}</p>
+                            <div className="rounded-full bg-green-500 text-white text-xs md:text-sm flex items-center justify-center w-10 h-10">
+                                {Math.round(toprated[index]?.vote_average * 10) / 10 || "Note à venir"}
                             </div>
-                            <button
-                                className=" bg-green-500 text-white font-bold md:text-lg p-2 md:p-3 rounded-lg mt-2 md:mt-4 hover:bg-green-600 transition duration-300"
-                                onClick={() => handleMovieClick(toprated[index])}
-                            >
-                                Voir détails
-                            </button>
                         </div>
-                        <p className="hidden md:visible text-sm md:text-lg mb-4 md:line-clamp-4 text-justify">
+                        <p className="text-sm md:text-base mb-4 md:line-clamp-3 line-clamp-2">
                             {toprated[index]?.overview || "Aucune description disponible"}
                         </p>
+                        <button
+                            className="bg-green-500 text-white font-bold text-sm md:text-base px-3 py-2 rounded-lg hover:bg-green-600 transition duration-300"
+                            onClick={() => handleMovieClick(toprated[index])}
+                        >
+                            Voir détails
+                        </button>
                     </div>
                 </div>
             )}
+
             <div className="container mx-auto md:py-16 py-8 px-4">
                 <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                     {toprated.map((movie, idx) => (

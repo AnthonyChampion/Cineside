@@ -63,7 +63,7 @@ const PersonDetails = ({ personId, onClose }) => {
                         <img
                             src={`https://image.tmdb.org/t/p/original${person.profile_path}`}
                             alt={person.name}
-                            className="w-96 h-96 object-cover rounded-full"
+                            className="md:w-96 md:h-96 w-44 h-44 object-cover rounded-full"
                             onError={(e) => {
                                 e.target.onerror = null;
                                 e.target.src = "../src/assets/img_not_available.png";
@@ -79,7 +79,7 @@ const PersonDetails = ({ personId, onClose }) => {
 
                         {movies.length > 0 && (
                             <div className="mt-8 pb-8">
-                                <h3 className="text-xl font-bold pb-4 pl-6">Filmographie</h3>
+                                <h3 className="text-xl font-bold pb-4">Filmographie</h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                                     {movies.slice(0, moviesToShow).map(movie => (
                                         <div key={movie.id} className="rounded-lg overflow-hidden shadow-lg cursor-pointer">
