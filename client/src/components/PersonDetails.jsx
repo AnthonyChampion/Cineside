@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { fetchPersonDetails, fetchPersonMovies } from "../utils/moviedb";
-import MovieDetails from './MovieDetails'; // Assuming you have a MovieDetails component
+import MovieDetails from './MovieDetails';
 
 const PersonDetails = ({ personId, onClose }) => {
     const [person, setPerson] = useState(null);
@@ -9,7 +9,7 @@ const PersonDetails = ({ personId, onClose }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [moviesToShow, setMoviesToShow] = useState(20);
-    const [selectedMovie, setSelectedMovie] = useState(null); // State to track selected movie
+    const [selectedMovie, setSelectedMovie] = useState(null);
 
     const fetchPersonData = useCallback(async () => {
         try {

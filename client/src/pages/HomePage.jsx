@@ -67,14 +67,14 @@ export default function HomePage() {
                                 <img
                                     src={`https://image.tmdb.org/t/p/original${trending[index].backdrop_path}`}
                                     alt={trending[index]?.title || "Image de film"}
-                                    className="md:w-full md:h-full h-screen object-cover brightness-70"
+                                    className="w-full md:h-[600px] object-cover brightness-70"
                                     onError={(e) => {
                                         e.target.onerror = null;
                                         e.target.src = "../src/assets/img_not_available.png";
                                     }}
                                 />
-                                <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent"></div>
-                                <div className="absolute md:top-[45vh] top-[56vh] left-4 right-4 md:left-28 md:w-1/3 text-white p-4 md:p-6 bg-zinc-900 bg-opacity-50 rounded-lg shadow-xl">
+                                <div className="hidden md:block md:absolute inset-0"></div>
+                                <div className="hidden md:block absolute md:top-[15vh] top-[1vh] left-4 right-4 md:left-28 md:w-1/3 text-white p-4 md:p-6 bg-zinc-900 bg-opacity-50 rounded-lg shadow-xl">
                                     <h1 className="text-xl md:text-5xl font-extrabold text-green-400 mb-2">{trending[index]?.title || "Titre non disponible"}</h1>
                                     <div className="flex items-center justify-between text-sm md:text-lg mb-4">
                                         <p>{trending[index]?.release_date || "Date de sortie inconnue"}</p>
@@ -92,10 +92,27 @@ export default function HomePage() {
                                         Voir détails
                                     </button>
                                 </div>
+                                <div className="md:hidden text-white p-4  bg-zinc-800 bg-opacity-50 rounded-lg shadow-xl">
+                                    <h1 className="text-xl  font-extrabold text-green-400 mb-2">{trending[index]?.title || "Titre non disponible"}</h1>
+                                    <div className="flex items-center justify-between text-sm  mb-4">
+                                        <p>{trending[index]?.release_date || "Date de sortie inconnue"}</p>
+                                        <div className="flex items-center space-x-2">
+                                            <div className="rounded-full bg-green-500 text-white text-xs flex items-center justify-center w-10 h-10">
+                                                {Math.round(trending[index]?.vote_average * 10) / 10 || "Note à venir"}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <p className="text-sm line-clamp-2 text-justify mb-4">{trending[index].overview}</p>
+                                    <button
+                                        className="bg-green-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-green-600 transition duration-300"
+                                        onClick={() => setShowDetails(true)}
+                                    >
+                                        Voir détails
+                                    </button>
+                                </div>
                             </div>
                         )}
-
-                        <h1 className="absolute md:left-28 md:-bottom-24 pt-2 z-20 md:text-4xl text-2xl left-4">Films en tendances</h1>
+                        <h1 className="absolute md:left-28 md:bottom-60 pt-2 z-20 md:text-4xl text-2xl left-4">Films en tendances</h1>
                         <div className="container mx-auto md:py-28 py-14 px-4 flex-grow" ref={moviesListRef}>
                             <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                                 {trending.map((data, idx) => (
@@ -127,7 +144,7 @@ export default function HomePage() {
                             </div>
                             <div className="flex justify-center mt-8 md:mt-14">
                                 <button
-                                    className="bg-green-500 text-white font-bold md:text-lg p-2 md:p-3 w-24 md:w-40 rounded-lg hover:bg-green-600 transition duration-300"
+                                    className="bg-green-500 text-white font-bold md:text-lg p-2 md:p-3 w-40 md:w-56 rounded-lg hover:bg-green-600 transition duration-300"
                                     onClick={() => {
                                         setPage(page + 1);
                                         scrollToTop();

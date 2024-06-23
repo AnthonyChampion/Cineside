@@ -82,7 +82,7 @@ const MovieDetails = ({ movie, onClose }) => {
     const [favorites, setFavorites] = useState(() => JSON.parse(localStorage.getItem('favorites')) || []);
     const { credits, similarMovies, trailer, watchProviders, loading, error, updateCredits, updateSimilarMovies, getTrailers, getWatchProviders } = useMovieData(movie.id);
 
-    const [selectedPerson, setSelectedPerson] = useState(null); // State to manage selected person
+    const [selectedPerson, setSelectedPerson] = useState(null);
 
     const handleMovieClick = useCallback(async (similarMovie) => {
         try {
@@ -113,11 +113,11 @@ const MovieDetails = ({ movie, onClose }) => {
     const isFavorite = favorites.some(fav => fav.id === movieDetails.id);
 
     const handleCastClick = (personId) => {
-        setSelectedPerson(personId); // Set the selected person ID
+        setSelectedPerson(personId);
     };
 
     const handlePersonDetailsClose = () => {
-        setSelectedPerson(null); // Close the person details view
+        setSelectedPerson(null);
     };
 
     return (
@@ -197,7 +197,7 @@ const MovieDetails = ({ movie, onClose }) => {
                                         <div key={video.id} className="w-full md:w-[75%] lg:w-[50%] mx-auto mb-4">
                                             <iframe
                                                 width="100%"
-                                                height="315" // Adjusted height for better mobile view
+                                                height="315"
                                                 src={`https://www.youtube.com/embed/${video.key}`}
                                                 title={video.name}
                                                 frameBorder="0"
@@ -225,7 +225,7 @@ const MovieDetails = ({ movie, onClose }) => {
                                                     e.target.onerror = null;
                                                     e.target.src = "../src/assets/img_not_available.png";
                                                 }}
-                                                onClick={() => handleCastClick(actor.id)} // Add onClick handler
+                                                onClick={() => handleCastClick(actor.id)}
                                             />
                                             <div className="flex-col justify-center text-center w-[fit]">
                                                 <p className="font-semibold">{actor.name}</p>
