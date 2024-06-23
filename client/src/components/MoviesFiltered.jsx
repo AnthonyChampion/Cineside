@@ -77,7 +77,7 @@ export default function MoviesFiltered({ activeFilter = {} }) {
             {error && <div className="text-red-500 text-center">{error}</div>}
             {!loading && !error && (
                 <>
-                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 md:m-20 m-10 mt-[60%]">
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 md:m-20 m-4 mt-[60%]">
                         {moviesFiltered.map(movie => (
                             <div
                                 key={movie.id}
@@ -96,8 +96,9 @@ export default function MoviesFiltered({ activeFilter = {} }) {
                                 <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
                                     <h2 className="text-lg md:text-xl font-bold text-white">{movie.title}</h2>
                                     <div className="flex items-center space-x-2 mt-2">
-                                        <FaStar size={20} color="yellow" />
-                                        <p className="text-sm md:text-lg text-white">{Math.round(movie.vote_average * 100) / 100} / 10</p>
+                                        <div className="rounded-full bg-green-500 text-white text-xs md:text-sm flex items-center justify-center w-10 h-10">
+                                            {Math.round(movie.vote_average * 10) / 10 || "Note à venir"}
+                                        </div>
                                     </div>
                                 </div>
                             </div>

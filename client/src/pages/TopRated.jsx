@@ -65,10 +65,11 @@ export default function TopratedMovies() {
                         </p>
                         <div className="flex items-center space-x-1 my-2 justify-between">
                             <div className="flex items-center space-x-1">
-                                <FaStar size={20} color="yellow" />
-                                <p className="md:text-lg">
-                                    {toprated[index]?.vote_average ? Math.round(toprated[index]?.vote_average * 100) / 100 : "-"} / 10
-                                </p>
+                                <div className="flex items-center space-x-2 mt-2">
+                                    <div className="rounded-full bg-green-500 text-white text-xs md:text-sm flex items-center justify-center w-10 h-10">
+                                        {Math.round(toprated[index]?.vote_average * 10) / 10 || "Note à venir"}
+                                    </div>
+                                </div>
                             </div>
                             <button
                                 className=" bg-green-500 text-white font-bold md:text-lg p-2 md:p-3 rounded-lg mt-2 md:mt-4 hover:bg-green-600 transition duration-300"
@@ -103,8 +104,9 @@ export default function TopratedMovies() {
                             <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
                                 <h2 className="text-lg md:text-xl font-bold text-white">{movie.title}</h2>
                                 <div className="flex items-center space-x-2 mt-2">
-                                    <FaStar size={20} color="yellow" />
-                                    <p className="text-sm md:text-lg text-white">{Math.round(movie.vote_average * 100) / 100} / 10</p>
+                                    <div className="rounded-full bg-green-500 text-white text-xs md:text-sm flex items-center justify-center w-10 h-10">
+                                        {Math.round(movie.vote_average * 10) / 10}
+                                    </div>
                                 </div>
                             </div>
                         </div>
