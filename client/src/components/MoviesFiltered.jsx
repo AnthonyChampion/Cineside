@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { fetchMoviesByGenre, fetchMovieDetails } from "../utils/moviedb";
 import PropTypes from "prop-types";
 import ReactPaginate from "react-paginate";
 import MovieDetails from "./MovieDetails";
 import { IoMdArrowDropleftCircle, IoMdArrowDroprightCircle } from "react-icons/io";
+import { fetchMoviesByGenre, fetchMovieDetails } from "../utils/moviedb";
+import { FaStar } from "react-icons/fa";
 
 export default function MoviesFiltered({ activeFilter = {} }) {
     const [page, setPage] = useState(0);
@@ -15,52 +16,45 @@ export default function MoviesFiltered({ activeFilter = {} }) {
     const MOVIES_COUNT = 20;
 
     useEffect(() => {
-        const getMoviesFiltered = async (page) => {
+        const getMoviesFiltered = async (currentPage) => {
             setLoading(true);
             setError(null);
+
             try {
                 let allMovies = [];
-                let currentPage = page + 1;
 
                 while (allMovies.length < MOVIES_COUNT) {
-                    let data = await fetchMoviesByGenre(currentPage);
+                    const data = await fetchMoviesByGenre(currentPage);
 
-                    if (data && data.results) {
-                        let filteredMovies = data.results.filter((movie) =>
-                            movie.genre_ids.includes(activeFilter.id)
-                        );
-                        filteredMovies = filteredMovies.filter(
-                            (movie) => !allMovies.some((m) => m.id === movie.id)
-                        );
+                    if (!data || !data.results) break;
 
-                        const remainingMovies = MOVIES_COUNT - allMovies.length;
-                        if (filteredMovies.length > remainingMovies) {
-                            filteredMovies = filteredMovies.slice(0, remainingMovies);
-                        }
+                    const filteredMovies = data.results
+                        .filter((movie) => movie.genre_ids.includes(activeFilter?.id))
+                        .filter((movie) => !allMovies.some((m) => m.id === movie.id));
 
-                        allMovies = [...allMovies, ...filteredMovies];
+                    const remainingMovies = MOVIES_COUNT - allMovies.length;
+                    const slicedMovies = filteredMovies.slice(0, remainingMovies);
 
-                        if (filteredMovies.length === 0 || allMovies.length >= MOVIES_COUNT) {
-                            break;
-                        }
-                    }
+                    allMovies = [...allMovies, ...slicedMovies];
+
+                    if (slicedMovies.length === 0 || allMovies.length >= MOVIES_COUNT) break;
+
                     currentPage++;
                 }
 
                 setMoviesFiltered(allMovies.slice(0, MOVIES_COUNT));
             } catch (error) {
                 console.error("Erreur dans la récupération des films:", error);
-                setError("Une erreur s'est produite dans la récupération des films. Essayez de nouveau.");
+                setError("Une erreur est survenue dans la récupération des films. Essayez de nouveau.");
             } finally {
                 setLoading(false);
             }
         };
 
-        if (activeFilter && activeFilter.id) {
+        if (activeFilter?.id) {
             setMoviesFiltered([]);
-            getMoviesFiltered(page);
+            getMoviesFiltered(page + 1);
         }
-
     }, [activeFilter, page]);
 
     const handlePageClick = (data) => {
@@ -78,35 +72,43 @@ export default function MoviesFiltered({ activeFilter = {} }) {
     };
 
     return (
-        <section className="absolute md:w-[82%] w-full md:h-[820px] bg-zinc-900 md:mt-12 mt-60 md:ml-[15%] overflow-scroll">
+        <section className="w-screen bg-zinc-900 overflow-auto">
             {loading && <div className="text-white text-center">Chargement...</div>}
             {error && <div className="text-red-500 text-center">{error}</div>}
             {!loading && !error && (
                 <>
-                    <div className="flex flex-wrap justify-center">
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 md:m-20 m-10 mt-[60%]">
                         {moviesFiltered.map(movie => (
-                            <div key={movie.id} className="md:w-[400px] w-[180px] pb-2 pl-1" onClick={() => handleMovieClick(movie)}>
-                                <div className="relative">
-                                    <img
-                                        className="rounded-xl md:w-[380px] md:h-[560px] w-[170px] h-[250px] cursor-pointer transform transition duration-300 hover:scale-105"
-                                        src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                                        alt={movie.title}
-                                    />
-                                    <div className="absolute top-0 left-0 md:w-[380px] w-[170px] h-full flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black bg-opacity-50 rounded-xl">
-                                        <h2 className="text-white text-lg md:text-xl text-center w-[80%] cursor-pointer">
-                                            {movie.title}
-                                        </h2>
+                            <div
+                                key={movie.id}
+                                className="relative group cursor-pointer overflow-hidden rounded-lg shadow-lg bg-zinc-800"
+                                onClick={() => handleMovieClick(movie)}
+                            >
+                                <img
+                                    className="w-full h-full object-cover transform transition duration-300 group-hover:scale-105"
+                                    src={"https://image.tmdb.org/t/p/w500" + movie.poster_path}
+                                    alt={movie.title}
+                                    onError={(e) => {
+                                        e.target.onerror = null;
+                                        e.target.src = "../src/assets/img_not_available.png";
+                                    }}
+                                />
+                                <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4">
+                                    <h2 className="text-lg md:text-xl font-bold text-white">{movie.title}</h2>
+                                    <div className="flex items-center space-x-2 mt-2">
+                                        <FaStar size={20} color="yellow" />
+                                        <p className="text-sm md:text-lg text-white">{Math.round(movie.vote_average * 100) / 100} / 10</p>
                                     </div>
                                 </div>
                             </div>
                         ))}
                     </div>
-                    <div className="text-white w-[100%] flex justify-center mb-4">
+                    <div className="text-white w-full flex justify-center mb-4">
                         <ReactPaginate
-                            previousLabel={<IoMdArrowDropleftCircle />}
-                            nextLabel={<IoMdArrowDroprightCircle />}
+                            previousLabel={<IoMdArrowDropleftCircle size={30} />}
+                            nextLabel={<IoMdArrowDroprightCircle size={30} />}
                             breakLabel={"..."}
-                            pageCount={20} // Replace with actual pageCount
+                            pageCount={20}
                             marginPagesDisplayed={2}
                             pageRangeDisplayed={3}
                             onPageChange={handlePageClick}
@@ -114,9 +116,9 @@ export default function MoviesFiltered({ activeFilter = {} }) {
                             pageClassName="mx-1"
                             pageLinkClassName="bg-zinc-800 px-3 py-1 rounded-lg hover:bg-green-500"
                             previousClassName="mx-1"
-                            previousLinkClassName="px-3 py-1 rounded-lg hover:bg-green-500"
+                            previousLinkClassName="rounded-lg hover:bg-green-500"
                             nextClassName="mx-1"
-                            nextLinkClassName="px-3 py-1 rounded-lg hover:bg-green-500"
+                            nextLinkClassName="rounded-lg hover:bg-green-500"
                             breakClassName="mx-1"
                             breakLinkClassName="px-3 py-1 bg-zinc-800 px-3 py-1 rounded-lg"
                             activeClassName="active"

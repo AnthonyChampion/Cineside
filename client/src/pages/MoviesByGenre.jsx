@@ -13,7 +13,9 @@ export default function MoviesByGenre() {
     const getGenresOfMovies = async () => {
         try {
             const data = await fetchGenresOfMovies();
-            setFilters(data.genres);
+            // Filter out genres with names "Téléfilm" and "Documentaire"
+            const filteredGenres = data.genres.filter(genre => genre.name !== "Téléfilm" && genre.name !== "Documentaire");
+            setFilters(filteredGenres);
         } catch (error) {
             console.error('Erreur dans la récupération des genres:', error);
         }
@@ -24,13 +26,10 @@ export default function MoviesByGenre() {
     }, []);
 
     return (
-        <section className="w-[80vw]">
-            <div className="absolute flex md:flex-col flex-wrap justify-center md:ml-12 p-2 md:w-[11%] w-screen rounded-xl bg-zinc-800 md:bg-opacity-60 z-10">
+        <section className="w-screen">
+            <div className="absolute w-full flex flex-wrap justify-center p-2 md:space-x-3 bg-zinc-800 md:bg-opacity-60 z-10">
                 {filters.map((filter) => (
-                    <div key={filter.id}
-                        className="list-none"
-                        onClick={() => handleClickFilter(filter.id, filter.name)}
-                    >
+                    <div key={filter.id} className="list-none" onClick={() => handleClickFilter(filter.id, filter.name)}>
                         <button className="text-[17px] text-white p-2 hover:scale-125 hover:text-green-400 active:bg-green-400 focus:outline-none focus:ring focus:ring-green-400">
                             {filter.name}
                         </button>

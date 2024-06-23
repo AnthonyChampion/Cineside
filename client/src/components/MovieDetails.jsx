@@ -83,11 +83,10 @@ const MovieDetails = ({ movie, onClose }) => {
             const data = await fetchMovieDetails(similarMovie.id);
             setMovieDetails(data);
 
-            // Update credits, similar movies, and trailers based on the clicked similar movie
             await updateCredits(similarMovie.id);
             await updateSimilarMovies(similarMovie.id);
             await getTrailers(similarMovie.id);
-            await getProviders(similarMovie.id)
+            await getProviders(similarMovie.id);
         } catch (error) {
             console.error('Erreur dans la récupération des détails:', error);
         }
@@ -114,6 +113,10 @@ const MovieDetails = ({ movie, onClose }) => {
                         src={`https://image.tmdb.org/t/p/original${movieDetails.backdrop_path}`}
                         alt={movieDetails.title}
                         className="w-full h-[400px] object-cover"
+                        onError={(e) => {
+                            e.target.onerror = null;
+                            e.target.src = "../src/assets/img_not_available.png";
+                        }}
                     />
                     <button
                         className="absolute top-4 right-4 bg-green-400 text-white rounded-full w-10 h-10 flex items-center justify-center"
@@ -145,7 +148,7 @@ const MovieDetails = ({ movie, onClose }) => {
                     <>
                         {providers.length > 0 && (
                             <div className="mt-8 md:mt-8 w-full">
-                                <h3 className="text-xl font-bold pb-4 text-start pl-6">Plateformes de diffusion</h3>
+                                <h3 className="text-xl font-bold pb-4 text-start pl-6">Plateformes de visionnage</h3>
                                 <div className="flex flex-col items-center">
                                     {providers.map(provider => (
                                         <div key={provider.provider_id} className="w-full md:w-[75%] lg:w-[50%] mx-auto mb-4">
@@ -153,9 +156,9 @@ const MovieDetails = ({ movie, onClose }) => {
                                         </div>
                                     ))}
                                 </div>
+                                <p className="text-center text-sm text-gray-600 mt-2">Données fournies par JustWatch</p>
                             </div>
                         )}
-
 
                         {trailer.length > 0 && (
                             <div className="mt-8 md:mt-8 w-full">
@@ -180,7 +183,7 @@ const MovieDetails = ({ movie, onClose }) => {
 
                         {credits && (
                             <div className="space-y-4 pl-6 pr-6 mt-8">
-                                <h3 className="text-xl font-bold text-start">Credits</h3>
+                                <h3 className="text-xl font-bold text-start">Crédits</h3>
                                 <ul className="flex md:flex-row flex-wrap justify-center w-[100%] space-x-5 md:space-x-3">
                                     {credits.slice(0, 10).map(actor => (
                                         <li key={actor.id} className="flex flex-col items-center w-24 h-30">
@@ -189,6 +192,10 @@ const MovieDetails = ({ movie, onClose }) => {
                                                 alt={actor.name}
                                                 className="w-24 h-24 rounded-full object-cover"
                                                 aria-label={actor.name}
+                                                onError={(e) => {
+                                                    e.target.onerror = null;
+                                                    e.target.src = "../src/assets/img_not_available.png";
+                                                }}
                                             />
                                             <div className="flex-col justify-center text-center w-[fit]">
                                                 <p className="font-semibold">{actor.name}</p>
@@ -211,6 +218,10 @@ const MovieDetails = ({ movie, onClose }) => {
                                                 className="w-[100px] h-[150px] object-cover rounded-xl cursor-pointer"
                                                 onClick={() => handleMovieClick(similarMovie)}
                                                 aria-label={similarMovie.title}
+                                                onError={(e) => {
+                                                    e.target.onerror = null;
+                                                    e.target.src = "../src/assets/img_not_available.png";
+                                                }}
                                             />
                                             <p className="w-28  text-center text truncate">{similarMovie.title}</p>
                                         </li>

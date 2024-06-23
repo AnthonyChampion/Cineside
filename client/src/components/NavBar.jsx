@@ -3,12 +3,13 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FaTimes } from 'react-icons/fa';
 import { TiThMenuOutline } from 'react-icons/ti';
-import { IoLogIn, IoHeart, IoFilm, IoStar } from 'react-icons/io5';
-import MovieSearch from './MovieSearch'; // Assuming MovieSearch component is in the same directory
+import { IoLogIn, IoLogOut, IoHeart, IoFilm, IoStar } from 'react-icons/io5';
+import MovieSearch from './MovieSearch';
 
 export default function NavBar({ showSearch }) {
     const [filterModalIsOpen, setFilterModalIsOpen] = useState(false);
     const [openMenu, setOpenMenu] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
     function openModal() {
         setFilterModalIsOpen(!filterModalIsOpen);
@@ -16,6 +17,10 @@ export default function NavBar({ showSearch }) {
 
     const handleClick = () => {
         setOpenMenu(!openMenu);
+    }
+
+    const handleLogout = () => {
+        setIsLoggedIn(false);
     }
 
     const mobileContent = (
@@ -41,10 +46,17 @@ export default function NavBar({ showSearch }) {
                     </Link>
                 </li>
                 <li className="py-4 flex justify-center items-center">
-                    <Link to="connexion" onClick={() => { setOpenMenu(false); }} className="transition duration-300 ease-in-out transform hover:scale-105 flex items-center">
-                        <IoLogIn className="mr-2" size={24} />
-                        <span>Connexion</span>
-                    </Link>
+                    {isLoggedIn ? (
+                        <button onClick={() => { handleLogout(); setOpenMenu(false); }} className="transition duration-300 ease-in-out transform hover:scale-105 flex items-center">
+                            <IoLogOut className="mr-2" size={24} />
+                            <span>Déconnexion</span>
+                        </button>
+                    ) : (
+                        <Link to="connexion" onClick={() => { setOpenMenu(false); }} className="transition duration-300 ease-in-out transform hover:scale-105 flex items-center">
+                            <IoLogIn className="mr-2" size={24} />
+                            <span>Connexion</span>
+                        </Link>
+                    )}
                 </li>
                 <li className="py-4">
                     <div className="w-full flex justify-center">
@@ -89,10 +101,17 @@ export default function NavBar({ showSearch }) {
                     <MovieSearch show={showSearch} />
                 </div>
                 <div className="hidden md:flex items-center space-x-2">
-                    <Link to="connexion" className="flex items-center space-x-1 hover:text-green-400 transition duration-300">
-                        <IoLogIn size={24} />
-                        <span className="text-[16px]">Connexion</span>
-                    </Link>
+                    {isLoggedIn ? (
+                        <button onClick={handleLogout} className="flex items-center space-x-1 hover:text-green-400 transition duration-300">
+                            <IoLogOut size={24} />
+                            <span className="text-[16px]">Déconnexion</span>
+                        </button>
+                    ) : (
+                        <Link to="connexion" className="flex items-center space-x-1 hover:text-green-400 transition duration-300">
+                            <IoLogIn size={24} />
+                            <span className="text-[16px]">Connexion</span>
+                        </Link>
+                    )}
                 </div>
             </div>
         </nav>
@@ -101,4 +120,8 @@ export default function NavBar({ showSearch }) {
 
 NavBar.propTypes = {
     showSearch: PropTypes.bool.isRequired,
+};
+
+NavBar.defaultProps = {
+    showSearch: false,
 };
