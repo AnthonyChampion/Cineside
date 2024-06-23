@@ -133,7 +133,7 @@ export default function HomePage() {
                                         scrollToTop();
                                     }}
                                 >
-                                    Voir plus
+                                    Films de la page suivante
                                 </button>
                             </div>
                         </div>

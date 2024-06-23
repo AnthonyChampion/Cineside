@@ -66,7 +66,7 @@ export default function TopratedMovies() {
                                 {Math.round(toprated[index]?.vote_average * 10) / 10 || "Note à venir"}
                             </div>
                         </div>
-                        <p className="text-sm md:text-base mb-4 md:line-clamp-3 line-clamp-2">
+                        <p className="text-sm md:text-base mb-4 md:line-clamp-3 line-clamp-2 text-justify">
                             {toprated[index]?.overview || "Aucune description disponible"}
                         </p>
                         <button

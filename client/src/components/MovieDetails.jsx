@@ -7,7 +7,7 @@ const useMovieData = (movieId) => {
     const [credits, setCredits] = useState(null);
     const [similarMovies, setSimilarMovies] = useState([]);
     const [trailer, setTrailer] = useState([]);
-    const [providers, setProviders] = useState([]);
+    const [watchProviders, setWatchProviders] = useState({});
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -38,12 +38,13 @@ const useMovieData = (movieId) => {
         }
     }, []);
 
-    const getProviders = useCallback(async (movieId) => {
+    const getWatchProviders = useCallback(async (movieId) => {
         try {
-            const providersData = await fetchWatchProviders(movieId);
-            setProviders(providersData.results);
+            const watchProvidersData = await fetchWatchProviders(movieId);
+            const franceWatchProviders = watchProvidersData.results.FR || {};
+            setWatchProviders(franceWatchProviders);
         } catch (error) {
-            setError("Erreur dans la récupération des plateformes");
+            setError('Erreur dans la récupération des fournisseurs de visionnage');
         }
     }, []);
 
@@ -59,8 +60,10 @@ const useMovieData = (movieId) => {
                 const trailerData = await fetchMovieTrailer(movieId);
                 setTrailer(trailerData.results);
 
-                const providersData = await fetchWatchProviders(movieId);
-                setProviders(providersData.results);
+                const watchProvidersData = await fetchWatchProviders(movieId);
+                const franceWatchProviders = watchProvidersData.results.FR || {};
+                setWatchProviders(franceWatchProviders);
+
             } catch (error) {
                 setError('Erreur dans la récupération des données');
             } finally {
@@ -71,13 +74,13 @@ const useMovieData = (movieId) => {
         fetchData();
     }, [movieId]);
 
-    return { credits, similarMovies, trailer, providers, loading, error, updateCredits, updateSimilarMovies, getTrailers, getProviders };
+    return { credits, similarMovies, trailer, watchProviders, loading, error, updateCredits, updateSimilarMovies, getTrailers, getWatchProviders };
 };
 
 const MovieDetails = ({ movie, onClose }) => {
     const [movieDetails, setMovieDetails] = useState(movie);
     const [favorites, setFavorites] = useState(() => JSON.parse(localStorage.getItem('favorites')) || []);
-    const { credits, similarMovies, trailer, providers, loading, error, updateCredits, updateSimilarMovies, getTrailers, getProviders } = useMovieData(movie.id);
+    const { credits, similarMovies, trailer, watchProviders, loading, error, updateCredits, updateSimilarMovies, getTrailers, getWatchProviders } = useMovieData(movie.id);
 
     const [selectedPerson, setSelectedPerson] = useState(null); // State to manage selected person
 
@@ -89,11 +92,12 @@ const MovieDetails = ({ movie, onClose }) => {
             await updateCredits(similarMovie.id);
             await updateSimilarMovies(similarMovie.id);
             await getTrailers(similarMovie.id);
-            await getProviders(similarMovie.id);
+            await getWatchProviders(similarMovie.id);
+
         } catch (error) {
             console.error('Erreur dans la récupération des détails:', error);
         }
-    }, [setMovieDetails, updateCredits, updateSimilarMovies, getTrailers, getProviders]);
+    }, [setMovieDetails, updateCredits, updateSimilarMovies, getTrailers, getWatchProviders]);
 
     const toggleFavorite = () => {
         let updatedFavorites;
@@ -151,28 +155,42 @@ const MovieDetails = ({ movie, onClose }) => {
                     <p className="text-start"><strong>Genres:</strong> {movieDetails.genres?.map(genre => genre.name).join(', ')}</p>
                     <p className="text-justify pr-4"><strong>Synopsis: </strong> {movieDetails.overview}</p>
                 </div>
+                {Object.keys(watchProviders).length > 0 && (
+                    <div className="mt-4 pb-4 w-full">
+                        <h3 className="font-bold pb-4 pl-6">Plateformes:</h3>
+                        <div className="pl-6 pr-6">
+                            {Array.isArray(watchProviders.flatrate) ? (
+                                <div className="flex flex-wrap">
+                                    {watchProviders.flatrate.map(provider => (
+                                        <div key={provider.provider_id} className="flex flex-col items-center mr-4 mb-4">
+                                            <img
+                                                src={`https://image.tmdb.org/t/p/w200${provider.logo_path}`}
+                                                alt={provider.provider_name}
+                                                className="w-16 h-16 object-cover"
+                                                onError={(e) => {
+                                                    e.target.onerror = null;
+                                                    e.target.src = "../src/assets/img_not_available.png";
+                                                }}
+                                            />
+                                            <p className="text-gray-600 text-center">{provider.provider_name}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            ) : (
+                                <p className="text-gray-600">Pas de fournisseur disponible</p>
+                            )}
+                            <p className="text-sm text-gray-600">Données fournies par JustWatch</p> {/* Attribution text */}
+                        </div>
+                    </div>
+                )}
                 {loading ? (
                     <div className="p-2">Chargement...</div>
                 ) : error ? (
                     <div className="p-2 text-red-500">{error}</div>
                 ) : (
                     <>
-                        {providers.length > 0 && (
-                            <div className="mt-8 md:mt-8 w-full">
-                                <h3 className="text-xl font-bold pb-4 text-start pl-6">Plateformes de visionnage</h3>
-                                <div className="flex flex-col items-center">
-                                    {providers.map(provider => (
-                                        <div key={provider.provider_id} className="w-full md:w-[75%] lg:w-[50%] mx-auto mb-4">
-                                            <p className="text-center text-truncate mt-2 p-2">{provider.provider_name}</p>
-                                        </div>
-                                    ))}
-                                </div>
-                                <p className="text-center text-sm text-gray-600 mt-2">Données fournies par JustWatch</p>
-                            </div>
-                        )}
-
                         {trailer.length > 0 && (
-                            <div className="mt-8 md:mt-8 w-full">
+                            <div className="mt-8 md:mt-4 w-full">
                                 <h3 className="text-xl font-bold pb-4 text-start pl-6">Bande annonce</h3>
                                 <div className="flex flex-col items-center">
                                     {trailer.slice(0, 1).map(video => (
@@ -223,8 +241,11 @@ const MovieDetails = ({ movie, onClose }) => {
                             <div className="mt-8 pb-8">
                                 <h3 className="text-xl font-bold pb-4 pl-6">Films similaires</h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pl-6 pr-6">
-                                    {similarMovies.slice(0, 8).map(similarMovie => (
-                                        <div key={similarMovie.id} className="rounded-lg overflow-hidden shadow-lg">
+                                    {similarMovies.slice(0, 16).map(similarMovie => (
+                                        <div
+                                            key={similarMovie.id}
+                                            className="rounded-lg overflow-hidden shadow-lg transform transition duration-300 hover:scale-105 hover:shadow-xl"
+                                        >
                                             <img
                                                 src={`https://image.tmdb.org/t/p/w500${similarMovie.poster_path}`}
                                                 alt={similarMovie.title}

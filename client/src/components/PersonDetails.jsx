@@ -82,7 +82,10 @@ const PersonDetails = ({ personId, onClose }) => {
                                 <h3 className="text-xl font-bold pb-4">Filmographie</h3>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                                     {movies.slice(0, moviesToShow).map(movie => (
-                                        <div key={movie.id} className="rounded-lg overflow-hidden shadow-lg cursor-pointer">
+                                        <div
+                                            key={movie.id}
+                                            className="rounded-lg overflow-hidden shadow-lg cursor-pointer transform transition duration-300 hover:scale-105 hover:shadow-xl"
+                                        >
                                             <img
                                                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                                                 alt={movie.title}
@@ -100,13 +103,14 @@ const PersonDetails = ({ personId, onClose }) => {
                                         </div>
                                     ))}
                                 </div>
+
                                 {movies.length > moviesToShow && (
                                     <div className="mt-4 text-center">
                                         <button
                                             onClick={handleSeeMore}
                                             className="bg-green-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                                         >
-                                            Voir plus
+                                            Afficher plus de films
                                         </button>
                                     </div>
                                 )}
