@@ -11,7 +11,11 @@ function Footer() {
                     </svg>
                     <Link to="https://github.com/AnthonyChampion/Cineside" className="text-gray-400 hover:text-white">GitHub</Link>
                 </div>
-                <p className="text-sm">© 2024 Anthony Champion Rodrigues. Données des films par TMDb API.</p>
+                <p className="text-sm">© 2024 Anthony Champion Rodrigues.</p>
+                <div className="flex justify-center space-x-2 pt-1">
+                    <p className="text-sm">Données via</p>
+                    <img className="w-8" src='../src/assets/tmdb.png' />
+                </div>
             </div>
         </footer>
     );
