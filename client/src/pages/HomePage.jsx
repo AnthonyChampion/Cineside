@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { fetchMovieDetails, fetchTrendingMovies } from '../utils/moviedb';
-import { FaStar } from 'react-icons/fa';
 import MovieDetails from '../components/MovieDetails';
 
 export default function HomePage() {

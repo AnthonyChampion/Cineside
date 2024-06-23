@@ -13,7 +13,9 @@ const movieDetailsEndpoint = movieId => `https://api.themoviedb.org/3/movie/${mo
 const movieCreditsEndpoint = movieId => `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}`;
 const similarMoviesEndpoint = movieId => `https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=${apiKey}`;
 const movieTrailer = movieId => `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=${apiKey}`;
-const watchProviders = movieId => `https://api.themoviedb.org/3/movie/${movieId}/watch/providers?api_key=${apiKey}`
+const watchProviders = movieId => `https://api.themoviedb.org/3/movie/${movieId}/watch/providers?api_key=${apiKey}`;
+const personDetails = personId => `https://api.themoviedb.org/3/person/${personId}?api_key=${apiKey}`;
+const personMoviesEndpoint = personId => `https://api.themoviedb.org/3/person/${personId}/movie_credits?api_key=${apiKey}`
 
 const apiCall = async (endpoint, params) => {
     const options = {
@@ -65,4 +67,10 @@ export const fetchMovieTrailer = async (movieId) => {
 };
 export const fetchWatchProviders = async (movieId) => {
     return apiCall(watchProviders(movieId));
+}
+export const fetchPersonDetails = async (personId) => {
+    return apiCall(personDetails(personId));
+}
+export const fetchPersonMovies = async (personId) => {
+    return apiCall(personMoviesEndpoint(personId));
 }

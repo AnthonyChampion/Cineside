@@ -4,7 +4,6 @@ import ReactPaginate from "react-paginate";
 import MovieDetails from "./MovieDetails";
 import { IoMdArrowDropleftCircle, IoMdArrowDroprightCircle } from "react-icons/io";
 import { fetchMoviesByGenre, fetchMovieDetails } from "../utils/moviedb";
-import { FaStar } from "react-icons/fa";
 
 export default function MoviesFiltered({ activeFilter = {} }) {
     const [page, setPage] = useState(0);

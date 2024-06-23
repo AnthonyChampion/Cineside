@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { fetchMovieCredits, fetchMovieDetails, fetchMovieTrailer, fetchSimilarMovies, fetchWatchProviders } from '../utils/moviedb';
+import { fetchMovieDetails, fetchMovieCredits, fetchMovieTrailer, fetchSimilarMovies, fetchWatchProviders } from '../utils/moviedb';
+import PersonDetails from './PersonDetails';
 
 const useMovieData = (movieId) => {
     const [credits, setCredits] = useState(null);
@@ -78,6 +79,8 @@ const MovieDetails = ({ movie, onClose }) => {
     const [favorites, setFavorites] = useState(() => JSON.parse(localStorage.getItem('favorites')) || []);
     const { credits, similarMovies, trailer, providers, loading, error, updateCredits, updateSimilarMovies, getTrailers, getProviders } = useMovieData(movie.id);
 
+    const [selectedPerson, setSelectedPerson] = useState(null); // State to manage selected person
+
     const handleMovieClick = useCallback(async (similarMovie) => {
         try {
             const data = await fetchMovieDetails(similarMovie.id);
@@ -104,6 +107,14 @@ const MovieDetails = ({ movie, onClose }) => {
     };
 
     const isFavorite = favorites.some(fav => fav.id === movieDetails.id);
+
+    const handleCastClick = (personId) => {
+        setSelectedPerson(personId); // Set the selected person ID
+    };
+
+    const handlePersonDetailsClose = () => {
+        setSelectedPerson(null); // Close the person details view
+    };
 
     return (
         <div className="fixed inset-0 z-50 h-screen flex justify-center items-center bg-black bg-opacity-70">
@@ -196,6 +207,7 @@ const MovieDetails = ({ movie, onClose }) => {
                                                     e.target.onerror = null;
                                                     e.target.src = "../src/assets/img_not_available.png";
                                                 }}
+                                                onClick={() => handleCastClick(actor.id)} // Add onClick handler
                                             />
                                             <div className="flex-col justify-center text-center w-[fit]">
                                                 <p className="font-semibold">{actor.name}</p>
@@ -206,32 +218,38 @@ const MovieDetails = ({ movie, onClose }) => {
                                 </ul>
                             </div>
                         )}
+
                         {similarMovies.length > 0 && (
-                            <div className="mt-16">
-                                <h3 className="text-xl font-bold pb-6 -mt-8 text-start pl-6">Films similaires</h3>
-                                <ul className="flex flex-wrap justify-center w-[100%] pb-4">
-                                    {similarMovies.slice(0, 16).map(similarMovie => (
-                                        <li key={similarMovie.id} className="flex flex-wrap justify-center items-center w-32 h-38 pb-2">
+                            <div className="mt-8 pb-8">
+                                <h3 className="text-xl font-bold pb-4 pl-6">Films similaires</h3>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 pl-6 pr-6">
+                                    {similarMovies.slice(0, 8).map(similarMovie => (
+                                        <div key={similarMovie.id} className="rounded-lg overflow-hidden shadow-lg">
                                             <img
-                                                src={`https://image.tmdb.org/t/p/w200${similarMovie.poster_path}`}
+                                                src={`https://image.tmdb.org/t/p/w500${similarMovie.poster_path}`}
                                                 alt={similarMovie.title}
-                                                className="w-[100px] h-[150px] object-cover rounded-xl cursor-pointer"
-                                                onClick={() => handleMovieClick(similarMovie)}
-                                                aria-label={similarMovie.title}
+                                                className="w-full h-[250px] object-contain object-center"
                                                 onError={(e) => {
                                                     e.target.onerror = null;
                                                     e.target.src = "../src/assets/img_not_available.png";
                                                 }}
+                                                onClick={() => handleMovieClick(similarMovie)}
                                             />
-                                            <p className="w-28  text-center text truncate">{similarMovie.title}</p>
-                                        </li>
+                                            <div className="p-4">
+                                                <h4 className="text-lg font-semibold mb-2">{similarMovie.title}</h4>
+                                                <p className="text-gray-600">{similarMovie.release_date}</p>
+                                            </div>
+                                        </div>
                                     ))}
-                                </ul>
+                                </div>
                             </div>
                         )}
                     </>
                 )}
             </div>
+            {selectedPerson && (
+                <PersonDetails personId={selectedPerson} onClose={handlePersonDetailsClose} />
+            )}
         </div>
     );
 };

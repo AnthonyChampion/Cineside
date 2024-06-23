@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { fetchTopRatedMovies, fetchMovieDetails } from '../utils/moviedb';
-import { FaStar } from 'react-icons/fa';
 import ReactPaginate from 'react-paginate';
 import MovieDetails from '../components/MovieDetails';
 import { IoMdArrowDropleftCircle, IoMdArrowDroprightCircle } from 'react-icons/io';
