@@ -150,7 +150,7 @@ export default function HomePage() {
                                         scrollToTop();
                                     }}
                                 >
-                                    Films de la page suivante
+                                    Films suivants
                                 </button>
                             </div>
                         </div>

@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
-import ReactPaginate from "react-paginate";
 import MovieDetails from "./MovieDetails";
-import { IoMdArrowDropleftCircle, IoMdArrowDroprightCircle } from "react-icons/io";
 import { fetchMoviesByGenre, fetchMovieDetails } from "../utils/moviedb";
 
 const MOVIES_PER_PAGE = 20;
 
-export default function MoviesFiltered({ activeFilter = {} }) {
-    const [currentPage, setCurrentPage] = useState(1);
+export default function MoviesFiltered({ activeFilter = {}, page, setPage }) {
     const [moviesFiltered, setMoviesFiltered] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [selectedMovie, setSelectedMovie] = useState(null);
     const [showDetails, setShowDetails] = useState(false);
 
+    const moviesListRef = useRef(null);
+
     useEffect(() => {
         const fetchMovies = async (page) => {
+            setPage(page);
             setLoading(true);
             setError(null);
 
@@ -27,7 +27,7 @@ export default function MoviesFiltered({ activeFilter = {} }) {
                 while (accumulatedMovies.length < MOVIES_PER_PAGE) {
                     const data = await fetchMoviesByGenre(currentPage);
                     if (!data || data.results.length === 0) {
-                        break; // No more data available
+                        break;
                     }
 
                     const filteredMovies = data.results.filter((movie) =>
@@ -46,19 +46,14 @@ export default function MoviesFiltered({ activeFilter = {} }) {
                 setMoviesFiltered(accumulatedMovies.slice(0, MOVIES_PER_PAGE));
             } catch (error) {
                 console.error("Erreur dans la récupération des films:", error);
-                setError("Une erreur s'est produite dans la récupération des films. Veuillez réessayez.");
+                setError("Une erreur s'est produite dans la récupération des films. Veuillez réessayer.");
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchMovies(currentPage);
-    }, [activeFilter, currentPage]);
-
-    const handlePageClick = (data) => {
-        const selectedPage = data.selected + 1; // ReactPaginate uses 0-indexed pages
-        setCurrentPage(selectedPage);
-    };
+        fetchMovies(page);
+    }, [activeFilter, page]);
 
     const handleMovieClick = async (movie) => {
         try {
@@ -66,19 +61,31 @@ export default function MoviesFiltered({ activeFilter = {} }) {
             setSelectedMovie(data);
             setShowDetails(true);
         } catch (error) {
-            console.error("Error fetching movie details:", error);
+            console.error("Erreur dans la récupération des détails du film:", error);
         }
+    };
+
+    const scrollToTop = () => {
+        if (moviesListRef.current) {
+            moviesListRef.current.scrollIntoView({ behavior: 'smooth' });
+        }
+    };
+
+    const loadNextPage = () => {
+        setPage(page + 1);
+        setMoviesFiltered([]);
+        scrollToTop();
     };
 
     return (
         <section className="w-screen bg-zinc-900 overflow-auto">
-            {loading && <div className="text-white text-center">Chargement...</div>}
+            {loading && <div className="text-white text-center md:mt-20 mt-[70%]">Chargement...</div>}
             {error && <div className="text-red-500 text-center">{error}</div>}
             {!loading && !error && (
                 <>
                     {activeFilter?.name && (
-                        <div className="text-white text-center md:text-2xl text-lg absolute md:mt-20 md:left-20 mt-[60%] left-4">
-                            Catégorie: {activeFilter.name}
+                        <div className="text-white text-center flex md:text-2xl text-lg absolute md:mt-20 md:left-20 mt-[60%] left-4 cursor-pointer">
+                            Catégorie:<p className="text-green-500 pl-2">{activeFilter.name}</p>
                         </div>
                     )}
                     <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 md:m-20 md:mt-36 m-4 mt-[70%]">
@@ -108,28 +115,13 @@ export default function MoviesFiltered({ activeFilter = {} }) {
                             </div>
                         ))}
                     </div>
-                    <div className="text-white w-full flex justify-center mb-4">
-                        <ReactPaginate
-                            previousLabel={<IoMdArrowDropleftCircle size={30} />}
-                            nextLabel={<IoMdArrowDroprightCircle size={30} />}
-                            breakLabel={"..."}
-                            pageCount={20} // Adjust this based on your total page count
-                            marginPagesDisplayed={2}
-                            pageRangeDisplayed={3}
-                            onPageChange={handlePageClick}
-                            containerClassName="flex justify-center items-center mt-4 md:mt-8 mb-4"
-                            pageClassName="mx-1"
-                            pageLinkClassName="bg-zinc-800 px-3 py-1 rounded-lg hover:bg-green-500"
-                            previousClassName="mx-1"
-                            previousLinkClassName="rounded-lg hover:bg-green-500"
-                            nextClassName="mx-1"
-                            nextLinkClassName="rounded-lg hover:bg-green-500"
-                            breakClassName="mx-1"
-                            breakLinkClassName="px-3 py-1 bg-zinc-800 px-3 py-1 rounded-lg"
-                            activeClassName="active"
-                            activeLinkClassName="bg-green-500 px-3 py-1 rounded-lg border-2 border-green-500"
-                            forcePage={currentPage - 1} // Ensure correct page is highlighted
-                        />
+                    <div className="flex justify-center mt-8 md:mt-14">
+                        <button
+                            className="bg-green-500 text-white font-bold md:text-lg p-2 md:p-3 w-40 md:w-56 rounded-lg hover:bg-green-600 transition duration-300"
+                            onClick={loadNextPage}
+                        >
+                            Films suivants
+                        </button>
                     </div>
                 </>
             )}
@@ -145,4 +137,6 @@ export default function MoviesFiltered({ activeFilter = {} }) {
 
 MoviesFiltered.propTypes = {
     activeFilter: PropTypes.object,
+    page: PropTypes.number.isRequired,
+    setPage: PropTypes.func.isRequired,
 };

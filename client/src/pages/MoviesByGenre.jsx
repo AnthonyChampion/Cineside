@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { fetchGenresOfMovies } from '../utils/moviedb';
+import PropTypes from 'prop-types';
 import MoviesFiltered from '../components/MoviesFiltered';
+import { fetchGenresOfMovies } from '../utils/moviedb';
 
 export default function MoviesByGenre() {
     const [filters, setFilters] = useState([]);
     const [activeFilter, setActiveFilter] = useState(null);
+    const [page, setPage] = useState(1);
 
     const handleClickFilter = (filterId, filterName) => {
         setActiveFilter({ id: filterId, name: filterName });
+        setPage(1);
     };
 
     const getGenresOfMovies = async () => {
@@ -35,9 +38,13 @@ export default function MoviesByGenre() {
                     </div>
                 ))}
             </div>
-            <div>
-                <MoviesFiltered activeFilter={activeFilter} setActiveFilter={setActiveFilter} />
-            </div>
+            <MoviesFiltered activeFilter={activeFilter} page={page} setPage={setPage} />
         </section>
     );
 }
+
+MoviesByGenre.propTypes = {
+    activeFilter: PropTypes.object,
+    page: PropTypes.number,
+    setPage: PropTypes.func,
+};
