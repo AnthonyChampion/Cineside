@@ -46,8 +46,8 @@ export const fetchTopRatedMovies = (page = 1) => {
     if (page <= 0) page = 1;
     return apiCall(topRatedMoviesEndpoint, { language: "fr-FR", page: `${page}` });
 }
-export const fetchMoviesByGenre = () => {
-    return apiCall(popularMovies, { language: "fr-FR" });
+export const fetchMoviesByGenre = (page = 1) => {
+    return apiCall(popularMovies, { language: "fr-FR", page: `${page}` });
 }
 export const fetchMovieDetails = id => {
     return apiCall(movieDetailsEndpoint(id));

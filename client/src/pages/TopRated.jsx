@@ -48,14 +48,14 @@ export default function TopratedMovies() {
                     <img
                         src={`https://image.tmdb.org/t/p/original${toprated[index]?.backdrop_path}`}
                         alt={toprated[index]?.title || "Image de film"}
-                        className="w-full h-[300px] md:h-[680px] object-cover brightness-70"
+                        className="w-full md:h-[550px] object-cover brightness-70"
                         onError={(e) => {
                             e.target.onerror = null;
                             e.target.src = "../src/assets/img_not_available.png";
                         }}
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent"></div>
-                    <div className="absolute -bottom-6 md:bottom-8 md:left-14 left-5 text-white w-[90%] md:w-[35%] bg-zinc-900 bg-opacity-50 p-6 rounded-lg shadow-lg">
+                    <div className="hidden md:block absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent"></div>
+                    <div className="hidden md:block absolute  md:bottom-20 md:left-14 text-white md:w-[35%] bg-zinc-900 bg-opacity-50 p-6 rounded-lg shadow-lg">
                         <h1 className="font-bold text-green-500 text-xl md:text-4xl text-left mb-2 truncate">
                             {toprated[index]?.title || "Titre non disponible"}
                         </h1>
@@ -76,9 +76,29 @@ export default function TopratedMovies() {
                             Voir détails
                         </button>
                     </div>
+                    <div className="md:hidden text-white  bg-zinc-800 bg-opacity-50 p-6 rounded-lg shadow-lg">
+                        <h1 className="font-bold text-green-500 text-xl md:text-4xl text-left mb-2 truncate">
+                            {toprated[index]?.title || "Titre non disponible"}
+                        </h1>
+
+                        <div className="flex items-center justify-between text-sm md:text-lg mb-4">
+                            <p className="text-sm mb-2">{toprated[index]?.release_date || "Date de sortie inconnue"}</p>
+                            <div className="rounded-full bg-green-500 text-white text-xs flex items-center justify-center w-10 h-10">
+                                {Math.round(toprated[index]?.vote_average * 10) / 10 || "Note à venir"}
+                            </div>
+                        </div>
+                        <p className="text-sm mb-4 line-clamp-2 text-justify">
+                            {toprated[index]?.overview || "Aucune description disponible"}
+                        </p>
+                        <button
+                            className="bg-green-500 text-white font-bold text-sm px-3 py-2 rounded-lg hover:bg-green-600 transition duration-300"
+                            onClick={() => handleMovieClick(toprated[index])}
+                        >
+                            Voir détails
+                        </button>
+                    </div>
                 </div>
             )}
-
             <div className="container mx-auto md:py-16 py-8 px-4">
                 <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                     {toprated.map((movie, idx) => (
@@ -127,7 +147,7 @@ export default function TopratedMovies() {
                     breakClassName={"mx-1"}
                     breakLinkClassName={"px-3 py-1 bg-zinc-800 rounded-lg"}
                     activeClassName={"active"}
-                    activeLinkClassName={"bg-green-500 px-3 py-1 rounded-lg"}
+                    activeLinkClassName={"bg-green-500 px-3 py-1 rounded-lg border-2 border-green-500"}
                 />
             </div>
             {showDetails && (

@@ -13,7 +13,6 @@ export default function MoviesByGenre() {
     const getGenresOfMovies = async () => {
         try {
             const data = await fetchGenresOfMovies();
-            // Filter out genres with names "Téléfilm" and "Documentaire"
             const filteredGenres = data.genres.filter(genre => genre.name !== "Téléfilm" && genre.name !== "Documentaire");
             setFilters(filteredGenres);
         } catch (error) {

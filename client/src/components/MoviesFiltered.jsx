@@ -5,59 +5,59 @@ import MovieDetails from "./MovieDetails";
 import { IoMdArrowDropleftCircle, IoMdArrowDroprightCircle } from "react-icons/io";
 import { fetchMoviesByGenre, fetchMovieDetails } from "../utils/moviedb";
 
+const MOVIES_PER_PAGE = 20;
+
 export default function MoviesFiltered({ activeFilter = {} }) {
-    const [page, setPage] = useState(0);
+    const [currentPage, setCurrentPage] = useState(1);
     const [moviesFiltered, setMoviesFiltered] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const [selectedMovie, setSelectedMovie] = useState(null);
     const [showDetails, setShowDetails] = useState(false);
-    const MOVIES_COUNT = 20;
 
     useEffect(() => {
-        const getMoviesFiltered = async (currentPage) => {
+        const fetchMovies = async (page) => {
             setLoading(true);
             setError(null);
 
             try {
-                let allMovies = [];
+                let accumulatedMovies = [];
+                let currentPage = page;
 
-                while (allMovies.length < MOVIES_COUNT) {
+                while (accumulatedMovies.length < MOVIES_PER_PAGE) {
                     const data = await fetchMoviesByGenre(currentPage);
+                    if (!data || data.results.length === 0) {
+                        break; // No more data available
+                    }
 
-                    if (!data || !data.results) break;
+                    const filteredMovies = data.results.filter((movie) =>
+                        activeFilter?.id ? movie.genre_ids.includes(activeFilter.id) : true
+                    );
 
-                    const filteredMovies = data.results
-                        .filter((movie) => movie.genre_ids.includes(activeFilter?.id))
-                        .filter((movie) => !allMovies.some((m) => m.id === movie.id));
+                    accumulatedMovies = [...accumulatedMovies, ...filteredMovies];
 
-                    const remainingMovies = MOVIES_COUNT - allMovies.length;
-                    const slicedMovies = filteredMovies.slice(0, remainingMovies);
-
-                    allMovies = [...allMovies, ...slicedMovies];
-
-                    if (slicedMovies.length === 0 || allMovies.length >= MOVIES_COUNT) break;
-
-                    currentPage++;
+                    if (filteredMovies.length < MOVIES_PER_PAGE) {
+                        currentPage++;
+                    } else {
+                        break;
+                    }
                 }
 
-                setMoviesFiltered(allMovies.slice(0, MOVIES_COUNT));
+                setMoviesFiltered(accumulatedMovies.slice(0, MOVIES_PER_PAGE));
             } catch (error) {
                 console.error("Erreur dans la récupération des films:", error);
-                setError("Une erreur est survenue dans la récupération des films. Essayez de nouveau.");
+                setError("Une erreur s'est produite dans la récupération des films. Veuillez réessayez.");
             } finally {
                 setLoading(false);
             }
         };
 
-        if (activeFilter?.id) {
-            setMoviesFiltered([]);
-            getMoviesFiltered(page + 1);
-        }
-    }, [activeFilter, page]);
+        fetchMovies(currentPage);
+    }, [activeFilter, currentPage]);
 
     const handlePageClick = (data) => {
-        setPage(data.selected);
+        const selectedPage = data.selected + 1; // ReactPaginate uses 0-indexed pages
+        setCurrentPage(selectedPage);
     };
 
     const handleMovieClick = async (movie) => {
@@ -66,7 +66,7 @@ export default function MoviesFiltered({ activeFilter = {} }) {
             setSelectedMovie(data);
             setShowDetails(true);
         } catch (error) {
-            console.error('Erreur dans la récupération des détails:', error);
+            console.error("Error fetching movie details:", error);
         }
     };
 
@@ -76,8 +76,13 @@ export default function MoviesFiltered({ activeFilter = {} }) {
             {error && <div className="text-red-500 text-center">{error}</div>}
             {!loading && !error && (
                 <>
-                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 md:m-20 m-4 mt-[60%]">
-                        {moviesFiltered.map(movie => (
+                    {activeFilter?.name && (
+                        <div className="text-white text-center md:text-2xl text-lg absolute md:mt-20 md:left-20 mt-[60%] left-4">
+                            Catégorie: {activeFilter.name}
+                        </div>
+                    )}
+                    <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 md:m-20 md:mt-36 m-4 mt-[70%]">
+                        {moviesFiltered.map((movie) => (
                             <div
                                 key={movie.id}
                                 className="relative group cursor-pointer overflow-hidden rounded-lg shadow-lg bg-zinc-800"
@@ -85,7 +90,7 @@ export default function MoviesFiltered({ activeFilter = {} }) {
                             >
                                 <img
                                     className="w-full h-full object-cover transform transition duration-300 group-hover:scale-105"
-                                    src={"https://image.tmdb.org/t/p/w500" + movie.poster_path}
+                                    src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
                                     alt={movie.title}
                                     onError={(e) => {
                                         e.target.onerror = null;
@@ -96,7 +101,7 @@ export default function MoviesFiltered({ activeFilter = {} }) {
                                     <h2 className="text-lg md:text-xl font-bold text-white">{movie.title}</h2>
                                     <div className="flex items-center space-x-2 mt-2">
                                         <div className="rounded-full bg-green-500 text-white text-xs md:text-sm flex items-center justify-center w-10 h-10">
-                                            {Math.round(movie.vote_average * 10) / 10 || "Note à venir"}
+                                            {Math.round(movie.vote_average * 10) / 10 || "N/A"}
                                         </div>
                                     </div>
                                 </div>
@@ -108,7 +113,7 @@ export default function MoviesFiltered({ activeFilter = {} }) {
                             previousLabel={<IoMdArrowDropleftCircle size={30} />}
                             nextLabel={<IoMdArrowDroprightCircle size={30} />}
                             breakLabel={"..."}
-                            pageCount={20}
+                            pageCount={20} // Adjust this based on your total page count
                             marginPagesDisplayed={2}
                             pageRangeDisplayed={3}
                             onPageChange={handlePageClick}
@@ -122,7 +127,8 @@ export default function MoviesFiltered({ activeFilter = {} }) {
                             breakClassName="mx-1"
                             breakLinkClassName="px-3 py-1 bg-zinc-800 px-3 py-1 rounded-lg"
                             activeClassName="active"
-                            activeLinkClassName="bg-green-500 px-3 py-1 rounded-lg"
+                            activeLinkClassName="bg-green-500 px-3 py-1 rounded-lg border-2 border-green-500"
+                            forcePage={currentPage - 1} // Ensure correct page is highlighted
                         />
                     </div>
                 </>
