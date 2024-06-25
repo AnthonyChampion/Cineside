@@ -100,11 +100,11 @@ export default function TopratedMovies() {
                 </div>
             )}
             <div className="container mx-auto md:py-16 py-8 px-4">
-                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
                     {toprated.map((movie, idx) => (
                         <div
                             key={movie.id}
-                            className="relative group cursor-pointer overflow-hidden rounded-lg shadow-lg bg-zinc-800"
+                            className="relative p-2 group cursor-pointer overflow-hidden rounded-lg shadow-lg bg-zinc-800"
                             onClick={() => setIndex(idx)}
                         >
                             <img
@@ -128,7 +128,7 @@ export default function TopratedMovies() {
                     ))}
                 </div>
             </div>
-            <div className="w-full flex justify-center mt-8 md:mt-14">
+            <div className="w-full flex justify-center mt-8 md:mt-2 md:mb-8">
                 <ReactPaginate
                     previousLabel={<IoMdArrowDropleftCircle size={30} />}
                     nextLabel={<IoMdArrowDroprightCircle size={30} />}

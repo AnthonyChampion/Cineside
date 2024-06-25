@@ -52,8 +52,8 @@ export default function HomePage() {
     };
 
     return (
-        <div className="flex flex-col min-h-screen">
-            <section className="flex-grow w-screen text-white bg-zinc-900">
+        <div className="flex flex-col min-h-screen bg-zinc-900 text-white">
+            <section className="flex-grow w-screen">
                 {loading && page === 1 ? (
                     <div className="flex justify-center items-center h-screen">
                         <div className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full text-green-500" role="status">
@@ -74,7 +74,7 @@ export default function HomePage() {
                                     }}
                                 />
                                 <div className="hidden md:block absolute inset-0 bg-gradient-to-t from-zinc-900 via-transparent to-transparent"></div>
-                                <div className="hidden md:block absolute md:top-[20vh] md:left-28 md:w-1/3 text-white p-4 md:p-6 bg-zinc-900 bg-opacity-50 rounded-lg shadow-xl">
+                                <div className="hidden md:block absolute md:top-[20vh] md:left-24 md:w-1/3 text-white p-4 md:p-6 bg-zinc-900 bg-opacity-50 rounded-lg shadow-xl">
                                     <h1 className="text-xl md:text-5xl font-extrabold text-green-400 mb-2">{trending[index]?.title || "Titre non disponible"}</h1>
                                     <div className="flex items-center justify-between text-sm md:text-lg mb-4">
                                         <p>{trending[index]?.release_date || "Date de sortie inconnue"}</p>
@@ -92,9 +92,9 @@ export default function HomePage() {
                                         Voir détails
                                     </button>
                                 </div>
-                                <div className="md:hidden text-white p-4  bg-zinc-800 bg-opacity-50 rounded-lg shadow-xl">
-                                    <h1 className="text-xl  font-extrabold text-green-400 mb-2">{trending[index]?.title || "Titre non disponible"}</h1>
-                                    <div className="flex items-center justify-between text-sm  mb-4">
+                                <div className="md:hidden text-white p-4 bg-zinc-800 bg-opacity-50 rounded-lg shadow-xl">
+                                    <h1 className="text-xl font-extrabold text-green-400 mb-2">{trending[index]?.title || "Titre non disponible"}</h1>
+                                    <div className="flex items-center justify-between text-sm mb-4">
                                         <p>{trending[index]?.release_date || "Date de sortie inconnue"}</p>
                                         <div className="flex items-center space-x-2">
                                             <div className="rounded-full bg-green-500 text-white text-xs flex items-center justify-center w-10 h-10">
@@ -112,13 +112,14 @@ export default function HomePage() {
                                 </div>
                             </div>
                         )}
-                        <h1 className="absolute md:left-28 md:bottom-60 pt-2 z-10 md:text-4xl text-2xl left-4">Films en tendances</h1>
-                        <div className="container mx-auto md:py-28 py-14 px-4 flex-grow" ref={moviesListRef}>
-                            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+
+                        <div className="container mx-auto md:py-14 py-4 px-4 flex-grow" ref={moviesListRef}>
+                            <h1 className="md:w-[30%] w-full p-3 md:p-3 z-10 md:text-3xl text-xl text-center text-white border-2 border-white px-4 rounded-lg">Films en tendances</h1>
+                            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mt-4 md:mt-6">
                                 {trending.map((data, idx) => (
                                     <div
                                         key={data.id}
-                                        className="relative group cursor-pointer overflow-hidden rounded-lg shadow-lg bg-zinc-800"
+                                        className="relative group cursor-pointer overflow-hidden rounded-lg shadow-lg bg-zinc-800 p-2"
                                         onClick={() => setIndex(idx)}
                                     >
                                         <img
@@ -138,7 +139,6 @@ export default function HomePage() {
                                                 </div>
                                             </div>
                                         </div>
-
                                     </div>
                                 ))}
                             </div>
